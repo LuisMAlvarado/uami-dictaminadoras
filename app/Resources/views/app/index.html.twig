@@ -5,7 +5,7 @@
         <div id="container">
             <div id="bienvenida">
                 <h1><span>Bienvenid@</span> <br /></h1>{{ usuario.nombre }}
-                <br />puede gestionar los concursos de : {{ usuario.departamento.nombre }} <br /><br />
+                <br />puede gestionar los Convocatorias de : {{ usuario.departamento.nombre }} <br /><br />
 
             </div>
 
@@ -13,9 +13,9 @@
                 <p><h2>
                     Esta Plataforma permite el control y Registro de: <br><br>
 
-                    *Concurso de Evaluación Curricular (CEC). <br>
+                    *Convocatorias de Concursos de Evaluación Curricular (CEC). <br>
                     *Registro de Aspiranrtes. <br>
-                    *Segimiento de concurso hasta finalizar con el Dictamen. <br>
+                    *Segimiento de convocatorias hasta finalizar con el Dictamen. <br>
                 </h2>
                 </p>
             </div>
@@ -24,9 +24,9 @@
     <p>
         {% if is_granted('ROLE_ASISTENTEDIV') %}
     <ul> <a>CONCURSOS</a>
-        <li><a href="{{ path('concurso_new') }}">Generar Nuevo Concurso</a></li>
-        <li>  <a href="{{ path('concurso_index') }}">Listado de Concursos</a></li>
-        <li>   <a href="{{ path('dictamen_index') }}">Concursos Dictaminados</a></li>
+        <li><a href="{{ path('concurso_new') }}">Generar Convocatoria</a></li>
+        <li>  <a href="{{ path('concurso_index') }}">Listado de Convocatorias</a></li>
+        <li>   <a href="{{ path('dictamen_index') }}">Convocatorias Dictaminadas</a></li>
     </ul>
 
     <a href="{{ path('registro_index') }}">Registro de ASPIRANTES en CEC</a>
@@ -35,9 +35,9 @@
 
     {% if is_granted('ROLE_ASISTENTEDEP') %}
         <ul> <a>CONCURSOS</a>
-            <li><a href="{{ path('concurso_new') }}">Generar Nuevo Concurso</a></li>
-            <li>  <a href="{{ path('concurso_index') }}">Listado de Concursos</a></li>
-            <li>   <a href="{{ path('dictamen_index') }}">Concursos Dictaminados</a></li>
+            <li><a href="{{ path('concurso_new') }}">Generar Convocatoria</a></li>
+            <li>  <a href="{{ path('concurso_index') }}">Listado de Convocatorias</a></li>
+            <li>   <a href="{{ path('dictamen_index') }}">Convocatorias Dictaminadas</a></li>
         </ul>
 
 
