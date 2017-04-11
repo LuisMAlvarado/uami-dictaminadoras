@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Anexos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Factor2</th>
+                <th>Crateat</th>
+                <th>Fechaeval</th>
+                <th>Puntos</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for anexo in anexos %}
+            <tr>
+                <td><a href="{{ path('anexo_show', { 'registro': anexo.registro, 'archivo': anexo.archivo.id  }) }}">{{ anexo.factor2 }}</a></td>
+                <td>{% if anexo.crateAt %}{{ anexo.crateAt|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if anexo.fechaEval %}{{ anexo.fechaEval|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ anexo.puntos }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('anexo_show', { 'registro': anexo.registro.id, 'archivo': anexo.archivo.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('anexo_edit', {'registro': anexo.registro, 'archivo': anexo.archivo.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('anexo_new') }}">Create a new anexo</a>
+        </li>
+    </ul>
+{% endblock %}

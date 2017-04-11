@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Anexo</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Factor2</th>
+                <td>{{ anexo.factor2 }}</td>
+            </tr>
+            <tr>
+                <th>Crateat</th>
+                <td>{% if anexo.crateAt %}{{ anexo.crateAt|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechaeval</th>
+                <td>{% if anexo.fechaEval %}{{ anexo.fechaEval|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Puntos</th>
+                <td>{{ anexo.puntos }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('anexo_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('anexo_edit', { 'registro': anexo.registro, 'archivo': anexo.archivo.id  }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

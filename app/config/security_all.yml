@@ -1,0 +1,68 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+    encoders:
+        AppBundle\Entity\Usuario: bcrypt
+        AppBundle\Entity\Aspirante: bcrypt
+
+    role_hierarchy:
+        ROLE_ADMINISTRADOR: [ROLE_ASISTENTE, ROLE_DIGITALIZADOR, ROLE_DICTAMINADOR]
+        ROLE_ASISTENTE: [ROLE_ASPIRANTE_CREATE, ROLE_ASPIRANTE_UPDATE, ROLE_CONCURSO_CREATE, ROLE_CONCURSO_UPDATE, ROLE_DICTAMEN_READ]
+        ROLE_DIGITALIZADOR: [ROLE_ASPIRANTE_READ, ROLE_ASPIRANTE_UPDATE, ROLE_CONCURSO_UPDATE, ROLE_DICTAMEN_CREATE, ROLE_DICTAMEN_READ, ROLE_DICTAMEN_UPDATE]
+        ROLE_DICTAMINADOR: [ ROLE_ASPIRANTE_UPDATE, ROLE_CONCURSO_READ, ROLE_CONCURSO_UPDATE, ROLE_DICTAMEN_CREATE, ROLE_DICTAMEN_UPDATE]
+        ROLE_ASPIRANTE: [ROLE_ASPIRANTE_UPDATE, ROLE_ASPIRANTECONCURSO_UPDATE]
+
+# http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+    #    in_memory:
+    #        memory: ~
+          todos:
+              chain:
+                 providers: [ aspirante, our_db_provider]
+
+          aspirante:
+            entity: {class: AppBundle\Entity\Aspirante, property: rfc}
+          our_db_provider:
+            entity: {class: AppBundle\Entity\Usuario, property: numeroEconomico }
+
+    firewalls:
+
+ # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main2:
+            pattern: ^/
+            #provider: our_db_provider
+            anonymous: ~
+            # activate different ways to authenticate
+            # http_basic: ~
+            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: ~
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+
+            form_login:
+                check_path: login_check
+                login_path: login_form
+            #   user_referer: true
+            #DESPUES DE LOG OK!! SE PUEDE DIRIGIR A UNA PAGINA EN PARTICULAR
+            #    default_target_path: /aspirante/
+            #    always_use_default_target_path: true
+
+            logout:
+                path: logout
+                target: login_form
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 36000
+                path:     /
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/usuario, roles: ROLE_ADMINISTRADOR }
+        - { path: ^/aspirante, roles: [ROLE_ASISTENTE,ROLE_DICTAMINADOR, ROLE_ADMINISTRADOR, ROLE_ASPIRANTE]}
+        - { path: ^/concurso, roles: [ROLE_ASISTENTE,ROLE_DICTAMINADOR,ROLE_DIGITALIZADOR, ROLE_ADMINISTRADOR, ROLE_ASPIRANTE]}
+        - { path: ^/, roles: [ROLE_ASISTENTE, ROLE_DIGITALIZADOR, ROLE_DICTAMINADOR] }

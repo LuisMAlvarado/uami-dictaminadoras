@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Archivo</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ archivo.id }}</td>
+            </tr>
+            <tr>
+                <th>Factor1</th>
+                <td>{{ archivo.factor1 }}</td>
+            </tr>
+            <tr>
+                <th>Createat</th>
+                <td>{% if archivo.createAt %}{{ archivo.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Pdf</th>
+                <td>{{ archivo.pdf }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ archivo.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Isactive</th>
+                <td>{% if archivo.isActive %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Isdelete</th>
+                <td>{% if archivo.isDelete %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updateat</th>
+                <td>{% if archivo.updateAt %}{{ archivo.updateAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('archivo_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('archivo_edit', { 'id': archivo.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

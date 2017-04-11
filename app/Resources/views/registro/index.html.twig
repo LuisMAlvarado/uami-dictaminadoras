@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Registros list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Numregistro</th>
+                <th>Puntaje</th>
+                <th>Prelacion</th>
+                <th>Nivelasig</th>
+                <th>Createat</th>
+                <th>Pdfanexo</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for registro in registros %}
+            <tr>
+                <td><a href="{{ path('registro_show', { 'id': registro.id }) }}">{{ registro.id }}</a></td>
+                <td>{{ registro.numRegistro }}</td>
+                <td>{{ registro.puntaje }}</td>
+                <td>{{ registro.prelacion }}</td>
+                <td>{{ registro.nivelAsig }}</td>
+                <td>{% if registro.createAt %}{{ registro.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ registro.pdfAnexo }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('registro_show', { 'id': registro.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('registro_edit', { 'id': registro.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('registro_new') }}">Create a new registro</a>
+        </li>
+    </ul>
+{% endblock %}

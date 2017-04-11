@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Estatus</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ estatus.id }}</td>
+            </tr>
+            <tr>
+                <th>Estatus</th>
+                <td>{{ estatus.estatus }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('estatus_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

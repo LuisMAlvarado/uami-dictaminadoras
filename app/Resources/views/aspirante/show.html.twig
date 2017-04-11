@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Aspirante</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Rfc</th>
+                <td>{{ aspirante.rfc }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ aspirante.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Apellidopaterno</th>
+                <td>{{ aspirante.apellidoPaterno }}</td>
+            </tr>
+            <tr>
+                <th>Apellidomaterno</th>
+                <td>{{ aspirante.apellidoMaterno }}</td>
+            </tr>
+            <tr>
+                <th>Numeroeconomico</th>
+                <td>{{ aspirante.numeroEconomico }}</td>
+            </tr>
+            <tr>
+                <th>Createat</th>
+                <td>{% if aspirante.createAt %}{{ aspirante.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Curp</th>
+                <td>{{ aspirante.curp }}</td>
+            </tr>
+            <tr>
+                <th>Correoelectronico</th>
+                <td>{{ aspirante.correoElectronico }}</td>
+            </tr>
+            <tr>
+                <th>Nacionalidad</th>
+                <td>{{ aspirante.nacionalidad }}</td>
+            </tr>
+            <tr>
+                <th>Edad</th>
+                <td>{{ aspirante.edad }}</td>
+            </tr>
+            <tr>
+                <th>Sexo</th>
+                <td>{{ aspirante.sexo }}</td>
+            </tr>
+            <tr>
+                <th>Estadocivil</th>
+                <td>{{ aspirante.estadoCivil }}</td>
+            </tr>
+            <tr>
+                <th>Telefonos</th>
+                <td>{{ aspirante.telefonos }}</td>
+            </tr>
+            <tr>
+                <th>Direccion</th>
+                <td>{{ aspirante.direccion }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ aspirante.password }}</td>
+            </tr>
+            <tr>
+                <th>Salt</th>
+                <td>{{ aspirante.salt }}</td>
+            </tr>
+            <tr>
+                <th>Enable</th>
+                <td>{% if aspirante.enable %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Loked</th>
+                <td>{% if aspirante.loked %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Expired</th>
+                <td>{{ aspirante.expired }}</td>
+            </tr>
+            <tr>
+                <th>Ultimaconexion</th>
+                <td>{% if aspirante.ultimaConexion %}{{ aspirante.ultimaConexion|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('aspirante_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('aspirante_edit', { 'id': aspirante.rfc }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

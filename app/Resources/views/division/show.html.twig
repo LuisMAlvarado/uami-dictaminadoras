@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Division</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ division.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ division.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Abreviatura</th>
+                <td>{{ division.abreviatura }}</td>
+            </tr>
+            <tr>
+                <th>Dgrado</th>
+                <td>{{ division.dGrado }}</td>
+            </tr>
+            <tr>
+                <th>Dnombre</th>
+                <td>{{ division.dNombre }}</td>
+            </tr>
+            <tr>
+                <th>Dapellidopaterno</th>
+                <td>{{ division.dApellidoPaterno }}</td>
+            </tr>
+            <tr>
+                <th>Dapellidomaterno</th>
+                <td>{{ division.dApellidoMaterno }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('division_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

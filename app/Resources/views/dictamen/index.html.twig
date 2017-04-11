@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Dictamens list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Numdictamen</th>
+                <th>Fechadictmen</th>
+                <th>Nivelasignado</th>
+                <th>Modalidades</th>
+                <th>Argumento</th>
+                <th>Asesores</th>
+                <th>Pdfdictamen</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dictaman in dictamens %}
+            <tr>
+                <td><a href="{{ path('dictamen_show', { 'id': dictaman.id }) }}">{{ dictaman.id }}</a></td>
+                <td>{{ dictaman.numDictamen }}</td>
+                <td>{% if dictaman.fechaDictmen %}{{ dictaman.fechaDictmen|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ dictaman.nivelAsignado }}</td>
+                <td>{{ dictaman.modalidades }}</td>
+                <td>{{ dictaman.argumento }}</td>
+                <td>{{ dictaman.asesores }}</td>
+                <td>{{ dictaman.pdfDictamen }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('dictamen_show', { 'id': dictaman.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('dictamen_edit', { 'id': dictaman.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('dictamen_new') }}">Create a new dictaman</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,320 @@
+{% extends 'frontend.html.twig' %}
+
+{% block header %}
+    <table border="0" width="99%" >
+
+        <tr>
+
+            <td border="0" rowspan="2" valign="bottom"> <img src="{{ asset('/resource/img/encabezado.png') }}"  /></td>
+            <td align="right" valign="bottom"><font size="0">FI-DIPPPA-03 / 01122015 PÁGINA 1/2 </font></td>
+        </tr>
+        <tr>
+            <td valign="top" class="  text-right "> <strong>CONVOCATORIA A CONCURSO DE EVALUACIÓN CURRICULAR</strong></td>
+        </tr>
+    </table>
+{% endblock %}
+
+
+{% block content  %}
+
+
+    <table  width="100%">
+        <tbody class=" small">
+        <tr>
+            <td colspan="3" width="50%"></td>
+            <th class="table-bordered text-right " >PARA: &nbsp;</th>
+
+            <td class="table-bordered text-center ">{{ concurso.clasificacion }}</td></tr>
+
+        </tbody>
+    </table>
+    <br />
+    <table width="100%">
+        <tbody class="small">
+        <tr>
+            <td colspan="3" width="50%"></td>
+            <th class="table-bordered text-right small" >No. EC. &nbsp;</th>
+
+            <td class="table-bordered text-center small">{{ concurso.numConcurso }}</td>
+            <th class="table-bordered text-right small" >FECHA: &nbsp;</th>
+
+            <td class="table-bordered text-center small">{% if concurso.fechaPublicacion %}{{ concurso.fechaPublicacion|date('d-M-Y') }}{% endif %}</td>
+        </tr>
+
+        </tbody>
+    </table> <br>
+    <font size="0"><p   > CONFORME A LO PREVISTO EN EL REGLAMENTO DE INGRESO, PROMOCIÓN Y PERMANENCIA DEL PERSONAL ACADÉMICO, LA UNIVERSIDAD AUTÓNOMA
+            METROPOLITANA CONVOCA AL CONCURSO PARA OCUPAR CON CARÁCTER DE TEMPORAL LA SIGUIENTE PLAZA: </p></font>
+    <table  class="small"  align="center" border="1" cellpadding="0" cellspacing="0" align="center"   width="100%">
+        <tbody>
+
+        <tr>
+            <td class="small"><strong>Categoria</strong><br />
+                {{ concurso.categoria }}
+            </td>
+            <td class="small" colspan="2"> <strong>Tiempo de Dedicación</strong><br>
+                {{ concurso.tiempoDedicacion }}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="small"> <strong>Unidad</strong><br>
+                {{ concurso.unidad }}
+            </td>
+            <td class="small" colspan="2"><strong>División</strong><br />
+                {{ concurso.departamento.division }}
+            </td>
+
+
+        </tr>
+
+        <tr>
+            <td class="small"> <strong>DE CLASE:  </strong>
+                {{ concurso.tpHclase }}
+            </td>
+            <td class="small"><strong>DE OTRAS ACTIVIDADES ACADÉMICAS:  </strong>
+                {{ concurso.tpHacademia }}
+            </td>
+
+            <td class="small"><strong>DE AYUDANTÍA:  </strong>
+                {{ concurso.tpHayudantia }}
+            </td>
+
+        </tr>
+
+
+        <tr>
+            <td class="small" > <strong>Departamento</strong><br>
+                {{ concurso.departamento.nombre}}
+            </td>
+
+
+
+            <td class="small" colspan="2"> <strong>Area Departamental</strong><br>
+                {{ concurso.areaDepartamental }}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="small">
+                <strong>SALARIO</strong> <br>
+                DE: ${{ concurso.salarioA |number_format(2, '.', ',')  }}
+            </td>
+            <td class="small"> <br>
+                A: ${{ concurso.salarioB |number_format(2, '.', ',')  }}
+            </td>
+            <td class="small"><strong>Horario</strong><br />
+                {{ concurso.horario }}
+            </td>
+
+        </tr>
+
+        <tr>
+            <td class="small" >
+                <strong>FECHA  DE INGRESO: </strong> <br>
+                {{ concurso.fechaIn |date('d-M-Y')  }}
+            </td>
+
+            <td class="small" colspan="2" >
+                <strong>FECHA DE TERMINACIÓN DE LABORES: </strong> <br>
+                {{ concurso.fechaTer |date('d-M-Y') }}
+        </tr>
+        <tr>
+            <td class="small" colspan="3"> <strong>DURACIÓN DE LA CONTRATACIÓN</strong><br>
+
+            </td>
+        </tr>
+        <tr>
+            <td  class="small" align="center" colspan="3">
+                {{ dias }}
+            </td>
+        </tr>
+
+    </table> <br />
+
+    <TABLE  class="small"  align="center" border="1" cellpadding="0" cellspacing="0" align="center"   width="100%">
+        <tr>
+            <td valign="top" height="130" colspan="2" class="small">
+                <strong>ACTIVIDADES A REALIZAR</strong> <br>
+                {{ concurso.actividades }}
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td class="small">
+                <strong>ÁREA DE CONOCIMIENTO</strong> <br>
+                {{ concurso.aConocimiento }}
+
+
+            </td>
+            <td class="small">
+                <strong>DISCIPLINA</strong> <br>
+
+                {{ concurso.disciplina }}
+
+            </td>
+        </tr>
+
+        <tr>
+            <td  valign="top" height="40" class="small" colspan="2">
+                <strong>REQUISITOS ACADÉMICOS</strong> (para poder participar en los concursos, no deberán encontrarse en los supuestos establecidos en los articulos 137 bis y 137 ter. del RIPPPA) <br>
+                {{ concurso.requisitos }}
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td  valign="top" height="40" class="small" colspan="2">
+                <strong>CAUSA QUE ORIGINA LA NECESIDAD</strong> <br>
+                {{ concurso.causal }}
+
+
+            </td>
+        </tr>
+
+    </TABLE>
+    <br>
+    <TABLE class="small"  align="center" border="1" cellpadding="0" cellspacing="0" align="center"   width="100%">
+        <tr>
+            <td class="small" colspan="2">
+                <strong>NÚMERO DE PLAZA DEFINITIVA QUE CUBRE: &nbsp;</strong>
+                {{ concurso.plaza }}
+
+
+            </td>
+        </tr>
+
+    </TABLE>
+
+    <br>
+    <TABLE WIDTH="95%"  align="center" class="table table-bordered small">
+        <tr>
+            <td width="30%"  height="90" class="text-center small"> <strong>JEFE DE DEPARTAMENTO</strong><br><br><br><br>
+                {{ concurso.departamento.dpNombreCompleto }}
+            </td>
+            <td width="40%" class="text-center small"><strong>DIRECTOR DE DIVISIÓN  </strong><br><br><br><br>
+                {{ concurso.departamento.division.dNombreCompleto }}
+            </td>
+
+            <td width="30%" class="text-center small"><strong>SUBDIRECTOR DE RELACIONES DE TRABAJO  </strong><br><br><br><br>
+                M. EN C. HIPÓLITO LARA RESÉNDIZ
+            </td>
+
+        </tr>
+    </TABLE>
+    <br>
+
+    <font size="0"><p align="center" class="visible-print">T1 DIPPPA &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;T4 DIRECTOR DE DIVISIÓN<br>
+            T2 RECTORÍA GENERAL &nbsp;&nbsp;&nbsp; T5 CMGVPIPPA<br>
+            T3 CMGVPIPPA &nbsp; </p></font>
+    <br>
+
+
+
+    <br>
+    {% if is_granted(expression('"ROLE_ADMINISTRADOR" in roles or "ROLE_DICTAMINADOR" in roles ')) %}
+        <table class="table table-striped hidden-print">
+            <tbody>
+            <tr>
+                <th>Pdfconcurso</th>
+                <td>{{ concurso.pdfConcurso }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+    {% endif %}
+
+
+    <ul class="hidden-print  text-center">
+
+        {% if is_granted(expression('"ROLE_ASISTENTEDIV" in roles')) %}
+
+            {# <a    href="{{ path('registro_new',{'idc':concurso.id })}}">REGISTRAR ASPIRANTES</a>
+             <br>
+              <a href="{{ path('concurso_showreg', { 'id': concurso.id }) }}">VER ASPIRANTES REGISTRADOS</a> #}
+
+        {%  endif %}
+    </ul>
+
+    {% if is_granted(expression('"ROLE_ASPIRANTE" in roles or "ROLE_ASISTENTEDIV" in roles or "ROLE_ASISTENTEDEP" in roles ')) %}
+    <div class="hidden-print">
+
+        <br />
+        <a  CLASS="btn bg-warning" href="{{ path('concurso_index') }}">VER TODOS LOS CONCURSOS</a>
+        <br />
+        <a  CLASS="btn bg-danger" href="{{ path('concurso_edit', { 'id': concurso.id }) }}">MODIFICAR</a>
+        <ul>
+
+        <li>
+            <a href="{{ path('concurso_showpdfs', { 'id': concurso.id }) }}">GENERAR PDF</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="BORRAR">
+            {{ form_end(delete_form) }}
+        </li>
+     </ul>
+    </div>
+
+
+
+    <div class="visible-print" >
+    <font size="0"><p class="text-right">FI-DIPPPA-03 / 01122015 PÁGINA 2/2 </p></font>
+    <br>
+    <br>
+
+    <font size="0"><p class="text-left">NOTA: SE UTILIZA ÚNICAMENTE AL REVERSO DEL TANTO 1 </p></font>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="small">
+        <table border="0" cellpadding="0" cellspacing="0" align="center" align="center"  width="80%" >
+            <tr>
+                <td  width="250" class="text-center table-bordered small"> <strong>Vo. BO PLANTILLA DE UNIDAD</strong><br><br><br><br><br><br>
+                    <strong>SELLO</strong>
+                </td>
+
+                <td>  </td>
+
+                <td width="250" class="text-center table-bordered small"> <strong>Vo. BO PLANTILLA DE RECTORÍA GENERAL</strong><br><br><br><br><br><br>
+                    <strong>SELLO</strong>
+                </td>
+            </tr>
+        </table>
+
+        <br>
+        <br>
+        <br>
+        <table width="300" border="1" cellpadding="0" cellspacing="0" align="center">
+            <tr>
+                <td class=" table table-bordered text-center small"> <strong>CODIFICACIÓN INTERNA (No. DE PLAZA EN PLANTILLA)</strong><br>
+                    {{ concurso.plaza }}</td>
+
+            </tr>
+            <tr>
+                <td class="table table-bordered text-center small">
+                    <strong>CONTROL DE PLANTILLA</strong><br><br><br><br><br><br>
+                    <strong>LIC. CIRO M. DÍAZ ROJAS</strong>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    {% endif %}
+
+    {% if is_granted('IS_AUTHENTICATED_ANONYMOUSLY') %}
+        {# <a href="{{ path('portada') }}">REGRESAR</a>#}
+    {% endif %}
+
+    <br>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Departamento</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ departamento.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ departamento.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Abreviatura</th>
+                <td>{{ departamento.abreviatura }}</td>
+            </tr>
+            <tr>
+                <th>Dpgrado</th>
+                <td>{{ departamento.dpGrado }}</td>
+            </tr>
+            <tr>
+                <th>Dpnombre</th>
+                <td>{{ departamento.dpNombre }}</td>
+            </tr>
+            <tr>
+                <th>Dpapellidopaterno</th>
+                <td>{{ departamento.dpApellidoPaterno }}</td>
+            </tr>
+            <tr>
+                <th>Dpapellidomaterno</th>
+                <td>{{ departamento.dpApellidoMaterno }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('departamento_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+	{{ parent() }}
+
+{% endblock %}
+{% block title %}
+	Dictaminadora UAM-I
+{% endblock %}
+{% block body %}
+	<header>
+		{% block header %}
+			<div class="well">
+				<h1 class="text-center"> Sistema Dictaminadoras </h1>
+			{% block saludo %}
+			{% endblock %}
+			</div>
+		{% endblock %}
+	</header>
+		{% block menu %}
+		{% endblock %}
+		<div id="content" class="content">
+			{% block content %}
+			{% endblock %}
+		</div>
+	<footer>
+		{% block footer %}
+			
+		{% endblock %}
+	</footer>
+
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+
+{% endblock %}

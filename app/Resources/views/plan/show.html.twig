@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Plan</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ plan.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ plan.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Abreviatura</th>
+                <td>{{ plan.abreviatura }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('plan_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

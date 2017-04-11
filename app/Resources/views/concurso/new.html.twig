@@ -1,0 +1,293 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Registro de la Convocatoria</h1>
+
+    {{ form_start(form) }}
+    <table width="100%">
+        <tbody>
+        <tr>
+            <td colspan="3" width="50%"></td>
+
+            <td class="table-bordered text-right">
+                {{ form_label(form.clasificacion,"PARA: ") }}
+                {{ form_widget(form.clasificacion) }}
+                {{ form_errors(form.clasificacion) }}</td>
+
+        </tr>
+
+        </tbody>
+    </table>
+    <br />
+
+    <table width="100%">
+        <tbody>
+        <tr>
+            <td colspan="3" width="50%"></td>
+
+            <td class="table-bordered text-center">
+                {{ form_label(form.numConcurso,"No. EC. ") }}
+                {{ form_widget(form.numConcurso) }}
+                {{ form_errors(form.numConcurso) }}</td>
+
+            <td class="table-bordered text-center">
+                {{ form_label(form.fechaPublicacion) }}
+                {{ form_widget(form.fechaPublicacion) }}
+                {{ form_errors(form.fechaPublicacion) }}</td></tr>
+
+        </tbody>
+    </table>
+    <br>
+    <TABLE WIDTH="90%" align="center" class="table table-bordered">
+
+
+
+        <tr>
+            <td>
+
+                {{ form_label(form.categoria) }}
+                {{ form_widget(form.categoria) }}
+                {{ form_errors(form.categoria) }}
+
+            </td>
+            <td colspan="2">
+
+                {{ form_label(form.tiempoDedicacion) }}
+                {{ form_widget(form.tiempoDedicacion) }}
+                {{ form_errors(form.tiempoDedicacion) }}
+
+            </td>
+
+
+        </tr>
+
+        <tr>
+            <td>
+
+                {{ form_label(form.tpHclase,"DE CLASE:  ") }}
+                {{ form_widget(form.tpHclase) }}
+                {{ form_errors(form.tpHclase) }}
+
+            </td>
+            <td>
+
+                {{ form_label(form.tpHacademia,"DE OTRAS ACTIVIDADES ACADÉMICAS:  ") }}
+                {{ form_widget(form.tpHacademia) }}
+                {{ form_errors(form.tpHacademia) }}
+
+            </td>
+            <td>
+
+                {{ form_label(form.tpHayudantia,"DE AYUDANTÍA:  ") }}
+                {{ form_widget(form.tpHayudantia) }}
+                {{ form_errors(form.tpHayudantia) }}
+
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>
+
+                {{ form_label(form.unidad) }}
+                {{ form_widget(form.unidad) }}
+                {{ form_errors(form.unidad) }}
+
+            </td>
+            <td colspan="2">
+
+                <strong>DIVISION</strong>
+
+
+            </td>
+
+
+        </tr>
+
+        <tr>
+            <td >
+
+                {{ form_label(form.departamento) }}
+                {{ form_widget(form.departamento) }}
+                {{ form_errors(form.departamento) }}
+
+            </td>
+
+            <td colspan="2">
+
+                {{ form_label(form.areaDepartamental) }}
+                {{ form_widget(form.areaDepartamental) }}
+                {{ form_errors(form.areaDepartamental) }}
+
+            </td>
+
+        </tr>
+
+        <tr>
+            <td >
+                <strong>SALARIO</strong> <br>
+                {{  form_label(form.salarioA,"DE: " ) }}
+                {{ form_widget(form.salarioA) }}
+                {{ form_errors(form.salarioA) }}
+            </td>
+            <td>
+                <br>
+                {{  form_label(form.salarioB,"A: ") }}
+                {{ form_widget(form.salarioB) }}
+                {{ form_errors(form.salarioB) }}
+
+            </td>
+            <td>
+                <br>
+                {{ form_label(form.horario) }}
+                {{ form_widget(form.horario) }}
+                {{ form_errors(form.horario) }}
+
+
+            </td>
+
+
+        </tr>
+
+        <tr>
+            <td  colspan="2">
+                <strong>FECHA DE: </strong>
+                {{  form_label(form.fechaIn,"INGRESO " ) }}
+                {{ form_widget(form.fechaIn) }}
+                {{ form_errors(form.fechaIn) }}
+
+
+            </td>
+            <td>
+                <strong>FECHA DE: </strong>
+                {{ form_label(form.fechaTer,"TERMINACION DE LABORES ") }}
+                {{ form_widget(form.fechaTer) }}
+                {{ form_errors(form.fechaTer) }}
+
+
+            </td>
+
+
+        </tr>
+
+
+    </TABLE>
+
+    <br>
+
+    <TABLE WIDTH="90%" align="center" class="table table-bordered">
+        <tr>
+            <td colspan="2">
+
+                {{ form_label(form.actividades,"FUNCIONES A REALIZAR") }}
+                {{ form_widget(form.actividades,{'attr':{
+                    'class':'form-control',
+                    'rows' : '5'
+
+                }}) }}
+                {{ form_errors(form.actividades) }}
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+
+                {{ form_label(form.aConocimiento,"AREA DE CONOCIMIENTO") }}
+                {{ form_widget(form.aConocimiento) }}
+                {{ form_errors(form.aConocimiento) }}
+
+
+            </td>
+            <td>
+
+                {{ form_label(form.disciplina,"DISCIPLINA") }}
+                {{ form_widget(form.disciplina,{'attr':{
+                    'class':'form-control',
+                    'rows' : '1',
+                    'cols' :'40',
+
+                }}) }}
+                {{ form_errors(form.disciplina) }}
+
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+
+                {{ form_label(form.requisitos,"REQUISITOS ACADEMICOS") }}
+                {{ form_widget(form.requisitos,{'attr':{
+                    'class':'form-control',
+                    'rows' : '2'
+
+                }}) }}
+                {{ form_errors(form.requisitos) }}
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">{{ form_label(form.causal,"CAUSA QUE ORIGINA LA NECESIDAD") }}
+                {{ form_widget(form.causal,{'attr':{
+                    'class':'form-control',
+                    'rows' : '2'
+
+                }}) }}
+                {{ form_errors(form.causal) }}</td>
+
+
+        </tr>
+
+    </TABLE>
+    <br>
+    <table width="100%">
+        <tbody>
+        <tr>
+
+
+
+            <td class="table-bordered text-left">
+                {{ form_label(form.plaza,"PLAZA QUE CUBRE ") }}
+                {{ form_widget(form.plaza) }}
+                {{ form_errors(form.plaza) }}</td>
+            <td colspan="3" width="50%"></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <br>
+    <table WIDTH="90%" align="center" class="table table-bordered">
+        <tbody>
+        <tr>
+
+            <td>
+
+                {{ form_label(form.clavePlaza,"No. DE PLAZA EN PLANTILLA") }}
+                {{ form_widget(form.clavePlaza) }}
+                {{ form_errors(form.clavePlaza) }}
+
+            </td>
+
+
+        </tr>
+        </tbody>
+    </table>
+
+    <br>
+        <input class="alert-info" type="submit" value="CONFIRMAR" />
+    <br>
+
+    {{ form_end(form) }}
+
+
+
+            <a CLASS="btn bg-warning" href="{{ path('concurso_index') }}">VER TODOS LOS CONCURSOS</a>
+
+
+{% endblock %}

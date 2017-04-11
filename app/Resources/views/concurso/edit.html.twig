@@ -1,0 +1,308 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Corrección de la Convocatoria</h1>
+
+    {{ form_start(edit_form) }}
+    <table width="100%">
+        <tbody>
+        <tr>
+            <td colspan="3" width="50%"></td>
+
+            <td class="table-bordered text-right">
+                {{ form_label(edit_form.clasificacion,"PARA: ") }}
+                {{ form_widget(edit_form.clasificacion) }}
+                {{ form_errors(edit_form.clasificacion) }}</td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <br />
+
+
+    <table width="100%">
+        <tbody>
+        <tr>
+            <td colspan="3" width="50%"></td>
+
+            <td class="table-bordered text-center">
+                {{ form_label(edit_form.numConcurso,"No. EC. ") }}
+                {{ form_widget(edit_form.numConcurso) }}
+                {{ form_errors(edit_form.numConcurso) }}</td>
+
+            <td class="table-bordered text-center">
+                {{ form_label(edit_form.fechaPublicacion) }}
+                {{ form_widget(edit_form.fechaPublicacion) }}
+                {{ form_errors(edit_form.fechaPublicacion) }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+    <br />
+    <TABLE WIDTH="90%" align="center" class="table table-bordered">
+
+
+
+        <tr>
+            <td colspan="2">
+
+                {{ form_label(edit_form.categoria) }}
+                {{ form_widget(edit_form.categoria) }}
+                {{ form_errors(edit_form.categoria) }}
+
+            </td>
+            <td>
+
+                {{ form_label(edit_form.tiempoDedicacion) }}
+                {{ form_widget(edit_form.tiempoDedicacion) }}
+                {{ form_errors(edit_form.tiempoDedicacion) }}
+
+            </td>
+
+
+        </tr>
+
+        <tr>
+            <td>
+
+                {{ form_label(edit_form.tpHclase,"DE CLASE:  ") }}
+                {{ form_widget(edit_form.tpHclase) }}
+                {{ form_errors(edit_form.tpHclase) }}
+
+            </td>
+            <td>
+
+                {{ form_label(edit_form.tpHacademia,"DE OTRAS ACTIVIDADES ACADÉMICAS:  ") }}
+                {{ form_widget(edit_form.tpHacademia) }}
+                {{ form_errors(edit_form.tpHacademia) }}
+
+            </td>
+            <td>
+
+                {{ form_label(edit_form.tpHayudantia,"DE AYUDANTÍA:  ") }}
+                {{ form_widget(edit_form.tpHayudantia) }}
+                {{ form_errors(edit_form.tpHayudantia) }}
+
+            </td>
+
+        </tr>
+
+
+
+        <tr>
+            <td colspan="2">
+
+                {{ form_label(edit_form.unidad) }}
+                {{ form_widget(edit_form.unidad) }}
+                {{ form_errors(edit_form.unidad) }}
+
+            </td>
+            <td>
+
+                <strong>DIVISION</strong> <br />
+                {{ concurso.departamento.division }}
+
+            </td>
+
+
+        </tr>
+
+        <tr>
+            <td colspan="2">
+
+                {{ form_label(edit_form.departamento) }}
+                {{ form_widget(edit_form.departamento) }}
+                {{ form_errors(edit_form.departamento) }}
+
+            </td>
+
+            <td >
+
+                {{ form_label(edit_form.areaDepartamental) }}
+                {{ form_widget(edit_form.areaDepartamental) }}
+                {{ form_errors(edit_form.areaDepartamental) }}
+
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>
+                <strong>SALARIO</strong> <br>
+                {{  form_label(edit_form.salarioA,"DE: " ) }}
+                {{ form_widget(edit_form.salarioA) }}
+                {{ form_errors(edit_form.salarioA) }}
+            </td>
+            <td>
+                <br />
+                {{  form_label(edit_form.salarioB,"A: ") }}
+                {{ form_widget(edit_form.salarioB) }}
+                {{ form_errors(edit_form.salarioB) }}
+
+            </td>
+            <td>
+                <br />
+                {{ form_label(edit_form.horario) }}
+                {{ form_widget(edit_form.horario) }}
+                {{ form_errors(edit_form.horario) }}
+
+
+            </td>
+
+
+        </tr>
+
+        <tr>
+            <td> <br />
+                <strong> DURACIÓN DE <br /> LA CONTRATACIÓN</strong>
+            </td>
+            <td>
+                <strong>FECHA DE: </strong> <br>
+                {{  form_label(edit_form.fechaIn,"INGRESO " ) }}
+                {{ form_widget(edit_form.fechaIn) }}
+                {{ form_errors(edit_form.fechaIn) }}
+
+
+            </td>
+            <td>
+                <strong>FECHA DE: </strong> <br>
+                {{ form_label(edit_form.fechaTer,"TERMINACION DE LABORES ") }}
+                {{ form_widget(edit_form.fechaTer) }}
+                {{ form_errors(edit_form.fechaTer) }}
+
+
+            </td>
+
+
+        </tr>
+
+    </TABLE>
+
+    <br><br>
+
+    <TABLE WIDTH="90%" align="center" class="table table-bordered">
+        <tr>
+            <td colspan="2">
+                {{ form_label(edit_form.actividades,"FUNCIONES A REALIZAR") }}
+                {{ form_widget(edit_form.actividades,{'attr':{
+                    'class':'form-control',
+                    'rows' : '5'
+
+                }}) }}
+                {{ form_errors(edit_form.actividades) }}
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                {{ form_label(edit_form.aConocimiento,"AREA DE CONOCIMIENTO") }}
+                {{ form_widget(edit_form.aConocimiento) }}
+                {{ form_errors(edit_form.aConocimiento) }}
+
+
+            </td>
+            <td>
+                {{ form_label(edit_form.disciplina,"DISCIPLINA") }}
+                {{ form_widget(edit_form.disciplina,{'attr':{
+                    'class':'form-control',
+                    'rows' : '1',
+                    'cols' :'40',
+
+                }}) }}
+                {{ form_errors(edit_form.disciplina) }}
+
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                {{ form_label(edit_form.requisitos,"REQUISITOS ACADEMICOS") }}
+                {{ form_widget(edit_form.requisitos,{'attr':{
+                    'class':'form-control',
+                    'rows' : '2'
+
+                }}) }}
+                {{ form_errors(edit_form.requisitos) }}
+
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                {{ form_label(edit_form.causal,"CAUSA QUE ORIGINA LA NECESIDAD") }}
+                {{ form_widget(edit_form.causal,{'attr':{
+                    'class':'form-control',
+                    'rows' : '2'
+
+                }}) }}
+                {{ form_errors(edit_form.causal) }}
+
+            </td>
+        </tr>
+
+    </TABLE>
+    <br>
+
+    <table width="100%">
+        <tbody>
+        <tr>
+            <td class="table-bordered text-left">
+                {{ form_label(edit_form.plaza,"PLAZA QUE CUBRE ") }}
+                {{ form_widget(edit_form.plaza) }}
+                {{ form_errors(edit_form.plaza) }}</td>
+            <td colspan="3" width="50%"></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <br>
+    <table WIDTH="90%" align="center" class="table table-bordered">
+        <tbody>
+        <tr>
+            <td>
+
+                {{ form_label(edit_form.clavePlaza) }}
+                {{ form_widget(edit_form.clavePlaza) }}
+                {{ form_errors(edit_form.clavePlaza) }}
+
+            </td>
+            <td>
+
+                {{ form_label(edit_form.pdfConcurso,"ARCHIVO PDF") }}
+                {{ form_widget(edit_form.pdfConcurso) }}
+                {{ form_errors(edit_form.pdfConcurso) }}
+
+            </td>
+
+
+        </tr>
+        </tbody>
+    </table>
+    <br>
+
+
+
+    <input CLASS="btn bg-danger" type="submit" value="CONFIRMAR" /> &nbsp;&nbsp;
+    {{ form_label(edit_form.estatus,"CAMBIO DE ESTUATUS") }}
+    {{ form_widget(edit_form.estatus) }}
+    {{ form_errors(edit_form.estatus) }}
+
+    {{ form_end(edit_form) }}
+
+
+
+            <a CLASS="btn bg-warning" href="{{ path('concurso_index') }}">VER TODOS LOS CONCURSOS</a>
+
+        <ul>   <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="BORRAR">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

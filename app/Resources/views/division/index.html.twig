@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Divisions list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Abreviatura</th>
+                <th>Dgrado</th>
+                <th>Dnombre</th>
+                <th>Dapellidopaterno</th>
+                <th>Dapellidomaterno</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for division in divisions %}
+            <tr>
+                <td><a href="{{ path('division_show', { 'id': division.id }) }}">{{ division.id }}</a></td>
+                <td>{{ division.nombre }}</td>
+                <td>{{ division.abreviatura }}</td>
+                <td>{{ division.dGrado }}</td>
+                <td>{{ division.dNombre }}</td>
+                <td>{{ division.dApellidoPaterno }}</td>
+                <td>{{ division.dApellidoMaterno }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('division_show', { 'id': division.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

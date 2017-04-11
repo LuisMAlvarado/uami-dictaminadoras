@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Factortippas list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Actividad</th>
+                <th>Puntosmin</th>
+                <th>Puntosmax</th>
+                <th>Tope</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for factorTippa in factorTippas %}
+            <tr>
+                <td><a href="{{ path('factortippa_show', { 'id': factorTippa.id }) }}">{{ factorTippa.id }}</a></td>
+                <td>{{ factorTippa.actividad }}</td>
+                <td>{{ factorTippa.puntosmin }}</td>
+                <td>{{ factorTippa.puntosmax }}</td>
+                <td>{{ factorTippa.tope }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('factortippa_show', { 'id': factorTippa.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

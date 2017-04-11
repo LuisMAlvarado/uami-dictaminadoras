@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Aspirantes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Rfc</th>
+                <th>Nombre</th>
+                <th>Apellidopaterno</th>
+                <th>Apellidomaterno</th>
+                <th>Numeroeconomico</th>
+                <th>Createat</th>
+                <th>Curp</th>
+                <th>Correoelectronico</th>
+                <th>Nacionalidad</th>
+                <th>Edad</th>
+                <th>Sexo</th>
+                <th>Estadocivil</th>
+                <th>Telefonos</th>
+                <th>Direccion</th>
+                <th>Password</th>
+                <th>Salt</th>
+                <th>Enable</th>
+                <th>Loked</th>
+                <th>Expired</th>
+                <th>Ultimaconexion</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for aspirante in aspirantes %}
+            <tr>
+                <td><a href="{{ path('aspirante_show', { 'id': aspirante.rfc }) }}">{{ aspirante.rfc }}</a></td>
+                <td>{{ aspirante.nombre }}</td>
+                <td>{{ aspirante.apellidoPaterno }}</td>
+                <td>{{ aspirante.apellidoMaterno }}</td>
+                <td>{{ aspirante.numeroEconomico }}</td>
+                <td>{% if aspirante.createAt %}{{ aspirante.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ aspirante.curp }}</td>
+                <td>{{ aspirante.correoElectronico }}</td>
+                <td>{{ aspirante.nacionalidad }}</td>
+                <td>{{ aspirante.edad }}</td>
+                <td>{{ aspirante.sexo }}</td>
+                <td>{{ aspirante.estadoCivil }}</td>
+                <td>{{ aspirante.telefonos }}</td>
+                <td>{{ aspirante.direccion }}</td>
+                <td>{{ aspirante.password }}</td>
+                <td>{{ aspirante.salt }}</td>
+                <td>{% if aspirante.enable %}Yes{% else %}No{% endif %}</td>
+                <td>{% if aspirante.loked %}Yes{% else %}No{% endif %}</td>
+                <td>{{ aspirante.expired }}</td>
+                <td>{% if aspirante.ultimaConexion %}{{ aspirante.ultimaConexion|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('aspirante_show', { 'id': aspirante.rfc }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('aspirante_edit', { 'id': aspirante.rfc }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('aspirante_new') }}">Create a new aspirante</a>
+        </li>
+    </ul>
+{% endblock %}

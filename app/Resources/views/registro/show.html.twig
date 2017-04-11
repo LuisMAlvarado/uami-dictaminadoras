@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Registro</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ registro.id }}</td>
+            </tr>
+            <tr>
+                <th>Numregistro</th>
+                <td>{{ registro.numRegistro }}</td>
+            </tr>
+            <tr>
+                <th>Puntaje</th>
+                <td>{{ registro.puntaje }}</td>
+            </tr>
+            <tr>
+                <th>Prelacion</th>
+                <td>{{ registro.prelacion }}</td>
+            </tr>
+            <tr>
+                <th>Nivelasig</th>
+                <td>{{ registro.nivelAsig }}</td>
+            </tr>
+            <tr>
+                <th>Createat</th>
+                <td>{% if registro.createAt %}{{ registro.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Pdfanexo</th>
+                <td>{{ registro.pdfAnexo }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('registro_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('registro_edit', { 'id': registro.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

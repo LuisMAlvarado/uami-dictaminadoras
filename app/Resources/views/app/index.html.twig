@@ -1,0 +1,71 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <div id="wrapper">
+        <div id="container">
+            <div id="bienvenida">
+                <h1><span>Bienvenid@</span> <br /></h1>{{ usuario.nombre }}
+                <br />puede gestionar los concursos de : {{ usuario.departamento.nombre }} <br /><br />
+
+            </div>
+
+            <div id="status">
+                <p><h2>
+                    Esta Plataforma permite el control y Registro de: <br><br>
+
+                    *Concurso de Evaluación Curricular (CEC). <br>
+                    *Registro de Aspiranrtes. <br>
+                    *Segimiento de concurso hasta finalizar con el Dictamen. <br>
+                </h2>
+                </p>
+            </div>
+<div id="menu">
+
+    <p>
+        {% if is_granted('ROLE_ASISTENTEDIV') %}
+    <ul> <a>CONCURSOS</a>
+        <li><a href="{{ path('concurso_new') }}">Generar Nuevo Concurso</a></li>
+        <li>  <a href="{{ path('concurso_index') }}">Listado de Concursos</a></li>
+        <li>   <a href="{{ path('dictamen_index') }}">Concursos Dictaminados</a></li>
+    </ul>
+
+    <a href="{{ path('registro_index') }}">Registro de ASPIRANTES en CEC</a>
+
+    {% endif %}
+
+    {% if is_granted('ROLE_ASISTENTEDEP') %}
+        <ul> <a>CONCURSOS</a>
+            <li><a href="{{ path('concurso_new') }}">Generar Nuevo Concurso</a></li>
+            <li>  <a href="{{ path('concurso_index') }}">Listado de Concursos</a></li>
+            <li>   <a href="{{ path('dictamen_index') }}">Concursos Dictaminados</a></li>
+        </ul>
+
+
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMINISTRADOR') %}
+
+        <ul> <a>ASPIRANTES</a>
+            <li> <a href="{{ path('aspirante_index') }}">Consultar ASPIRANTES</a></li>
+            <li><a href="{{ path('registro_index') }}">Registro de ASPIRANTES en CEC</a></li>
+
+        </ul>
+
+        <ul> <a>USUARIOS</a>
+            <li> <a href="{{ path('usuario_index') }}">Consultar USUARIOS</a></li>
+            <li><a href="{{ path('usuario_new') }}">alta de USUARIOS</a></li>
+
+        </ul>
+
+
+    {% endif %}
+    <br />
+    <a  href="{{ path ('logout') }}" class=" btn btn-success btn-xs "> <span class="glyphicon glyphicon-log-out"></span>_CERRAR SESION</a>
+
+    </p>
+</div>
+
+
+        </div>
+    </div>
+{% endblock %}

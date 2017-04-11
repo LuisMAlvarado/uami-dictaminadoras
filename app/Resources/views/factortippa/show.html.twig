@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Factortippa</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ factorTippa.id }}</td>
+            </tr>
+            <tr>
+                <th>Actividad</th>
+                <td>{{ factorTippa.actividad }}</td>
+            </tr>
+            <tr>
+                <th>Puntosmin</th>
+                <td>{{ factorTippa.puntosmin }}</td>
+            </tr>
+            <tr>
+                <th>Puntosmax</th>
+                <td>{{ factorTippa.puntosmax }}</td>
+            </tr>
+            <tr>
+                <th>Tope</th>
+                <td>{{ factorTippa.tope }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('factortippa_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

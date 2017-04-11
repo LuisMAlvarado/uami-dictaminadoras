@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Usuario</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Numeroeconomico</th>
+                <td>{{ usuario.numeroEconomico }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ usuario.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Apellidopaterno</th>
+                <td>{{ usuario.apellidoPaterno }}</td>
+            </tr>
+            <tr>
+                <th>Apellidomaterno</th>
+                <td>{{ usuario.apellidoMaterno }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ usuario.password }}</td>
+            </tr>
+            <tr>
+                <th>Salt</th>
+                <td>{{ usuario.salt }}</td>
+            </tr>
+            <tr>
+                <th>Enable</th>
+                <td>{% if usuario.enable %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Loked</th>
+                <td>{% if usuario.loked %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Expired</th>
+                <td>{{ usuario.expired }}</td>
+            </tr>
+            <tr>
+                <th>Createat</th>
+                <td>{% if usuario.createAt %}{{ usuario.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('usuario_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('usuario_edit', { 'id': usuario.numeroEconomico }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

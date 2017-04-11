@@ -1,0 +1,40 @@
+{% extends 'frontend.html.twig' %}
+{% block content %}
+
+    {% if error %}
+        <div>{{ error.message }}</div>
+    {% endif %}
+
+    <div class="row">
+       <div class="col-md-4"></div>
+       <div class="col-md-4">
+           <form action="{{ path('login_check') }}" method="post" role="form">
+               <div class="form-group">
+                   <label for="username">Usuario:</label>
+                   <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control"  placeholder="Numero de economico" />
+               </div>
+               <div class="form-group">
+                   <label for="password">Contraseña:</label>
+                   <input type="password" id="password" name="_password" class="form-control"/>
+               </div>
+               <div class="checkbox">
+                   <label>
+                       <input type="checkbox" id="remember_me" name="_remember_me" checked />
+                       <label for="remember_me">No cerrar sesión</label>
+                      {# AQUI SE PUEDE REDIRIGIR A LA PAGINA QUE NO QUIERA<input type="hidden" name="_target_path" value="/concurso/" />#}
+                   </label>
+               </div>
+               <div class="pull-right">
+                   <input type="submit" name="login" value="Acceder" />
+               </div>
+
+           </form>
+           <br />
+           <br />
+
+       </div>
+       <div class="col-md-4"></div>
+   </div>
+
+
+{% endblock %}

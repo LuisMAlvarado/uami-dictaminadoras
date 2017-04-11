@@ -1,0 +1,352 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+
+/**
+ * Registro
+ *
+ * @ORM\Table(name="registro", indexes={@ORM\Index(name="fk_registro_concurso1_idx", columns={"concurso_id"}), @ORM\Index(name="fk_registro_aspirante1_idx", columns={"aspirante_rfc"})})
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\RegistroRepository")
+ */
+class Registro
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="numregistro", type="string", length=21, nullable=true)
+     */
+    private $numRegistro;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="puntaje", type="string", length=5, nullable=true)
+     */
+    private $puntaje;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="prelacion", type="integer", nullable=true)
+     */
+    private $prelacion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nivelasig", type="string", length=50, nullable=true)
+     */
+    private $nivelAsig;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="create_at", type="datetime", nullable=false)
+     */
+    private $createAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pdfanexo", type="string", length=255, nullable=false)
+     */
+    private $pdfAnexo;
+
+    /**
+     * @var \Aspirante
+     *
+     * @ORM\ManyToOne(targetEntity="Aspirante")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="aspirante_rfc", referencedColumnName="rfc")
+     * })
+     */
+    private $aspiranteRfc;
+
+    /**
+     * @var \Concurso
+     *
+     * @ORM\ManyToOne(targetEntity="Concurso", inversedBy="registros")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="concurso_id", referencedColumnName="id")
+     * })
+     */
+    private $concurso;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Anexo", mappedBy="registro")
+     *
+     */
+
+    private $anexos;
+
+
+    /**
+     * INICIA LA CREACION DE FUNCIONES PUBLICAS
+     *__CONTRUCT Y __TOSTRING
+     *
+     */
+
+
+    public function __toString()
+    {
+        return (string) $this->id;
+    }
+
+    public function __construct()
+    {
+
+        $this->anexos = new ArrayCollection();
+        $this->createAt= new \DateTime('now');
+    }
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set numRegistro
+     *
+     * @param string $numRegistro
+     *
+     * @return Registro
+     */
+    public function setNumRegistro($numRegistro)
+    {
+        $this->numRegistro = $numRegistro;
+
+        return $this;
+    }
+
+    /**
+     * Get numRegistro
+     *
+     * @return string
+     */
+    public function getNumRegistro()
+    {
+        return $this->numRegistro;
+    }
+
+    /**
+     * Set puntaje
+     *
+     * @param string $puntaje
+     *
+     * @return Registro
+     */
+    public function setPuntaje($puntaje)
+    {
+        $this->puntaje = $puntaje;
+
+        return $this;
+    }
+
+    /**
+     * Get puntaje
+     *
+     * @return string
+     */
+    public function getPuntaje()
+    {
+        return $this->puntaje;
+    }
+
+    /**
+     * Set prelacion
+     *
+     * @param integer $prelacion
+     *
+     * @return Registro
+     */
+    public function setPrelacion($prelacion)
+    {
+        $this->prelacion = $prelacion;
+
+        return $this;
+    }
+
+    /**
+     * Get prelacion
+     *
+     * @return integer
+     */
+    public function getPrelacion()
+    {
+        return $this->prelacion;
+    }
+
+    /**
+     * Set nivelAsig
+     *
+     * @param string $nivelAsig
+     *
+     * @return Registro
+     */
+    public function setNivelAsig($nivelAsig)
+    {
+        $this->nivelAsig = $nivelAsig;
+
+        return $this;
+    }
+
+    /**
+     * Get nivelAsig
+     *
+     * @return string
+     */
+    public function getNivelAsig()
+    {
+        return $this->nivelAsig;
+    }
+
+    /**
+     * Set createAt
+     *
+     * @param \DateTime $createAt
+     *
+     * @return Registro
+     */
+    public function setCreateAt($createAt)
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createAt
+     *
+     * @return \DateTime
+     */
+    public function getCreateAt()
+    {
+        return $this->createAt;
+    }
+
+    /**
+     * Set pdfAnexo
+     *
+     * @param string $pdfAnexo
+     *
+     * @return Registro
+     */
+    public function setPdfAnexo($pdfAnexo)
+    {
+        $this->pdfAnexo = $pdfAnexo;
+
+        return $this;
+    }
+
+    /**
+     * Get pdfAnexo
+     *
+     * @return string
+     */
+    public function getPdfAnexo()
+    {
+        return $this->pdfAnexo;
+    }
+
+    /**
+     * Set aspiranteRfc
+     *
+     * @param \AppBundle\Entity\Aspirante $aspiranteRfc
+     *
+     * @return Registro
+     */
+    public function setAspiranteRfc(\AppBundle\Entity\Aspirante $aspiranteRfc = null)
+    {
+        $this->aspiranteRfc = $aspiranteRfc;
+
+        return $this;
+    }
+
+    /**
+     * Get aspiranteRfc
+     *
+     * @return \AppBundle\Entity\Aspirante
+     */
+    public function getAspiranteRfc()
+    {
+        return $this->aspiranteRfc;
+    }
+
+    /**
+     * Set concurso
+     *
+     * @param \AppBundle\Entity\Concurso $concurso
+     *
+     * @return Registro
+     */
+    public function setConcurso(\AppBundle\Entity\Concurso $concurso = null)
+    {
+        $this->concurso = $concurso;
+
+        return $this;
+    }
+
+    /**
+     * Get concurso
+     *
+     * @return \AppBundle\Entity\Concurso
+     */
+    public function getConcurso()
+    {
+        return $this->concurso;
+    }
+
+    /**
+     * Add anexo
+     *
+     * @param \AppBundle\Entity\Anexo $anexo
+     *
+     * @return Registro
+     */
+    public function addAnexo(\AppBundle\Entity\Anexo $anexo)
+    {
+        $this->anexos[] = $anexo;
+
+        return $this;
+    }
+
+    /**
+     * Remove anexo
+     *
+     * @param \AppBundle\Entity\Anexo $anexo
+     */
+    public function removeAnexo(\AppBundle\Entity\Anexo $anexo)
+    {
+        $this->anexos->removeElement($anexo);
+    }
+
+    /**
+     * Get anexos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAnexos()
+    {
+        return $this->anexos;
+    }
+}
