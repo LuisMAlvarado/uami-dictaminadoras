@@ -30,7 +30,6 @@
                 <th>Categoria</th>
                 <th>Tiempodedicacion</th>
                 <th>Unidad</th>
-                <th>Horario</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -42,7 +41,7 @@
                 <td>{{ concurso.departamento.division }}</td>
                 <td>{{ concurso.departamento }}</td>
                 {# <td>{% if concurso.createAt %}{{ concurso.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>#}
-                <td>{% if concurso.fechaPublicacion %}{{ concurso.fechaPublicacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if concurso.fechaPublicacion %}{{ concurso.fechaPublicacion|date('Y-m-d H:i:s') | date("d-M-Y") }}{% endif %}</td>
                 {% if is_granted(expression('"ROLE_DICTAMINADOR" in roles')) %}
                     <td>{{ concurso.dictamen }}</td>
                 {% endif %}
@@ -51,7 +50,6 @@
                 <td>{{ concurso.categoria }}</td>
                 <td>{{ concurso.tiempoDedicacion }}</td>
                 <td>{{ concurso.unidad }}</td>
-                <td>{{ concurso.horario }}</td>
 
                 <td>
                     <ul>
