@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
@@ -184,6 +185,7 @@ class Aspirante implements AdvancedUserInterface, \Serializable
         $this ->loked =true;
         $this ->enable=true;
         $this ->expired=7;
+        $this->archivos = new ArrayCollection();
     }
 
     public function __toString()

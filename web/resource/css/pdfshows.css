@@ -1,0 +1,8 @@
+table {font-family: "Helvetica" ;font-size: 7px;    margin: 45px;     width: 480px;  border-radius: 20px; border-collapse: separate; }
+table td { text-align: left;}
+table th {font-size: 10px; text-align: right;}
+.titulo {font-family: "Helvetica" ;font-size: 11.5px; text-align: right; }
+p { color: black; font-family: "Helvetica";font-size: 7.5px; }
+.celcentro{ border-left-color: white;  border-right-color: white; }
+.tablapie {font-family: "Helvetica" ;font-size: 7px;   margin: 45px; width: 480px; border-collapse: separate; border-spacing: 3px; empty-cells: hide; }
+.celdapie { border: 1px solid black; width: 175px; height: 70px;}

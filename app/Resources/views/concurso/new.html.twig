@@ -25,15 +25,22 @@
         <tr>
             <td colspan="3" width="50%"></td>
 
-            <td class="table-bordered text-center">
-                {{ form_label(form.numConcurso,"No. EC. ") }}
-                {{ form_widget(form.numConcurso) }}
-                {{ form_errors(form.numConcurso) }}</td>
+                <td></td>
+                <td class="table-bordered text-center">
+                    {% if is_granted(expression('"ROLE_ASISTENTEDIV" in roles or "ROLE_ASISTENTEDEP" in roles')) %}
+                    {{ form_label(form.numConcurso,"No. EC. ") }}
+                    {{ form_widget(form.numConcurso) }}
+                    {{ form_errors(form.numConcurso) }}
+                        {% else %}
+                        No. EC.
+                    {% endif %}
+                </td>
 
-            <td class="table-bordered text-center">
+                <td class="table-bordered text-center">
                 {{ form_label(form.fechaPublicacion) }}
                 {{ form_widget(form.fechaPublicacion) }}
-                {{ form_errors(form.fechaPublicacion) }}</td></tr>
+                {{ form_errors(form.fechaPublicacion) }}
+                </td></tr>
 
         </tbody>
     </table>

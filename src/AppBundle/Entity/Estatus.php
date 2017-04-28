@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Estatus
 {
+    const PUBLICADO = 3;//DEFINICION DE CONSTANTES QUE PUEDEN SER UTILES EN LOS CONTRALADORES
+
     /**
      * @var integer
      *

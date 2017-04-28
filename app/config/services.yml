@@ -14,8 +14,14 @@ services:
             - { name: form.type }
 
     app.login_listener:
-       class:  AppBundle\Listener\LoginListener
-       arguments: [ '@security.authorization_checker', '@router', '@doctrine']
-       tags:
+        class:  AppBundle\Listener\LoginListener
+        arguments: [ '@security.authorization_checker', '@router', '@doctrine']
+        tags:
             - { name:  kernel.event_listener, event:  security.interactive_login }
             - { name: kernel.event_listener, event: kernel.response }
+
+    app.form.type.concurso:
+        class:  AppBundle\Form\ConcursoType
+        arguments: [ '@security.authorization_checker', '@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type }

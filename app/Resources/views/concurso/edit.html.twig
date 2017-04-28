@@ -27,9 +27,14 @@
             <td colspan="3" width="50%"></td>
 
             <td class="table-bordered text-center">
-                {{ form_label(edit_form.numConcurso,"No. EC. ") }}
-                {{ form_widget(edit_form.numConcurso) }}
-                {{ form_errors(edit_form.numConcurso) }}</td>
+                {% if is_granted(expression('"ROLE_ASISTENTEDIV" in roles or "ROLE_ASISTENTEDEP" in roles ')) %}
+                    {{ form_label(edit_form.numConcurso,"No. EC. ") }}
+                    {{ form_widget(edit_form.numConcurso) }}
+                    {{ form_errors(edit_form.numConcurso) }}
+                {% else %}
+                    No. EC.
+                {% endif %}
+            </td>
 
             <td class="table-bordered text-center">
                 {{ form_label(edit_form.fechaPublicacion) }}
@@ -272,12 +277,13 @@
                 {{ form_errors(edit_form.clavePlaza) }}
 
             </td>
-            <td>
 
+            <td>
+               {% if (is_granted(expression('"ROLE_ASISTENTEDIV" in roles'))) %}
                 {{ form_label(edit_form.pdfConcurso,"ARCHIVO PDF") }}
                 {{ form_widget(edit_form.pdfConcurso) }}
                 {{ form_errors(edit_form.pdfConcurso) }}
-
+               {% endif %}
             </td>
 
 
@@ -289,9 +295,11 @@
 
 
     <input CLASS="btn bg-danger" type="submit" value="CONFIRMAR" /> &nbsp;&nbsp;
-    {{ form_label(edit_form.estatus,"CAMBIO DE ESTUATUS") }}
-    {{ form_widget(edit_form.estatus) }}
-    {{ form_errors(edit_form.estatus) }}
+    {% if (is_granted(expression('"ROLE_ASISTENTEDIV" in roles'))) %}
+     {{ form_label(edit_form.estatus,"CAMBIO DE ESTUATUS") }}
+     {{ form_widget(edit_form.estatus) }}
+     {{ form_errors(edit_form.estatus) }}
+    {% endif %}
 
     {{ form_end(edit_form) }}
 

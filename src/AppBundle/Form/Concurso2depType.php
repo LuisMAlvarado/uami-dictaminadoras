@@ -2,30 +2,18 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Form\EventListener\AddConcursoAsisDivSubscriber;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
-class ConcursoType extends AbstractType
+class Concurso2depType extends AbstractType
 {
-    private $security, $em;
-    
-public function __construct($security,$em)
-{
-    $this->security=$security;
-    $this->em=$em;
-    
-}
 
     /**
      * {@inheritdoc}
@@ -33,9 +21,9 @@ public function __construct($security,$em)
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-
+            ->add('numConcurso', HiddenType::class)
             ->add('plaza')
-
+           // ->add('pdfConcurso')
           //  ->add('createAt')
             ->add('fechaPublicacion', DateType::class, array(
                 'format' => 'dd-MM-yyyy',
@@ -89,19 +77,15 @@ public function __construct($security,$em)
             ->add('clavePlaza')
             ->add('departamento')
             ->add('dictamen',HiddenType::class)
-            ->addEventSubscriber(new AddConcursoAsisDivSubscriber($this->security,$this->em))
-
-           // ->add('estatus')
-           // ->add('pdfConcurso')
-            ->add('numConcurso')
+         //   ->add('estatus')
 
         ;
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Concurso'

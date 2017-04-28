@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Concurso;
+use AppBundle\Entity\Estatus;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\ExpressionLanguage\Expression;
@@ -10,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use AppBundle\Form\ConcursoType;
+use Symfony\Component\Validator\Constraints\IsNull;
 
 /**
  * Concurso controller.
@@ -81,10 +83,12 @@ class ConcursoController extends Controller
      */
     public function newAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        
         $concurso = new Concurso();
+
         $form = $this->createForm('AppBundle\Form\ConcursoType', $concurso);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($concurso);
@@ -97,6 +101,8 @@ class ConcursoController extends Controller
             'concurso' => $concurso,
             'form' => $form->createView(),
         ));
+        
+
     }
 
     /**
@@ -116,6 +122,26 @@ class ConcursoController extends Controller
         ));
     }
 
+    /**
+     * Finds and displays a Concurso entity.
+     *
+     * @Route("/{id}/regs", name="concurso_showreg")
+     * @Method("GET")
+     */
+    public function showregAction(Concurso $concurso)
+    {
+        $deleteForm = $this->createDeleteForm($concurso);
+
+        // $dias = $concurso->getFechaIn()->diff($concurso->getFechaTer())->format('%Y AÑOS - %M MESES - %D DÍAS');
+
+        return $this->render('concurso/showreg.html.twig', array(
+            'concurso' => $concurso,
+            'delete_form' => $deleteForm->createView(),
+            //   'dias' => $dias,
+        ));
+    }
+    
+    
     /**
      * Finds and genera PDFs a Concurso entity.
      *
@@ -155,9 +181,6 @@ class ConcursoController extends Controller
     }
 
 
-
-
-
     /**
      * Displays a form to edit an existing concurso entity.
      *
@@ -183,6 +206,39 @@ class ConcursoController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
+
+    /**
+     * @Route("/{concurso}/reconvocar/", name="reconvocar_edit")
+     *
+     *
+     * @Method({"GET", "POST"})
+     *
+     */
+
+public function reconvocarAction(Request $request, Concurso $concurso)// SE USA JUNTO CON EL @rotue {"propiedad"} y en conjunto con el twig cuando pasas Ruta(Controlador) pasas a la funcion esa Entidad
+{
+    $reconcurso = clone $concurso;
+
+    $newestatus = $this->getDoctrine()->getRepository('AppBundle:Estatus')->find(Estatus::PUBLICADO); //Estatus::"nombre_variable" definida en ENTIDAD en este caso Estatus
+    $reconcurso ->setEstatus($newestatus);
+
+    $form = $this->createForm('AppBundle\Form\ConcursoType', $reconcurso);
+    $form->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($reconcurso);
+        $em->flush($reconcurso);
+
+        return $this->redirectToRoute('concurso_show', array('id' => $reconcurso->getId()));
+    }
+
+    return $this->render('concurso/new.html.twig', array(
+        'concurso' => $reconcurso,
+        'form' => $form->createView(),
+    ));
+
+}
+
 
     /**
      * Deletes a concurso entity.

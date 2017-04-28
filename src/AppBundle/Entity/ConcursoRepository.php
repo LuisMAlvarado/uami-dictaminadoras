@@ -19,7 +19,7 @@ class ConcursoRepository extends EntityRepository
           JOIN c.departamento dp
           JOIN dp.division dv
           WHERE dv.id = :id
-          ORDER BY c.clasificacion ASC'
+          ORDER BY c.createAt ASC'
           )->setParameter('id', $divisionId);
 
 

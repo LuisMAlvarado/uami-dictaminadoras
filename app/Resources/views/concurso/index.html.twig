@@ -18,18 +18,18 @@
             <tr>
                 <th>Id</th>
                 <th>No. Concurso</th>
-                <th>Division</th>
+                <th>Estatus</th>
                 {#<th>Createat</th>#}
                 <th>Departamento</th>
                 <th>Fechapublicacion</th>
                 {% if is_granted(expression('"ROLE_DICTAMINADOR" in roles')) %}
                     <th>Dictamen</th>
                 {% endif %}
-                <th>Area Departamental</th>
+
                 <th>Clasificacion</th>
                 <th>Categoria</th>
                 <th>Tiempodedicacion</th>
-                <th>Unidad</th>
+
                 <th>Actions</th>
             </tr>
         </thead>
@@ -38,18 +38,18 @@
             <tr>
                 <td><a href="{{ path('concurso_show', { 'id': concurso.id }) }}">{{ concurso.id }}</a></td>
                 <td><a href="{{ path('concurso_show', { 'id': concurso.id }) }}">{{ concurso.numConcurso }}</a></td>
-                <td>{{ concurso.departamento.division }}</td>
+                <td>{{ concurso.estatus }}</td>
                 <td>{{ concurso.departamento }}</td>
                 {# <td>{% if concurso.createAt %}{{ concurso.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>#}
                 <td>{% if concurso.fechaPublicacion %}{{ concurso.fechaPublicacion|date('Y-m-d H:i:s') | date("d-M-Y") }}{% endif %}</td>
                 {% if is_granted(expression('"ROLE_DICTAMINADOR" in roles')) %}
                     <td>{{ concurso.dictamen }}</td>
                 {% endif %}
-                <td>{{ concurso.areaDepartamental }}</td>
+
                 <td>{{ concurso.clasificacion }}</td>
                 <td>{{ concurso.categoria }}</td>
                 <td>{{ concurso.tiempoDedicacion }}</td>
-                <td>{{ concurso.unidad }}</td>
+
 
                 <td>
                     <ul>
@@ -60,7 +60,12 @@
                             <li>
                                 <a href="{{ path('concurso_edit', { 'id': concurso.id }) }}">edit</a>
                             </li>
-
+                            <li>
+                                <a href="{{ path('reconvocar_edit', { 'concurso': concurso.id }) }}">RECONVOCAR</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('concurso_showreg', { 'id': concurso.id }) }}">ASP. REGISTRADOS</a>
+                            </li>
                         {% endif %}
                         {% if is_granted(expression('"ROLE_DICTAMINADOR" in roles')) %}
                             <li>

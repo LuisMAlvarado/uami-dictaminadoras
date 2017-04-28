@@ -243,12 +243,23 @@ class Concurso
 
     public function __toString()
     {
-        return $this->numConcurso;
+        return strval($this->id);
     }
+public function __clone()
+{
 
+    $this->id= null;
+    $this->createAt= new \DateTime('now');
+    $this->fechaPublicacion= new \DateTime('now');
+    $this->fechaIn=null;
+    $this->fechaTer=null;
+    $this->pdfConcurso= null;
+    $this->estatus= null;
 
-
-
+    $this->registros = new ArrayCollection();
+    // TODO: Implement __clone() method.
+    
+}
 
 
     /**
