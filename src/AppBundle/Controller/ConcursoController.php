@@ -65,12 +65,14 @@ class ConcursoController extends Controller
             return $this->render('concurso/portada.html.twig', array(
                 'concursos' => $concursos,
                 'aspirante'=>$aspi,
+                'est' => 10,
             ));
         }
 
 
         return $this->render('concurso/index.html.twig', array(
             'concursos' => $concursos,
+            'est' => 10,
 
         ));
     }
@@ -122,12 +124,14 @@ class ConcursoController extends Controller
             return $this->render('concurso/portada.html.twig', array(
                 'concursos' => $concursos,
                 'aspirante'=>$aspi,
+                'est' => $est,
             ));
         }
 
 
         return $this->render('concurso/index.html.twig', array(
             'concursos' => $concursos,
+            'est' => $est,
 
         ));
     }
