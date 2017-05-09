@@ -22,4 +22,5 @@ class AspiranteRepository extends EntityRepository
         return $query->getResult();
     }
 
+
 }

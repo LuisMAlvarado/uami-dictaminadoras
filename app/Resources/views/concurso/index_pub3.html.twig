@@ -2,7 +2,7 @@
 
 {% block content %}
     {% if is_granted(expression('"ROLE_ADMININISTRADOR" in roles or "ROLE_ASISTENTEDEP" in roles or "ROLE_ASISTENTEDIV" in roles or "ROLE_DICTAMINADOR" in roles')) %}
-        <h1>CONVOCATORIAS</h1>
+        <h1>Concursos</h1>
         <a class="btn btn-default" href="{{ path('homepage') }}"><span class="glyphicon glyphicon-home"></span>_MENU</a>
     {% endif %}
 
@@ -12,24 +12,15 @@
         <a href="{{ path('aspirante_aspshow',{'id' : aspirante.rfc}) }}">Regresar a sitio</a>
 
     {% endif %}
-    <br><br>
 
-     <div class="container">
-        <h3>Seguimiento de concursos</h3>
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="{{ path('concurso_indexest', {'est':1}) }}">En Revision</a></li>
-            <li><a href="{{ path('concurso_indexest', {'est':2}) }}">Enviado a RG</a></li>
-            <li><a href="{{ path('concurso_indexest', {'est':3}) }}">Publicado</a></li>
-            <li><a href="{{ path('concurso_indexest', {'est':4}) }}">Reg. de Aspirantes</a></li>
-            <li><a href="{{ path('concurso_indexest', {'est':5}) }}">Dictaminado</a></li>
-            <li><a href="{{ path('concurso_indexest', {'est':6}) }}">Dic.Asignado</a></li>
-            <li><a href="{{ path('concurso_indexest', {'est':7}) }}">Reconvocado</a></li>
-            <li><a href="{{ path('concurso_indexest', {'est':8}) }}">Cancelado</a></li>
-            <li><a href="{{ path('concurso_indexest', {'est':9}) }}">Desierto</a></li>
-            <li><a href="{{ path('concurso_index') }}">TODOS</a></li>
-        </ul>
+    <div class="nav">
+        <lu class="list-inline">
+            <li> <a href="#"></a></li>
+            <li>menu2 <a href="#"></a></li>
+            <li>menu3 <a href="#"></a></li>
+        </lu>
     </div>
-    <br><br>
+
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -102,19 +93,4 @@
             <a href="{{ path('concurso_new') }}">Registro de Nvo. Concurso</a>
         </li>
     </ul>
-
-    {% block javascripts %}
-        <script type="text/javascript">
-            $(document).ready(function(){
-                $(".nav-tabs a").click(function(){
-                    $(this).tab('show');
-                });
-            });
-
-        </script>
-    {% endblock %}
-
-
-
 {% endblock %}
-

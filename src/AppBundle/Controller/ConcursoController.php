@@ -75,6 +75,65 @@ class ConcursoController extends Controller
         ));
     }
 
+
+    /**
+     * Lists all concurso entities segun el estado
+     *
+     * @Route("/est/{est}", name="concurso_indexest")
+     * @Method("GET")
+     */
+    public function indexestAction($est)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $aspi=$this->getUser(); //para el caso aspirante
+
+        if ($this->isGranted(new Expression(' "ROLE_ADMINISTRADOR" in roles'))) {
+            $dato=(new \DateTime());
+            $concursos= $em->getRepository('AppBundle:Concurso')->findAllOrderedByFecha($dato);
+        }
+        elseif ($this->isGranted('ROLE_ASPIRANTE')){
+            $dato=(new \DateTime());
+
+            //se debe generar una consulta usando un comparador ArrayCollect
+            $rfc1=$aspi->getRfc();
+            $concursos= $em->getRepository('AppBundle:Concurso')->findAllOrderedBynoReg($dato,$rfc1);
+
+        }
+
+        elseif ($this->isGranted('ROLE_DICTAMINADOR')){
+            $concursos= $em->getRepository('AppBundle:Concurso')->findAllOrderedByDictamen($this->getUser()->getDivision()->getId());
+        }
+        elseif ($this->isGranted('ROLE_ASISTENTEDEP')) {
+            //  $concursos = $repository->findBy HAY QUE GENERAR EL ARREGLO PARA QUE DESPLIEGE LOS allConcursos DEL USUARIO
+            $concursos = $this->getDoctrine()->getRepository('AppBundle:Concurso')->findAllOrderedById2($this->getUser()->getDepartamento()->getId());
+        }
+        elseif ($this->isGranted('ROLE_ASISTENTEDIV')) {
+            //  $concursos = $repository->findBy HAY QUE GENERAR EL ARREGLO PARA QUE DESPLIEGE LOS allConcursos DEL USUARIO
+
+            //$est=3;
+            $concursos = $this->getDoctrine()->getRepository('AppBundle:Concurso')->TodosEstado($this->getUser()->getDivision()->getId(),$est);
+
+            //PARA USO DEL ESTATUS
+            // $edo='2';
+            // $concursos = $this->getDoctrine()->getRepository('AppBundle:Concurso')->findAllOrderedByIdxedo($this->getUser()->getDivision()->getId(),$edo);
+        }
+
+        if ($this->isGranted(new Expression(' "ROLE_ASPIRANTE" in roles'))){
+            return $this->render('concurso/portada.html.twig', array(
+                'concursos' => $concursos,
+                'aspirante'=>$aspi,
+            ));
+        }
+
+
+        return $this->render('concurso/index.html.twig', array(
+            'concursos' => $concursos,
+
+        ));
+    }
+
+
+
     /**
      * Creates a new concurso entity.
      *
@@ -168,7 +227,7 @@ class ConcursoController extends Controller
         $pdfObj->setPrintHeader(false);
         $pdfObj->setPrintFooter(false);
         $pdfObj->SetAuthor('LuisM-Dictaminadora');
-        $pdfObj->SetTitle('Concurso_' . $concurso->getId());
+        $pdfObj->SetTitle('Concurso_' . $concurso->getNumConcurso());
         $pdfObj->SetFont('helvetica', '', 7);
         $pdfObj->AddPage('P', 'mm', 'Letter');
         $pdfObj->writeHTML($html, true, true, true, false, '');
@@ -177,7 +236,7 @@ class ConcursoController extends Controller
         // $y1=$pdfObj->GetY()-50;
         //  $pdfObj->writeHTMLCell(194, '', 6, 90, $html2, 0, 1, 0, true, 'L', true);
 
-        $pdfObj->Output('Concurso_' . $concurso->getId() . '.pdf', 'I');
+        $pdfObj->Output('Concurso_'.$concurso->getNumConcurso().'.pdf', 'I');
     }
 
 

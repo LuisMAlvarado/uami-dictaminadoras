@@ -27,6 +27,33 @@ class ConcursoRepository extends EntityRepository
     }
 
     /**
+     *  consulta para ver todas los concursos segun la division y estatus
+     *
+     * @param $divisionId
+     * @return array
+     */
+    public function TodosEstado($divisionId,$est)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT c FROM AppBundle:Concurso c 
+          JOIN c.departamento dp
+          JOIN dp.division dv
+          WHERE dv.id = :id
+          AND c.estatus = :est
+          ORDER BY c.createAt ASC'
+            )->setParameter('id', $divisionId)
+            ->setParameter('est', $est)
+        ;
+
+
+        return $query->getResult();
+    }
+
+
+
+
+    /**
      *  consulta para ver todas los concursos segun la division
      *
      * @param $divisionId
