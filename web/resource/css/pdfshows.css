@@ -1,8 +1,13 @@
-table {font-family: "Helvetica" ;font-size: 7px;    margin: 45px;     width: 480px;  border-radius: 20px; border-collapse: separate; }
+table {font-family: "Helvetica" ;font-size: 7px;    margin: 45px; width: 480px; border-collapse: collapse; -moz-border-radius:20px; -webkit-border-radius: 20px; border-radius: 20px;}
 table td { text-align: left;}
 table th {font-size: 10px; text-align: right;}
 .titulo {font-family: "Helvetica" ;font-size: 11.5px; text-align: right; }
-p { color: black; font-family: "Helvetica";font-size: 7.5px; }
-.celcentro{ border-left-color: white;  border-right-color: white; }
+p { color: black; font-family: "Helvetica";font-size: 7px; text-align: justify;}
+.celsola{ border-left-color: black; border-bottom-color: black;  border-right-color: black; border-top-color: black;}
+.celcentro{ border-left-color: white; border-bottom-color: black;  border-right-color: white; border-top-color: black; }
+.celizquierda{ border-left-color: black; border-bottom-color: black; border-right-color: white; border-top-color: black }
+.celderecha{ border-left-color: white; border-bottom-color: black; border-right-color: black; border-top-color: black }
+.celizqH{ border-left-color: white; border-bottom-color: white; border-right-color: black; border-top-color: white }
 .tablapie {font-family: "Helvetica" ;font-size: 7px;   margin: 45px; width: 480px; border-collapse: separate; border-spacing: 3px; empty-cells: hide; }
 .celdapie { border: 1px solid black; width: 175px; height: 70px;}
+.celTL {-moz-border-radius-topleft:20px; -webkit-border-top-left-radius: 20px; border-top-left-radius: 20px;}

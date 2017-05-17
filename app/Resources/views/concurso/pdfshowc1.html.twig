@@ -25,9 +25,9 @@
     <tbody >
     <tr>
         <td colspan="3" width="35%"></td>
-        <th><strong>PARA:</strong> </th>
+        <th class="celizqH"><strong>PARA:</strong> </th>
 
-        <td border="1" width="235" align="center">{{ concurso.clasificacion }}</td>
+        <td class="celsola" width="235" align="center">{{ concurso.clasificacion }}</td>
     </tr>
 
     </tbody>
@@ -39,13 +39,13 @@
     <tbody >
     <tr>
         <td colspan="2" width="32%"></td>
-        <th class=" text-right " ><strong> No. EC. &nbsp;</strong></th>
+        <th class="celizqH text-right " ><strong> No. EC. &nbsp;</strong></th>
 
-        <td  border="1" class=" text-center small "><strong> </strong>{{ concurso.numConcurso }}</td>
+        <td  border="1" class=" celsola text-center small "><strong> </strong>{{ concurso.numConcurso }}</td>
 
-        <th    ><strong>FECHA &nbsp;</strong></th>
+        <th class="celizqH"   ><strong>FECHA &nbsp;</strong></th>
 
-        <td border="1" class="text-center ">{% if concurso.fechaPublicacion %}{{ concurso.fechaPublicacion|date('d-M-Y') }}{% endif %}</td>
+        <td border="1" class=" celsola text-center ">{% if concurso.fechaPublicacion %}{{ concurso.fechaPublicacion|date('d-M-Y') }}{% endif %}</td>
 
     </tr>
 
@@ -53,72 +53,73 @@
 </table>
 <br/>
 <p class="text-justify"> CONFORME A LO PREVISTO EN EL REGLAMENTO DE INGRESO, PROMOCIÓN Y PERMANENCIA DEL PERSONAL ACADÉMICO, LA UNIVERSIDAD AUTÓNOMA
+    <br>
     METROPOLITANA CONVOCA AL CONCURSO PARA OCUPAR CON CARÁCTER DE TEMPORAL LA SIGUIENTE PLAZA:  </p>
 <br/>
 <table  bgcolor="#FFFFFF"  align="center"  border="1" cellpadding="3" cellspacing="0"   width="99%">
     <tbody >
     <tr>
-        <td ><strong>Categoria</strong><br />
+        <td class="celTL"><strong>CATEGORÍA</strong><br />
             {{ concurso.categoria }}
         </td>
-        <td  colspan="2"> <strong>Tiempo de Dedicación</strong><br>
+        <td  colspan="2"> <strong>TIEMPO DE DEDICACIÓN</strong><br>
             {{ concurso.tiempoDedicacion }}
         </td>
     </tr>
 
     <tr>
-        <td> <strong>DE CLASE:  </strong>
+        <td class="celizquierda"> <strong>NÚMERO DE HORAS</strong> (SÓLO TIEMPO PARCIAL)<BR> <STRONG>DE CLASE:</STRONG>
             {{ concurso.tpHclase }}
         </td>
-        <td class="celcentro"><strong>DE OTRAS ACTIVIDADES ACADÉMICAS:  </strong>
+        <td class="celcentro"><strong><BR>DE OTRAS ACTIVIDADES ACADÉMICAS:  </strong>
             {{ concurso.tpHacademia }}
         </td>
 
-        <td><strong>DE AYUDANTÍA:  </strong>
+        <td class="celderecha"><strong><BR>DE AYUDANTÍA:  </strong>
             {{ concurso.tpHayudantia }}
         </td>
     </tr>
     <tr>
-        <td> <strong>Unidad</strong><br>
+        <td> <strong>UNIDAD</strong><br>
             {{ concurso.unidad }}
         </td>
-        <td colspan="2"><strong>División</strong><br />
+        <td colspan="2"><strong>DIVISIÓN</strong><br />
             {{ concurso.departamento.division }}
         </td>
     </tr>
     <tr>
-        <td> <strong>Departamento</strong><br>
+        <td> <strong>DEPARTAMENTO</strong><br>
             {{ concurso.departamento.nombre}}
         </td>
-        <td colspan="2"> <strong>Area Departamental</strong><br>
+        <td colspan="2"> <strong>ÁREA DEPARTAMENTAL</strong>(EN SU CASO)<br>
             {{ concurso.areaDepartamental }}
         </td>
     </tr>
     <tr>
-        <td>
+        <td class="celizquierda">
             <strong>SALARIO</strong> <br>
-            DE: ${{ concurso.salarioA |number_format(2, '.', ',')  }}
+            <strong>DE: $&nbsp;</strong>{{ concurso.salarioA |number_format(2, '.', ',')  }}
         </td>
-        <td> <br /><br />
-            A: ${{ concurso.salarioB |number_format(2, '.', ',')  }}
+        <td class="celderecha"> <br /><br />
+           <strong> A: $&nbsp;</strong>{{ concurso.salarioB |number_format(2, '.', ',')  }}
         </td>
-        <td><strong>Horario</strong><br />
+        <td><strong>HORARIO</strong><br />
             {{ concurso.horario }}
         </td>
     </tr>
     <tr>
-        <td> <strong>DURACIÓN DE LA CONTRATACIÓN </strong> <br />{{ dias }}
 
-        </td>
-        <td>
-            <strong>FECHA  DE INGRESO: </strong> <br>
-            {{ concurso.fechaIn |date('d-M-Y')  }}
-        </td>
-        <td>
-            <strong>FECHA DE TERMINACIÓN DE LABORES: </strong> <br>
-            {{ concurso.fechaTer |date('d-M-Y') }}
-        </td>
+        <td width="20%" align="center"><strong>DURACIÓN DE <br>LA CONTRATACIÓN </strong></td>
+        <td width="20%" align="center"><strong>FECHA  DE INICIO <br>DE LABORES </strong></td>
+        <td width="20%" align="center"><strong>DÍA &nbsp;  MES &nbsp; AÑO<br></strong> {{ concurso.fechaIn |date('d | M | Y')  }}</td>
+        <td width="20%" align="center"><strong>FECHA DE TERMINACIÓN <BR> DE LABORES </strong></td>
+        <td width="20%" align="center"><strong>DÍA &nbsp;  MES &nbsp; AÑO<br></strong> {{ concurso.fechaTer |date('d | M | Y') }}</td>
+
     </tr>
+
+
+
+
 
     </tbody>
 </table>
