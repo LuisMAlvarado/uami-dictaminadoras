@@ -149,6 +149,8 @@ class ConcursoController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $concurso = new Concurso();
+        $newestatus = $this->getDoctrine()->getRepository('AppBundle:Estatus')->find(Estatus::Publicado); //Estatus::"nombre_variable" definida en ENTIDAD en este caso Estatus
+        $concurso ->setEstatus($newestatus);
 
         $form = $this->createForm('AppBundle\Form\ConcursoType', $concurso);
         $form->handleRequest($request);
