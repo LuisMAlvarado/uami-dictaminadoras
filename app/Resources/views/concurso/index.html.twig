@@ -92,7 +92,7 @@
                             {% endif %}
 
                             <li>
-                                <a href="{{ path('concurso_showreg', { 'id': concurso.id }) }}">ASP. REGISTRADOS</a>
+                                <a href="{{ path('concurso_showreg', { 'id': concurso.id }) }}">ASP.REGISTRADOS</a>
                             </li>
                         {% endif %}
                         {% if is_granted(expression('"ROLE_DICTAMINADOR" in roles')) %}
