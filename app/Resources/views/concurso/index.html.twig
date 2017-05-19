@@ -17,7 +17,7 @@
      <div class="container">
         <h3>Seguimiento de concursos</h3>
         <ul class="nav nav-tabs">
-            <li id="t-1"><a href="{{ path('concurso_indexest', {'est':1}) }}">En Revision</a></li>
+            <li id="t-1"><a href="{{ path('concurso_indexest', {'est':1}) }}">En Revisión</a></li>
             <li id="t-2"><a href="{{ path('concurso_indexest', {'est':2}) }}">Enviado a RG</a></li>
             <li id="t-3"><a href="{{ path('concurso_indexest', {'est':3}) }}">Publicado</a></li>
             <li id="t-4"><a href="{{ path('concurso_indexest', {'est':4}) }}">Reg. de Aspirantes</a></li>
@@ -85,9 +85,12 @@
                             <li>
                                 <a href="{{ path('concurso_edit', { 'id': concurso.id }) }}">edit</a>
                             </li>
-                            <li>
-                                <a href="{{ path('reconvocar_edit', { 'concurso': concurso.id }) }}">RECONVOCAR</a>
-                            </li>
+                            {% if concurso.estatus=='Reconvocado' %}
+                                <li>
+                                    <a href="{{ path('reconvocar_edit', { 'concurso': concurso.id }) }}">RECONVOCAR</a>
+                                </li>
+                            {% endif %}
+
                             <li>
                                 <a href="{{ path('concurso_showreg', { 'id': concurso.id }) }}">ASP. REGISTRADOS</a>
                             </li>
