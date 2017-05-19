@@ -137,13 +137,15 @@
                 <strong>SALARIO</strong> <br>
                 {{  form_label(edit_form.salarioA,"DE: " ) }}
                 {{ form_widget(edit_form.salarioA) }}
-                {{ form_errors(edit_form.salarioA) }}
+                <div class="alert-danger">{{ form_errors(edit_form.salarioA) }}</div>
+
             </td>
             <td>
                 <br />
                 {{  form_label(edit_form.salarioB,"A: ") }}
                 {{ form_widget(edit_form.salarioB) }}
-                {{ form_errors(edit_form.salarioB) }}
+                <div class="alert-danger">{{ form_errors(edit_form.salarioB) }}</div>
+
 
             </td>
             <td>
@@ -166,7 +168,8 @@
                 <strong>FECHA DE: </strong> <br>
                 {{  form_label(edit_form.fechaIn,"INGRESO " ) }}
                 {{ form_widget(edit_form.fechaIn) }}
-                {{ form_errors(edit_form.fechaIn) }}
+                <div class="alert-danger">{{ form_errors(edit_form.fechaIn) }}</div>
+
 
 
             </td>
@@ -174,7 +177,8 @@
                 <strong>FECHA DE: </strong> <br>
                 {{ form_label(edit_form.fechaTer,"TERMINACION DE LABORES ") }}
                 {{ form_widget(edit_form.fechaTer) }}
-                {{ form_errors(edit_form.fechaTer) }}
+                <div class="alert-danger">{{ form_errors(edit_form.fechaTer) }}</div>
+
 
 
             </td>

@@ -161,7 +161,7 @@
                 <strong>FECHA DE: </strong>
                 {{  form_label(form.fechaIn,"INGRESO " ) }}
                 {{ form_widget(form.fechaIn) }}
-                {{ form_errors(form.fechaIn) }}
+                <div class="alert-danger">{{ form_errors(form.fechaIn) }}</div>
 
 
             </td>
@@ -169,7 +169,7 @@
                 <strong>FECHA DE: </strong>
                 {{ form_label(form.fechaTer,"TERMINACION DE LABORES ") }}
                 {{ form_widget(form.fechaTer) }}
-                {{ form_errors(form.fechaTer) }}
+                <div class="alert-danger">{{ form_errors(form.fechaTer) }}</div>
 
 
             </td>

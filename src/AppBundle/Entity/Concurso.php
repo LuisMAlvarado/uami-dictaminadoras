@@ -615,10 +615,15 @@ public function __clone()
      */
     public function validasalario(ExecutionContextInterface $context)
     {
-        if( ($this->salarioA == null && $this->salarioB != null )|| ($this->salarioA != null && $this->salarioB == null ))
+        if( ($this->salarioA == null && $this->salarioB != null ))
         {
             $context->buildViolation('NO salarios VACIOS')
                 ->atPath('salarioA')
+                ->addViolation();
+        }
+        elseif (($this->salarioA != null && $this->salarioB == null )){
+            $context->buildViolation('NO salarios VACIOS')
+                ->atPath('salarioB')
                 ->addViolation();
         }
 
@@ -632,14 +637,14 @@ public function __clone()
         if($this->salarioB < 0)
         {
             $context->buildViolation('Salario FINAL mal escrito')
-                ->atPath('salarioA')
+                ->atPath('salarioB')
                 ->addViolation();
         }
 
         if($this->salarioB < $this->salarioA)
         {
             $context->buildViolation('Salario FINAL es menor al INICIAL')
-                ->atPath('salarioA')
+                ->atPath('salarioB')
                 ->addViolation();
         }
     }
@@ -755,7 +760,7 @@ public function __clone()
 
         if($this->fechaIn < $this->fechaPublicacion )
         {
-            $context->buildViolation('F.inicio debe ser mayor que la F.publicación')
+            $context->buildViolation('La [Fecha de Inicio] debe ser mayor que la [Fecha publicación]')
                 ->atPath('fechaIn')
                 ->addViolation();
         }
@@ -763,7 +768,7 @@ public function __clone()
 
         if($this->fechaTer <= $this->fechaIn)
         {
-            $context->buildViolation('la F.Termino debe ser mayor que F.inicio')
+            $context->buildViolation('La [Fecha de Termino] debe ser mayor que [Fecha de Inicio]')
                 ->atPath('fechaTer')
                 ->addViolation();
         }

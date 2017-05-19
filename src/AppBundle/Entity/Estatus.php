@@ -12,8 +12,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Estatus
 {
-    const PUBLICADO = 3;//DEFINICION DE CONSTANTES QUE PUEDEN SER UTILES EN LOS CONTRALADORES
-
+    const EnRevision = 1;
+    const EnviadoRG = 2;
+    const Publicado = 3;//DEFINICION DE CONSTANTES QUE PUEDEN SER UTILES EN LOS CONTRALADORES
+    const RegAspirantes = 4;
+    const Dictaminado = 5;
+    const DicAsignado = 6;
+    const Reconvocado = 7;
+    const Cancelado = 8;
+    const Desierto = 9;
     /**
      * @var integer
      *
