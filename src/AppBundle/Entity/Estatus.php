@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
 
 /**
  * Estatus
@@ -38,12 +40,31 @@ class Estatus
 
 
     /**
+     * @ORM\ManyToMany(targetEntity="Estatus")
+     * @ORM\JoinTable(name="estado_siguiente",
+     *      joinColumns={
+     *         @ORM\JoinColumn(name="estatus_id", referencedColumnName="id")
+     *         },
+     *           inverseJoinColumns={
+     *             @ORM\JoinColumn(name="estado_siguiente", referencedColumnName="id")
+     *          }
+     *      )
+     */
+    private $estadosSiguientes;
+
+
+    /**
      * INICIAN LOS GET Y SET CON LAS FUNSIONES PUBLICAS
      */
 
     public function __toString()
     {
         return $this->estatus;
+    }
+
+    public function __construct()
+    {
+        $this->estadosSiguientes = new ArrayCollection();
     }
 
     /**
@@ -88,5 +109,39 @@ class Estatus
     public function getEstatus()
     {
         return $this->estatus;
+    }
+
+    /**
+     * Add estadosSiguiente
+     *
+     * @param \AppBundle\Entity\Estatus $estadosSiguiente
+     *
+     * @return Estatus
+     */
+    public function addEstadosSiguiente(\AppBundle\Entity\Estatus $estadosSiguiente)
+    {
+        $this->estadosSiguientes[] = $estadosSiguiente;
+
+        return $this;
+    }
+
+    /**
+     * Remove estadosSiguiente
+     *
+     * @param \AppBundle\Entity\Estatus $estadosSiguiente
+     */
+    public function removeEstadosSiguiente(\AppBundle\Entity\Estatus $estadosSiguiente)
+    {
+        $this->estadosSiguientes->removeElement($estadosSiguiente);
+    }
+
+    /**
+     * Get estadosSiguientes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEstadosSiguientes()
+    {
+        return $this->estadosSiguientes;
     }
 }
