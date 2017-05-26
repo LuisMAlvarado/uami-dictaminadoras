@@ -285,4 +285,28 @@ class Archivo
     {
         return $this->aspiranteRfc;
     }
+
+    /**
+     * Set factor1
+     *
+     * @param \AppBundle\Entity\FactorTippa $factor1
+     *
+     * @return Archivo
+     */
+    public function setFactor1(\AppBundle\Entity\FactorTippa $factor1 = null)
+    {
+        $this->factor1 = $factor1;
+
+        return $this;
+    }
+
+    /**
+     * Get factor1
+     *
+     * @return \AppBundle\Entity\FactorTippa
+     */
+    public function getFactor1()
+    {
+        return $this->factor1;
+    }
 }

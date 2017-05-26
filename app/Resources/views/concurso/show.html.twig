@@ -241,10 +241,27 @@
         {%  endif %}
     </ul>
 
-    {% if is_granted(expression('"ROLE_ASPIRANTE" in roles or "ROLE_ASISTENTEDIV" in roles or "ROLE_ASISTENTEDEP" in roles ')) %}
+    {% if is_granted(expression('"ROLE_ASISTENTEDIV" in roles or "ROLE_ASISTENTEDEP" in roles ')) %}
     <div class="hidden-print">
 
-        <br />
+{#  <h3>Seleccione el nuevo estado </h3>
+
+        <table>
+            {% for estadosSiguiente in concurso.estatus.estadosSiguientes %}
+                <tr>
+                    <td>
+                        <a href="{{ path('next_estatus',{ 'concurso': concurso.id ,'nest': estadosSiguiente.id }) }}">{{ estadosSiguiente.estatus }}</a>
+
+                    </td>
+
+
+                </tr>
+            {% endfor %}
+        </table>
+#}
+
+
+      <br><br>
         <a  CLASS="btn bg-warning" href="{{ path('concurso_index') }}">VER TODOS LOS CONCURSOS</a>
         <br />
         <a  CLASS="btn bg-danger" href="{{ path('concurso_edit', { 'id': concurso.id }) }}">MODIFICAR</a>

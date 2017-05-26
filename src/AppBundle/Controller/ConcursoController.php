@@ -149,7 +149,7 @@ class ConcursoController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $concurso = new Concurso();
-        $newestatus = $this->getDoctrine()->getRepository('AppBundle:Estatus')->find(Estatus::Publicado); //Estatus::"nombre_variable" definida en ENTIDAD en este caso Estatus
+        $newestatus = $this->getDoctrine()->getRepository('AppBundle:Estatus')->find(Estatus::EnRevision); //Estatus::"nombre_variable" definida en ENTIDAD en este caso Estatus
         $concurso ->setEstatus($newestatus);
 
         $form = $this->createForm('AppBundle\Form\ConcursoType', $concurso);
@@ -304,6 +304,38 @@ public function reconvocarAction(Request $request, Concurso $concurso)// SE USA 
 
 }
 
+
+    /**
+     * @Route("/{concurso}/{nest}/nxstatus/", name="next_estatus")
+     *
+     *
+     * @Method({"GET", "POST"})
+     *
+     */
+
+    public function nestatusAction(Request $request, Concurso $concurso)// SE USA JUNTO CON EL @rotue {"propiedad"} y en conjunto con el twig cuando pasas Ruta(Controlador) pasas a la funcion esa Entidad
+    {
+
+
+        $newestatus = $this->getDoctrine()->getRepository('AppBundle:Estatus')->find(Estatus::PUBLICADO); //Estatus::"nombre_variable" definida en ENTIDAD en este caso Estatus
+        $concurso ->setEstatus($newestatus);
+
+        $form = $this->createForm('AppBundle\Form\ConcursoType', $reconcurso);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($reconcurso);
+            $em->flush($reconcurso);
+
+            return $this->redirectToRoute('concurso_show', array('id' => $reconcurso->getId()));
+        }
+
+        return $this->render('concurso/new.html.twig', array(
+            'concurso' => $reconcurso,
+            'form' => $form->createView(),
+        ));
+
+    }
 
     /**
      * Deletes a concurso entity.

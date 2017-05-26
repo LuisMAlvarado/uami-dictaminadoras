@@ -202,4 +202,28 @@ class Anexo
     {
         return $this->registro;
     }
+
+    /**
+     * Set factor2
+     *
+     * @param \AppBundle\Entity\FactorTippa $factor2
+     *
+     * @return Anexo
+     */
+    public function setFactor2(\AppBundle\Entity\FactorTippa $factor2 = null)
+    {
+        $this->factor2 = $factor2;
+
+        return $this;
+    }
+
+    /**
+     * Get factor2
+     *
+     * @return \AppBundle\Entity\FactorTippa
+     */
+    public function getFactor2()
+    {
+        return $this->factor2;
+    }
 }
