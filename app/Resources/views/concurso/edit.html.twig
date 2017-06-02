@@ -299,7 +299,8 @@
 
 
     <input CLASS="btn bg-danger" type="submit" value="CONFIRMAR" /> &nbsp;&nbsp;
-    {% if (is_granted(expression('"ROLE_ASISTENTEDIV" in roles'))) %}
+
+   {% if (is_granted(expression('"ROLE_ADMINISTRADOR" in roles'))) %}
      {{ form_label(edit_form.estatus,"CAMBIO DE ESTUATUS") }}
      {{ form_widget(edit_form.estatus) }}
      {{ form_errors(edit_form.estatus) }}

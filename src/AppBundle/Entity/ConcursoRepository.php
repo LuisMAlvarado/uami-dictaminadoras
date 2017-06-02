@@ -27,7 +27,7 @@ class ConcursoRepository extends EntityRepository
     }
 
     /**
-     *  consulta para ver todas los concursos segun la division y estatus
+     *  consulta para ver todas los concursos segun la division POR su estatus
      *
      * @param $divisionId
      * @return array
@@ -97,6 +97,30 @@ class ConcursoRepository extends EntityRepository
         return $query->getResult();
     }
 
+    /**
+     *  consulta para ver todas los concursos segun DEPARTAMENTOP POR su estatus
+     *
+     * @param $deptoId
+     * @return array
+     */
+    public function EstxDepto($deptoId,$est)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT c FROM AppBundle:Concurso c 
+          JOIN c.departamento dp
+          WHERE dp.id = :id
+          AND c.estatus = :est
+          ORDER BY c.createAt ASC'
+            )->setParameter('id', $deptoId)
+            ->setParameter('est', $est)
+        ;
+
+
+        return $query->getResult();
+    }
+    
+    
     /**
      *ESTA CONSULTA ENCUENTRA TODOS LOS CONCURSOS QUE NO TIENE REGISTRO EL ASPIRANTE
      *

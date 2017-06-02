@@ -36,7 +36,7 @@
     {% if is_granted('ROLE_ASISTENTEDEP') %}
         <ul> <a>CONCURSOS</a>
             <li><a href="{{ path('concurso_new') }}">Generar Convocatoria</a></li>
-            <li>  <a href="{{ path('concurso_index') }}">Listado de Convocatorias</a></li>
+            <li>  <a href="{{ path('concurso_indexest', {'est':1}) }}">Listado de Convocatorias</a></li>
             <li>   <a href="{{ path('dictamen_index') }}">Convocatorias Dictaminadas</a></li>
         </ul>
 

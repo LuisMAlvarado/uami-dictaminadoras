@@ -107,7 +107,7 @@ class ConcursoController extends Controller
         }
         elseif ($this->isGranted('ROLE_ASISTENTEDEP')) {
             //  $concursos = $repository->findBy HAY QUE GENERAR EL ARREGLO PARA QUE DESPLIEGE LOS allConcursos DEL USUARIO
-            $concursos = $this->getDoctrine()->getRepository('AppBundle:Concurso')->findAllOrderedById2($this->getUser()->getDepartamento()->getId());
+            $concursos = $this->getDoctrine()->getRepository('AppBundle:Concurso')->EstxDepto($this->getUser()->getDepartamento()->getId(),$est);
         }
         elseif ($this->isGranted('ROLE_ASISTENTEDIV')) {
             //  $concursos = $repository->findBy HAY QUE GENERAR EL ARREGLO PARA QUE DESPLIEGE LOS allConcursos DEL USUARIO
@@ -251,7 +251,7 @@ class ConcursoController extends Controller
      *
      * @Route("/{id}/edit", name="concurso_edit")
      * @Method({"GET", "POST"})
-     * @Security("(has_role('ROLE_CONCURSO_UPDATE') and user.getDivision() == concurso.getDepartamento().getDivision()) or has_role('ROLE_ADMINISTRADOR')")
+     * @Security("(has_role('ROLE_CONCURSO_UPDATE') and user.getDivision() == concurso.getDepartamento().getDivision()) and concurso.getEstatus().getId() < 3 or has_role('ROLE_ADMINISTRADOR')")
      */
     public function editAction(Request $request, Concurso $concurso)
     {
@@ -284,7 +284,7 @@ public function reconvocarAction(Request $request, Concurso $concurso)// SE USA 
 {
     $reconcurso = clone $concurso;
 
-    $newestatus = $this->getDoctrine()->getRepository('AppBundle:Estatus')->find(Estatus::PUBLICADO); //Estatus::"nombre_variable" definida en ENTIDAD en este caso Estatus
+    $newestatus = $this->getDoctrine()->getRepository('AppBundle:Estatus')->find(Estatus::EnRevision); //Estatus::"nombre_variable" definida en ENTIDAD en este caso Estatus
     $reconcurso ->setEstatus($newestatus);
 
     $form = $this->createForm('AppBundle\Form\ConcursoType', $reconcurso);
@@ -313,14 +313,21 @@ public function reconvocarAction(Request $request, Concurso $concurso)// SE USA 
      *
      */
 
-    public function nestatusAction(Request $request, Concurso $concurso)// SE USA JUNTO CON EL @rotue {"propiedad"} y en conjunto con el twig cuando pasas Ruta(Controlador) pasas a la funcion esa Entidad
+    public function nestatusAction(Request $request, Concurso $concurso, $nest)// SE USA JUNTO CON EL @rotue {"propiedad"} y en conjunto con el twig cuando pasas Ruta(Controlador) pasas a la funcion esa Entidad
     {
 
 
-        $newestatus = $this->getDoctrine()->getRepository('AppBundle:Estatus')->find(Estatus::PUBLICADO); //Estatus::"nombre_variable" definida en ENTIDAD en este caso Estatus
+        $newestatus = $this->getDoctrine()->getRepository('AppBundle:Estatus')->find($nest);
+        //Estatus::"nombre_variable" definida en ENTIDAD en este caso Estatus
         $concurso ->setEstatus($newestatus);
 
-        $form = $this->createForm('AppBundle\Form\ConcursoType', $reconcurso);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($concurso);
+        $em->flush($concurso);
+        return $this->redirectToRoute('concurso_show', array('id' => $concurso->getId()));
+
+       /**QUITO ESTO PARA QUE ENVIE DIRECTO AL CAMBIO
+        * $form = $this->createForm('AppBundle\Form\ConcursoType', $reconcurso);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -333,7 +340,7 @@ public function reconvocarAction(Request $request, Concurso $concurso)// SE USA 
         return $this->render('concurso/new.html.twig', array(
             'concurso' => $reconcurso,
             'form' => $form->createView(),
-        ));
+        )); */
 
     }
 

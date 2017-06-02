@@ -1,7 +1,72 @@
 {% extends 'frontend.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('/resource/css/usershow.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+
+
+
 
 
 {% block header %}
+    {% if is_granted(expression('"ROLE_ASISTENTEDIV" in roles or "ROLE_ASISTENTEDEP" in roles or "ROLE_ADMINISTRADOR" in roles ')) %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+
+                </button>
+               <p class="navbar-brand"><strong>Estatus actual: </strong> <a  href="{{ path('concurso_indexest',{'est':concurso.estatus.id}) }}">{{ concurso.estatus }}</a></p>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li ><a href="{{ path('concurso_index') }}">Ver Todos <span class=" glyphicon glyphicon-list-alt"></span></a></li>
+                    <li><a href="{{ path('concurso_showpdfs', { 'id': concurso.id }) }}" target="_blank">PDF<span class=" glyphicon glyphicon-file"></span></a></li>
+
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    {% if is_granted(expression('"ROLE_ASISTENTEDIV" in roles or "ROLE_ADMINISTRADOR" in roles ')) and concurso.estatus.id < 3 %}
+                        <li><a href="{{ path('concurso_edit', { 'id': concurso.id }) }}">Editar</a></li>
+                    {% elseif  is_granted(expression('"ROLE_ASISTENTEDEP" in roles')) and concurso.estatus.id < 2  %}
+                        <li><a href="{{ path('concurso_edit', { 'id': concurso.id }) }}">Editar</a></li>
+                    {% endif %}
+
+                    {% if (is_granted(expression('"ROLE_ASISTENTEDIV" in roles'))) and concurso.estatus != 'Reconvocado' %}
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Cambiar Estatus <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {% for estadosSiguiente in concurso.estatus.estadosSiguientes %}
+                                <li>
+                                    <a href="#" data-toggle="modal" data-target="#estatusModal"  status="{{estadosSiguiente.id}}" status_nombre="{{ estadosSiguiente.estatus }}" class="link-modal">{{ estadosSiguiente.estatus }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% elseif  is_granted(expression('"ROLE_ASISTENTEDIV" in roles')) and concurso.estatus == 'Reconvocado'  %}
+                       <li> <a href="{{ path('reconvocar_edit', { 'concurso': concurso.id }) }}">RECONVOCAR este concurso</a>
+
+                    {% endif %}
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    {% endif %}
+
+
+
+
+
     <table border="0" width="99%" >
 
         <tr>
@@ -46,7 +111,7 @@
     </table> <br>
     <font size="0"><p   > CONFORME A LO PREVISTO EN EL REGLAMENTO DE INGRESO, PROMOCIÓN Y PERMANENCIA DEL PERSONAL ACADÉMICO, LA UNIVERSIDAD AUTÓNOMA
             METROPOLITANA CONVOCA AL CONCURSO PARA OCUPAR CON CARÁCTER DE TEMPORAL LA SIGUIENTE PLAZA: </p></font>
-    <table  class="small"  align="center" border="1" cellpadding="0" cellspacing="0" align="center"   width="100%">
+    <table  class="small"  align="center" border="1" cellpadding="0" cellspacing="0"   width="100%">
         <tbody>
 
         <tr>
@@ -133,7 +198,7 @@
 
     </table> <br />
 
-    <TABLE  class="small"  align="center" border="1" cellpadding="0" cellspacing="0" align="center"   width="100%">
+    <TABLE  class="small"  align="center" border="1" cellpadding="0" cellspacing="0"    width="100%">
         <tr>
             <td valign="top" height="130" colspan="2" class="small">
                 <strong>ACTIVIDADES A REALIZAR</strong> <br>
@@ -178,7 +243,7 @@
 
     </TABLE>
     <br>
-    <TABLE class="small"  align="center" border="1" cellpadding="0" cellspacing="0" align="center"   width="100%">
+    <TABLE class="small"  align="center" border="1" cellpadding="0" cellspacing="0"    width="100%">
         <tr>
             <td class="small" colspan="2">
                 <strong>NÚMERO DE PLAZA DEFINITIVA QUE CUBRE: &nbsp;</strong>
@@ -242,43 +307,15 @@
     </ul>
 
     {% if is_granted(expression('"ROLE_ASISTENTEDIV" in roles or "ROLE_ASISTENTEDEP" in roles ')) %}
+
     <div class="hidden-print">
-
-{#  <h3>Seleccione el nuevo estado </h3>
-
-        <table>
-            {% for estadosSiguiente in concurso.estatus.estadosSiguientes %}
-                <tr>
-                    <td>
-                        <a href="{{ path('next_estatus',{ 'concurso': concurso.id ,'nest': estadosSiguiente.id }) }}">{{ estadosSiguiente.estatus }}</a>
-
-                    </td>
-
-
-                </tr>
-            {% endfor %}
-        </table>
-#}
-
-
-      <br><br>
-        <a  CLASS="btn bg-warning" href="{{ path('concurso_index') }}">VER TODOS LOS CONCURSOS</a>
-        <br />
-        <a  CLASS="btn bg-danger" href="{{ path('concurso_edit', { 'id': concurso.id }) }}">MODIFICAR</a>
-        <ul>
-
-        <li>
-            <a href="{{ path('concurso_showpdfs', { 'id': concurso.id }) }}">GENERAR PDF</a>
-        </li>
-        <li>
+        <br>
+        {% if is_granted(expression('"ROLE_ADMINISTRADOR" in roles '))%}
             {{ form_start(delete_form) }}
                 <input type="submit" value="BORRAR">
             {{ form_end(delete_form) }}
-        </li>
-     </ul>
+        {% endif %}
     </div>
-
-
 
     <div class="visible-print" >
     <font size="0"><p class="text-right">FI-DIPPPA-03 / 01122015 PÁGINA 2/2 </p></font>
@@ -291,7 +328,7 @@
     <br>
     <br>
     <div class="small">
-        <table border="0" cellpadding="0" cellspacing="0" align="center" align="center"  width="80%" >
+        <table border="0" cellpadding="0" cellspacing="0" align="center"   width="80%" >
             <tr>
                 <td  width="250" class="text-center table-bordered small"> <strong>Vo. BO PLANTILLA DE UNIDAD</strong><br><br><br><br><br><br>
                     <strong>SELLO</strong>
@@ -334,5 +371,38 @@
     <br>
 </div>
 
+    <div class= "modal fade bd-modal-sm" id= "estatusModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" align="center">¿CONFIRMA?</h4>
+                </div>
+                <div id="modal-body" class="modal-body">
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <a id="link-confirma" type="button" class="btn btn-primary" href="#">Confirmo Cambio</a>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+    $(document).ready(function () {
+        $('.link-modal').click(function (e) {
+            var statusId= $(this).attr('status');
+            var statusnombre= $(this).attr('status_nombre');
+            var lk = '{{ path('next_estatus',{ 'concurso': concurso.id ,'nest': '__id1__' }) }}';
+            var link = lk.replace('__id1__', statusId);
+            $('#modal-body').html('<p>Cambio al estado &hellip; <strong>'+statusnombre+'</strong></p>');
+            $('#link-confirma').attr('href', link)
+        });
+    });
+</script>
 {% endblock %}

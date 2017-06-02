@@ -57,10 +57,14 @@ class AddConcursoAsisDivSubscriber implements EventSubscriberInterface
         
         if ($this->security->isGranted('ROLE_ASISTENTEDIV')) {
 
-            $form->add('estatus');
+            //$form->add('estatus');
             $form->add('pdfConcurso');
             //$form->add('numConcurso');
                     }
+
+        if ($this->security->isGranted('ROLE_ADMINISTRADOR')){
+            $form->add('estatus');
+        }
 
     }
 
