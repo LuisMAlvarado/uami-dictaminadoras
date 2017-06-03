@@ -4,8 +4,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Registro;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Registro controller.
@@ -23,11 +25,25 @@ class RegistroController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $aspi=$this->getUser();
 
-        $registros = $em->getRepository('AppBundle:Registro')->findAll();
+        if ($this->isGranted(new Expression(' "ROLE_ADMINISTRADOR" in roles'))) {
+            $registros = $em->getRepository('AppBundle:Registro')->findAll();
+        }
 
+        elseif ($this->isGranted('ROLE_ASPIRANTE')){
+
+            $registros= $em->getRepository('AppBundle:Registro')->findByAspiranteRfc($this->getUser()->getRfc());
+
+        }
+        else {
+            //  $concursos = $repository->findBy HAY QUE GENERAR EL ARREGLO PARA QUE DESPLIEGE LOS allConcursos DEL USUARIO
+            $aspiranteconcursos = $em->getRepository('AppBundle:AspiranteConcurso')->findAll();
+        }
+        
         return $this->render('registro/index.html.twig', array(
             'registros' => $registros,
+            'aspirante'=>$aspi,
         ));
     }
 

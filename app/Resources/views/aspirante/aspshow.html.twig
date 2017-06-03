@@ -1,0 +1,113 @@
+{% extends 'frontend.html.twig' %}
+
+{% block header %}
+     <table class="table">
+         <tr>
+            <td> <img src="{{ asset('/resource/img/encabezado.png') }}"  /></td>
+             <td class="text-right"><strong>Informacion  <br />  para su Registro</strong></td>
+         </tr>
+     </table>
+{% endblock %}
+
+{% block content %}
+    <h1>Datos de Registro</h1>
+
+    <table width="100%">
+        <tbody>
+        <tr>
+            <td colspan="3" width="50%"></td>
+            <th class="table-bordered text-right" >Fecha: &nbsp;</th>
+
+            <td class="table-bordered text-center">{% if aspirante.createAt %}{{  aspirante.createAt|date('d-M-Y') }}{% endif %}</td></tr>
+
+        </tbody>
+    </table>
+    <br />
+
+    <table  align="center" class="table table-bordered">
+        <tbody>
+
+
+
+        <tr>
+            <td><strong>Apellido Paterno</strong><br />
+                {{ aspirante.apellidoPaterno }}
+            </td>
+            <td> <strong>Apellido Materno</strong><br>
+                {{ aspirante.apellidoMaterno }}
+            </td>
+            <td><strong>Nombre</strong><br>
+                {{ aspirante.nombre }}
+            </td>
+
+        </tr>
+
+        <tr>
+            <td><strong>Nacionalidad</strong><br />
+                {{ aspirante.nacionalidad }}
+            </td>
+            <td> <strong>RFC</strong><br>
+                {{ aspirante.rfc }}
+            </td>
+            <td><strong>CURP</strong><br>
+                {{ aspirante.curp }}
+            </td>
+
+        </tr>
+
+
+        <tr>
+            <th>Edad</th> <th>Sexo</th> <th>Estado Civil</th> <th>Telefonos</th> <th>mail</th>
+         </tr>
+        <tr>
+            <td>{{ aspirante.edad }}</td>
+
+            <td>{{ aspirante.sexo }}</td>
+
+            <td>{{ aspirante.estadoCivil }}</td>
+
+            <td>{{ aspirante.telefonos }}</td>
+
+            <td>{{ aspirante.correoElectronico }}</td>
+
+        </tr>
+
+        <tr>
+            <th>Direccion</th>
+            <td>{{ aspirante.direccion }}</td>
+        </tr>
+
+
+
+         </tbody>
+    </table>
+<br>
+
+    <table width="100%">
+        <tbody>
+        <tr>
+
+            <th class="table-bordered text-left" >Número de Empleado <br> (si fue o es empleado  de la UAM)</th>
+
+            <td class="table-bordered text-center">{{ aspirante.numeroEconomico }}</td>
+        <td colspan="3" width="50%"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('registro_index') }}">Lista de concursos donde me Registre</a>
+        </li>
+        <li>
+            <a href="{{ path('concurso_index') }}">Lista de concursos</a>
+        </li>
+        <li>
+            <a href="{{ path('logout') }}">Cerrar Sesion </a>
+        </li>
+        <li>
+            <a href="{{ path('aspirante_edit', { 'id': aspirante.rfc }) }}">Corregir mis Datos</a>
+        </li>
+
+    </ul>
+{% endblock %}

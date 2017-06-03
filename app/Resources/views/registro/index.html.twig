@@ -1,13 +1,25 @@
-{% extends 'base.html.twig' %}
+{% extends 'frontend.html.twig' %}
 
-{% block body %}
-    <h1>Registros list</h1>
+{% block content %}
+    {% if is_granted(expression('"ROLE_ADMININISTRADOR" in roles or "ROLE_ASISTENTE" in roles')) %}
+        <h3>Registro del Aspirante al CEC</h3>
+        <a href="{{ path('homepage') }}">HOME</a>
+    {% endif %}
 
-    <table>
+    {% if is_granted(expression('"ROLE_ASPIRANTE" in roles')) %}
+        <h3>Convocatorias donde estas registrado {{ aspirante.nombre }}  {{ aspirante.apellidoPaterno }}</h3>
+
+        <a href="{{ path('aspirante_aspshow',{'id' : aspirante.rfc}) }}">Regresar a sitio</a>
+
+    {% endif %}
+
+
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Numregistro</th>
+                <th>Num. de Registro</th>
+                <th>No. Concurso</th>
                 <th>Puntaje</th>
                 <th>Prelacion</th>
                 <th>Nivelasig</th>
@@ -21,6 +33,7 @@
             <tr>
                 <td><a href="{{ path('registro_show', { 'id': registro.id }) }}">{{ registro.id }}</a></td>
                 <td>{{ registro.numRegistro }}</td>
+                <td>{{ registro.concurso.numconcurso }}</td>
                 <td>{{ registro.puntaje }}</td>
                 <td>{{ registro.prelacion }}</td>
                 <td>{{ registro.nivelAsig }}</td>
@@ -41,9 +54,18 @@
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('registro_new') }}">Create a new registro</a>
-        </li>
-    </ul>
+    {% if is_granted(expression('"ROLE_ADMININISTRADOR" in roles or "ROLE_ASISTENTE" in roles')) %}
+        <ul>
+            <li>
+                <a href="{{ path('registro_new') }}">Create a new entry</a>
+            </li>
+            <li> <a href="{{ path('homepage') }}">HOME</a></li>
+        </ul>
+    {% endif %}
+
+    {% if is_granted(expression('"ROLE_ASPIRANTE" in roles')) %}
+
+        <a href="{{ path('aspirante_aspshow',{'id' : aspirante.rfc}) }}">Regresar a sitio</a>
+
+    {% endif %}
 {% endblock %}

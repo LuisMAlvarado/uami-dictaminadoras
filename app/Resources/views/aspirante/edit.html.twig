@@ -1,10 +1,157 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Aspirante edit</h1>
+    <h1 class="text-right">Correción de datos del Aspirantes</h1>
 
     {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
+      {#  {{ form_widget(edit_form) }} #}
+
+
+
+
+
+
+
+
+
+
+
+
+    <TABLE WIDTH="90%" align="center" class="table table-bordered">
+        <tr>
+            <td>
+
+                {{ form_label(edit_form.apellidoPaterno) }}
+                {{ form_widget(edit_form.apellidoPaterno) }}
+                {{ form_errors(edit_form.apellidoPaterno) }}
+
+            </td>
+            <td>
+
+                {{ form_label(edit_form.apellidoMaterno) }}
+                {{ form_widget(edit_form.apellidoMaterno) }}
+                {{ form_errors(edit_form.apellidoMaterno) }}
+
+            </td>
+            <td COLSPAN="3">
+
+                {{ form_label(edit_form.nombre) }}
+                {{ form_widget(edit_form.nombre) }}
+                {{ form_errors(edit_form.nombre) }}
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+
+                {{ form_label(edit_form.nacionalidad) }}
+                {{ form_widget(edit_form.nacionalidad) }}
+                {{ form_errors(edit_form.nacionalidad) }}
+
+            </td>
+            <td>
+
+                {{ form_label(edit_form.rfc) }}
+                {{ form_widget(edit_form.rfc) }}
+                {{ form_errors(edit_form.rfc) }}
+
+            </td>
+            <td>
+
+                {{ form_label(edit_form.curp) }}
+                {{ form_widget(edit_form.curp) }}
+                {{ form_errors(edit_form.curp) }}
+
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>
+
+                {{ form_label(edit_form.edad) }}
+                {{ form_widget(edit_form.edad) }}
+                {{ form_errors(edit_form.edad) }}
+
+
+            <td>
+
+                {{ form_label(edit_form.sexo) }}
+                {{ form_widget(edit_form.sexo) }}
+                {{ form_errors(edit_form.sexo) }}
+
+            </td>
+            <td>
+
+                {{ form_label(edit_form.estadoCivil) }}
+                {{ form_widget(edit_form.estadoCivil) }}
+                {{ form_errors(edit_form.estadoCivil) }}
+
+            </td>
+            <td>
+
+                {{ form_label(edit_form.telefonos) }}
+                {{ form_widget(edit_form.telefonos) }}
+                {{ form_errors(edit_form.telefonos) }}
+
+            </td>
+            <td>
+
+                {{ form_label(edit_form.correoElectronico) }}
+                {{ form_widget(edit_form.correoElectronico) }}
+                {{ form_errors(edit_form.correoElectronico) }}
+
+            </td>
+
+        </tr>
+
+        <tr>
+            <td colspan="5">
+
+                {{ form_label(edit_form.direccion) }}
+                {{ form_widget(edit_form.direccion) }}
+                {{ form_errors(edit_form.direccion) }}
+
+            </td>
+
+
+        </tr>
+
+
+        <tr> <td>
+
+                {{ form_label(edit_form.numeroEconomico) }}
+                {{ form_widget(edit_form.numeroEconomico) }}
+                {{ form_errors(edit_form.numeroEconomico) }}
+
+            </td>
+        </tr>
+
+    </TABLE>
+    <br>
+    <TABLE>
+        <tr> <td>
+
+                {{ form_label(edit_form.password,'Nueva Contraseña') }}
+                {{ form_widget(edit_form.password) }}
+                {{ form_errors(edit_form.password) }}
+
+            </td>
+        </tr>
+        {% if is_granted('ROLE_ADMINSTRADOR') %}
+            <tr> <td>
+
+                    {{ form_label(edit_form.locked) }}
+                    {{ form_widget(edit_form.locked) }}
+                    {{ form_errors(edit_form.locked) }}
+
+                </td>
+            </tr>
+        {% endif %}
+    </TABLE>
         <input type="submit" value="Edit" />
     {{ form_end(edit_form) }}
 

@@ -12,7 +12,7 @@ use AppBundle\Form\UsuarioType;
 class AppController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/homepage", name="homepage")
      */
     public function indexAction(Request $request)
     {
@@ -23,6 +23,29 @@ class AppController extends Controller
             'usuario' => $usuario,
             ));
     }
+
+    /**
+     * @Route("/", name="portada")
+     *
+     */
+    public function portadaAction()
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $dato=(new \DateTime());
+
+        $concursop= $em->getRepository('AppBundle:Concurso')->findAllOrderedByFechaV($dato);
+
+        return $this->render('concurso/portada.html.twig', array(
+            'concursos' => $concursop,
+
+
+        ));
+
+
+    }
+
+
 
     /**
      * @Route("/login", name="login_form")

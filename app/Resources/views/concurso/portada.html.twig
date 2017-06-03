@@ -1,0 +1,95 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+
+    {% if is_granted('IS_AUTHENTICATED_ANONYMOUSLY') %}
+        <h1>Concursos  </h1>
+
+    {% endif %}
+
+    {% if is_granted(expression('"ROLE_ADMININISTRADOR" in roles or "ROLE_ASISTENTE" in roles or "ROLE_DICTAMINADOR" in roles')) %}
+
+    <a href="{{ path('homepage') }}">HOME</a>
+    {% endif %}
+
+    {% if is_granted(expression('"ROLE_ASPIRANTE" in roles')) %}
+        <h4>Vigentes donde puedes generar tu Registro &nbsp;&nbsp; {{ aspirante.nombre }}  {{ aspirante.apellidoPaterno }}</h4>
+
+        <a href="{{ path('aspirante_aspshow',{'id' : aspirante.rfc}) }}">Regresar a sitio</a>
+
+    {% endif %}
+
+    <div>
+{{ dump(concursos) }}
+        <table class="table-condensed">
+            <tbody>
+            {% for concurso in concursos %}
+            <tr>
+                <td>
+                    <br>
+                    <strong><a href="{{ path('concurso_show', { 'id': concurso.id }) }}">{{ concurso.id }}</a>  {{ concurso.categoria }} {{ concurso.tiempoDedicacion }} </strong> <br>
+                    <strong>Departamento: {{ concurso.departamento.nombre }}</strong> <br>
+                    <strong>Salario:</strong> ${{ concurso.salarioA |number_format(2, '.', ',')  }} <br>
+                    <strong>Horario: </strong> {{ concurso.horario }} <br>
+                    <strong>Fecha de inicio y término: </strong>  {{ concurso.fechaIn |date('d m y')  }} a  {{ concurso.fechaTer |date('d m y') }}<br>
+                    <strong>Actividades a realizar:</strong> {{ concurso.actividades }}<br>
+                    <strong>Área de Conocimiento:</strong>  {{ concurso.aConocimiento }}<br>
+                    <strong>Disciplina:</strong>  {{ concurso.disciplina }}<br>
+                    <strong>Requisitos académicos: </strong> {{ concurso.requisitos }}<br>
+                    <strong>Causal: </strong> {{ concurso.causal }}<br>
+
+                </td>
+                <td class="right">
+
+                    <strong>Fecha de Publicación: </strong> {% if concurso.fechaPublicacion %}   {{ concurso.fechaPublicacion|date ('d M Y') }}{% endif %}<br><br>
+
+                    <a href="{{ path('registro_new',{'idc':concurso.id })}}"  class=" btn btn-success btn-xs ">REGISTRARSE </a> <p> antes del {% if concurso.fechaPublicacion %}   {{ concurso.fechaPublicacion|date_modify('+3 day')|date ('d M Y') }}{% endif %}</p>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+    <br>
+    <aside>
+        ## FORMULARIO DE LOGIN ##
+        <section id="nosotros">
+            <h2>Ingresar</h2>
+            <a href="{{ path('homepage') }}" class="btn btn-warning btn-xs">click aqui</a>
+        </section>
+
+    <br>
+    </aside>
+    <footer>
+        <br>&copy; {{ 'now' |date('Y') }}- DICTAMINADORA-UAMI
+        <br>
+        <a href="#">Ayuda</a>
+        <a href="#">Contacto</a>
+        <a href="#">Privacidad</a>
+        <a href="#">Sobre nosotros</a>
+    </footer>
+
+
+
+
+
+<ul>
+{% if is_granted(expression('"ROLE_ADMINISTRADOR" in roles or "ROLE_ASISTENTE" in roles')) %}
+
+        <li>
+            <a href="{{ path('concurso_new') }}">Create a new entry</a>
+        </li>
+{% endif %}
+    {% if is_granted(expression('"ROLE_ADMINISTRADOR" in roles or "ROLE_ASISTENTE" in roles or "ROLE_DICTAMINADOR" in roles')) %}
+        <li> <a href="{{ path('homepage') }}">HOME</a> </li>
+    </ul>
+{% endif %}
+    {% if is_granted(expression('"ROLE_ASPIRANTE" in roles')) %}
+
+        <a href="{{ path('aspirante_aspshow',{'id' : aspirante.rfc}) }}">Regresar a sitio</a>
+
+    {% endif %}
+
+{% endblock %}
