@@ -29,7 +29,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li ><a href="{{ path('concurso_index') }}">Ver Todos <span class=" glyphicon glyphicon-list-alt"></span></a></li>
-                    <li><a href="{{ path('concurso_showpdfs', { 'id': concurso.id }) }}" target="_blank">PDF<span class=" glyphicon glyphicon-file"></span></a></li>
+                    <li><a href="{{ path('cecFORM_pdf', { 'id': concurso.id }) }}" target="_blank">PDF<span class=" glyphicon glyphicon-file"></span></a></li>
 
                 </ul>
 
@@ -202,7 +202,7 @@
         <tr>
             <td valign="top" height="130" colspan="2" class="small">
                 <strong>ACTIVIDADES A REALIZAR</strong> <br>
-                {{ concurso.actividades }}
+                {{ concurso.actividades |nl2br }}
 
 
             </td>

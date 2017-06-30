@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Concurso;
 use AppBundle\Entity\Estatus;
+use FPDM\FPDM;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\ExpressionLanguage\Expression;
@@ -205,7 +206,63 @@ class ConcursoController extends Controller
             //   'dias' => $dias,
         ));
     }
-    
+
+    /**
+     *
+     * @Route("/{id}/FORMpdf", name="cecFORM_pdf")
+     */
+    public function pdfF(Concurso $concurso)
+    {
+
+        //$clasificacion = $concurso->getClasificacion();
+        //var_dump($clasificacion);exit();
+        $fields = array(
+            'clasificacion' => $concurso->getClasificacion() ,
+            'numEC'=> $concurso->getNumConcurso(),
+            'fechaEdia'=>$concurso->getFechaPublicacion()->format('d'),
+            'fechaEmes'=>$concurso->getFechaPublicacion()->format('m'),
+            'fechaEanio'=>$concurso->getFechaPublicacion()->format('Y'),
+            'categoria' => $concurso->getCategoria(),
+            'tdedicacion' =>$concurso->getTiempoDedicacion(),
+            'hclase'=>$concurso->getTpHclase(),
+            'hotras'=>$concurso->getTpHacademia(),
+            'hayudantia'=>$concurso->getTpHayudantia(),
+            'unidad'=>$concurso->getUnidad(),
+            'division'=>$concurso->getDepartamento()->getDivision()->getNombre(),
+            'departamento'=>$concurso->getDepartamento()->getNombre(),
+            'areadepto'=>$concurso->getAreaDepartamental(),
+            'salarioA'=>$concurso->getSalarioA(),
+            'salarioB'=>$concurso->getSalarioB(),
+            'horario'=>$concurso->getHorario(),
+            'fInidia'=>$concurso->getFechaIn()->format('d'),
+            'fInimes'=>$concurso->getFechaIn()->format('m'),
+            'fInianio'=>$concurso->getFechaIn()->format('Y'),
+            'fTermdia'=>$concurso->getFechaTer()->format('d'),
+            'fTermmes'=>$concurso->getFechaTer()->format('m'),
+            'fTermanio'=>$concurso->getFechaTer()->format('Y'),
+            'actividades' =>$concurso->getActividades(),
+            'aConocimiento'=>$concurso->getAConocimiento(),
+            'disciplina'=>$concurso->getDisciplina(),
+            'requisitos'=>$concurso->getRequisitos(),
+            'causalcomp'=>$concurso->getCausal(),
+            'numplaza'=>$concurso->getPlaza(),
+            'jdnombrecompl'=>$concurso->getDepartamento()->getDpNombreCompleto(),
+            'dirnombrecompl'=>$concurso->getDepartamento()->getDivision()->getDNombreCompleto(),
+            'subdirRL'=>'M. EN C. HIPÓLITO LARA RESÉNDIZ',
+            'nombrectrlplantilla'=>'LIC. CIRO M. DÍAZ ROJAS',
+
+
+
+        );
+
+        $pdf = new FPDM(__DIR__."/../../../formatosPDF/regCEC.pdf");
+        $pdf->Load($fields, true); // second parameter: false if field values are in ISO-8859-1, true if UTF-8
+        $pdf->Merge();
+        //$pdf->Password('user','hola'  );
+        $pdf->Output('Concurso_'.$concurso->getNumConcurso().'.pdf', 'I');
+    }
+
+
     
     /**
      * Finds and genera PDFs a Concurso entity.

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "65706667a38fd95a6026c1f1d43aa879",
+    "content-hash": "2ca8d8e51e3fc9d88dcddf16fd4dcf59",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -934,6 +934,42 @@
                 "sql"
             ],
             "time": "2014-01-12T16:20:24+00:00"
+        },
+        {
+            "name": "madnh/fpdm",
+            "version": "2.8.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/madnh/FPDM.git",
+                "reference": "3de012049d3e27de85a9a44098ea81a537d74dbb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/madnh/FPDM/zipball/3de012049d3e27de85a9a44098ea81a537d74dbb",
+                "reference": "3de012049d3e27de85a9a44098ea81a537d74dbb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FPDM\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "FPDF"
+            ],
+            "description": "This script allows to merge data into a PDF form",
+            "homepage": "https://github.com/madnh/FPDM",
+            "keywords": [
+                "fpdf",
+                "fpdm",
+                "pdf"
+            ],
+            "time": "2016-06-22T15:03:46+00:00"
         },
         {
             "name": "monolog/monolog",
