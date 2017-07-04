@@ -217,19 +217,19 @@ class ConcursoController extends Controller
         //$clasificacion = $concurso->getClasificacion();
         //var_dump($clasificacion);exit();
         $fields = array(
-            'clasificacion' => $concurso->getClasificacion() ,
+            'clasificacionn' => $concurso->getClasificacion() ,
             'numEC'=> $concurso->getNumConcurso(),
             'fechaEdia'=>$concurso->getFechaPublicacion()->format('d'),
             'fechaEmes'=>$concurso->getFechaPublicacion()->format('m'),
             'fechaEanio'=>$concurso->getFechaPublicacion()->format('Y'),
             'categoria' => $concurso->getCategoria(),
-            'tdedicacion' =>$concurso->getTiempoDedicacion(),
+            'tdedicacionn' =>$concurso->getTiempoDedicacion(),
             'hclase'=>$concurso->getTpHclase(),
             'hotras'=>$concurso->getTpHacademia(),
             'hayudantia'=>$concurso->getTpHayudantia(),
-            'unidad'=>$concurso->getUnidad(),
-            'division'=>$concurso->getDepartamento()->getDivision()->getNombre(),
-            'departamento'=>$concurso->getDepartamento()->getNombre(),
+            'unidadd'=>$concurso->getUnidad(),
+            'divisionn'=>$concurso->getDepartamento()->getDivision()->getNombre(),
+            'departamentoo'=>$concurso->getDepartamento()->getNombre(),
             'areadepto'=>$concurso->getAreaDepartamental(),
             'salarioA'=>$concurso->getSalarioA(),
             'salarioB'=>$concurso->getSalarioB(),
@@ -241,7 +241,7 @@ class ConcursoController extends Controller
             'fTermmes'=>$concurso->getFechaTer()->format('m'),
             'fTermanio'=>$concurso->getFechaTer()->format('Y'),
             'actividades' =>$concurso->getActividades(),
-            'aConocimiento'=>$concurso->getAConocimiento(),
+            'aConocimientoo'=>$concurso->getAConocimiento(),
             'disciplina'=>$concurso->getDisciplina(),
             'requisitos'=>$concurso->getRequisitos(),
             'causalcomp'=>$concurso->getCausal(),
@@ -254,12 +254,19 @@ class ConcursoController extends Controller
 
 
         );
+/*
+        foreach ($concurso->getRegistros() as $i => $registro)
+        {
+            $fields['aspirante_'.$i] = $registro->getAspiranteRfc()->getNombreCompleto();
+        }
+*/
+ //       dump($fields); exit();
 
         $pdf = new FPDM(__DIR__."/../../../formatosPDF/regCEC.pdf");
         $pdf->Load($fields, true); // second parameter: false if field values are in ISO-8859-1, true if UTF-8
         $pdf->Merge();
-        //$pdf->Password('user','hola'  );
-        $pdf->Output('Concurso_'.$concurso->getNumConcurso().'.pdf', 'I');
+        $nombre=preg_replace('/\./', '', 'Concurso_'.$concurso->getNumConcurso());
+        $pdf->Output($nombre.'.pdf', 'D');
     }
 
 
