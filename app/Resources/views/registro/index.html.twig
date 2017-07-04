@@ -20,11 +20,16 @@
                 <th>Id</th>
                 <th>Num. de Registro</th>
                 <th>No. Concurso</th>
-                <th>Puntaje</th>
                 <th>Prelacion</th>
+                {% if is_granted('ROLE_ASISTENTEDIV') %}
+                    <th>RFC Aspirante</th>
+                {% endif %}
+                {% if is_granted('ROLE_ADMINSTRADOR') %}
+                <th>Puntaje</th>
                 <th>Nivelasig</th>
                 <th>Createat</th>
                 <th>Pdfanexo</th>
+                {% endif %}
                 <th>Actions</th>
             </tr>
         </thead>
@@ -33,12 +38,18 @@
             <tr>
                 <td><a href="{{ path('registro_show', { 'id': registro.id }) }}">{{ registro.id }}</a></td>
                 <td>{{ registro.numRegistro }}</td>
-                <td>{{ registro.concurso.numconcurso }}</td>
-                <td>{{ registro.puntaje }}</td>
+                <td>{{ registro.concurso.numConcurso }}</td>
                 <td>{{ registro.prelacion }}</td>
+                {% if is_granted('ROLE_ASISTENTEDIV') %}
+                    <td><a href="{{ path('aspirante_show', { 'id': registro.aspiranteRfc }) }}">{{ registro.aspiranteRfc }}</a></td>
+                {% endif %}
+
+                {% if is_granted('ROLE_ADMINSTRADOR') %}
+                <td>{{ registro.puntaje }}</td>
                 <td>{{ registro.nivelAsig }}</td>
                 <td>{% if registro.createAt %}{{ registro.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ registro.pdfAnexo }}</td>
+                {% endif %}
                 <td>
                     <ul>
                         <li>

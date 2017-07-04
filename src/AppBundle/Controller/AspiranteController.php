@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Archivo;
 use AppBundle\Entity\Aspirante;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,13 +22,20 @@ class AspiranteController extends Controller
      *
      * @Route("/", name="aspirante_index")
      * @Method("GET")
-     * @security("has_role('ROLE_ADMINISTRADOR')")
+     * @security("has_role('ROLE_ADMINISTRADOR') or has_role('ROLE_ASISTENTEDIV')")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        if ($this->isGranted('ROLE_ADMINISTRADOR')){
+            $aspirantes = $em->getRepository('AppBundle:Aspirante')->findAll();
+        }
+    elseif ($this->isGranted('ROLE_ASISTENTEDIV')) {
+        //  $concursos = $repository->findBy HAY QUE GENERAR EL ARREGLO PARA QUE DESPLIEGE LOS allConcursos DEL USUARIO
+        $estadoenable = 0 ;
+    $aspirantes = $this->getDoctrine()->getRepository('AppBundle:Aspirante')->findByEnable($estadoenable);
+    }
 
-        $aspirantes = $em->getRepository('AppBundle:Aspirante')->findAll();
 
         return $this->render('aspirante/index.html.twig', array(
             'aspirantes' => $aspirantes,
@@ -80,11 +88,80 @@ class AspiranteController extends Controller
     }
 
     /**
+     * Crear un PRE - new aspirante entity.
+     *
+     * @Route("/prenew", name="aspirante_prenew")
+     * @Method({"GET", "POST"})
+
+     */
+    public function prenewAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $aspirante = new Aspirante();
+        //$copEstudios = new Archivo();
+        //$identificacion = new Archivo();
+        //$aspirante->addArchivo($copEstudios);
+        //$aspirante->addArchivo($identificacion);
+        $roleId = 5;
+        $role = $this->getDoctrine()->getRepository('AppBundle:Role')->find($roleId);
+        $aspirante ->setRole($role);
+        $form = $this->createForm('AppBundle\Form\AspirantePreType', $aspirante);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // Líneas agregadas por el usuario
+
+            $salt = md5(time());
+
+            $encoder = $this->get('security.encoder_factory')->getEncoder($aspirante);
+            $passwordCodificado = $encoder->encodePassword(
+                $form->getData()->getPassword(),
+                $salt
+            );
+            $form->getdata()->setPassword($passwordCodificado);
+            $form->getdata()->setSalt($salt);
+
+            // Hasta aquí llegan las líneas agregadas
+
+            $em->persist($aspirante);
+            $em->flush($aspirante);
+
+            return $this->redirectToRoute('preaspirante_show', array('id' => $aspirante->getRfc()));
+        }
+
+        return $this->render('aspirante/prenew.html.twig', array(
+            'aspirante' => $aspirante,
+            'form' => $form->createView(),
+        ));
+    }
+
+
+    /**
+     * Finds and displays a aspirante entity.
+     *
+     * @Route("/prenew/{id}", name="preaspirante_show")
+     * @Method("GET")
+     *
+     */
+    public function preshowAction(Aspirante $aspirante)
+    {
+        $deleteForm = $this->createDeleteForm($aspirante);
+
+        return $this->render('aspirante/preshow.html.twig', array(
+            'aspirante' => $aspirante,
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+
+
+
+    /**
      * Finds and displays a aspirante entity.
      *
      * @Route("/{id}", name="aspirante_show")
      * @Method("GET")
-     * @Security("has_role('ROLE_ADMINISTRADOR')")
+     * @Security("has_role('ROLE_ADMINISTRADOR') or has_role('ROLE_ASISTENTEDIV') ")
      */
     public function showAction(Aspirante $aspirante)
     {
@@ -119,7 +196,7 @@ class AspiranteController extends Controller
      *
      * @Route("/{id}/edit", name="aspirante_edit")
      * @Method({"GET", "POST"})
-     * @Security("has_role('ROLE_ADMINISTRADOR') or (has_role('ROLE_ASPIRANTE_UPDATE') and user.getRfc() == aspirante.getRfc()) ")
+     * @Security("has_role('ROLE_ADMINISTRADOR')or has_role('ROLE_ASISTENTEDIV') or (has_role('ROLE_ASPIRANTE_UPDATE') and user.getRfc() == aspirante.getRfc()) ")
      */
     public function editAction(Request $request, Aspirante $aspirante)
     {
@@ -172,6 +249,50 @@ class AspiranteController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
+
+
+    /**
+     * @Route("/{aspirante}/enable/", name="aspirante_enable")
+     *
+     *
+     * @Method({"GET", "POST"})
+     *
+     */
+
+    public function enableAspAction(Request $request, Aspirante $aspirante)// SE USA JUNTO CON EL @rotue {"propiedad"} y en conjunto con el twig cuando pasas Ruta(Controlador) pasas a la funcion esa Entidad
+    {
+
+
+        //$newestatus = $this->getDoctrine()->getRepository('AppBundle:Estatus')->find($nest);
+        //Estatus::"nombre_variable" definida en ENTIDAD en este caso Estatus
+        $enableasp = true;
+        $aspirante ->setEnable($enableasp);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($aspirante);
+        $em->flush($aspirante);
+        return $this->redirectToRoute('aspirante_show', array('id' => $aspirante->getRfc()));
+
+        /**QUITO ESTO PARA QUE ENVIE DIRECTO AL CAMBIO
+         * $form = $this->createForm('AppBundle\Form\ConcursoType', $reconcurso);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($reconcurso);
+        $em->flush($reconcurso);
+
+        return $this->redirectToRoute('concurso_show', array('id' => $reconcurso->getId()));
+        }
+
+        return $this->render('concurso/new.html.twig', array(
+        'concurso' => $reconcurso,
+        'form' => $form->createView(),
+        )); */
+
+    }
+
+
+
 
     /**
      * Deletes a aspirante entity.

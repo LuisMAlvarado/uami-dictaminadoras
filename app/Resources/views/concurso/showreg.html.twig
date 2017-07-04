@@ -1,5 +1,9 @@
 {% extends 'frontend.html.twig' %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('/resource/css/tmmdl.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/resource/css/tablaradius.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
 
 {% block header %}
 
@@ -48,57 +52,76 @@
     <TR>
         <TD>
             <strong>COMISIÓN DICTAMINADORA DE LA DIVISIÓN DE:</strong><br />
-            {{ concurso.departamento.division }}
+            {{ concurso.departamento.division.nombre }}
         </TD>
     </TR>
 
     <TR>
         <TD>
             <strong>SECRETARIO ACADÉMICO DE LA DIVISIÓN DE</strong><br />
-            {{ concurso.departamento.division }}
+            {{ concurso.departamento.division.nombre }}
         </TD>
     </TR>
-
-
-
     </TBODY>
-
-
-
 </TABLE>
-
-
 
     <p class="small" > CONFORME A LO PREVISTO EN EL REGLAMENTO DE INGRESO, PROMOCIÓN Y PERMANENCIA DEL PERSONAL ACADÉMICO, ESTA DIVISIÓN ENVIA LAS <br>
         SOLICITUDES DE REGISTRO DE LOS ASPIRANTES QUE PARTICIPAN EN LA CONVOCATORIA DE EVALUACIÓN CURRICULAR <BR>
-        No. <strong> <u> {{ concurso.id }} </u> </strong>  PUBLICADA EL  <strong> <u>{% if concurso.fechaPublicacion %}{{ concurso.fechaPublicacion|date('d-M-Y') }}{% endif %}</strong> </u> <BR>
+        No. <strong> <u> {{ concurso.numConcurso }} </u> </strong>  PUBLICADA EL  <strong> <u>{% if concurso.fechaPublicacion %}{{ concurso.fechaPublicacion|date('d-M-Y') }}{% endif %}</strong> </u> <BR>
+        ES CONVENIENTE HACER MENCIÓN QUE SE DEBERÁ EMITIR DICTAMEN EN UN TIEMPO NO MAYOR DE 4(CUATRO) O 10(DIEZ) DÍAS HÁBILES, EN EL CASO DE <BR>
+        AYUDANTES, CONTADOS A PARTIR DE LA FECHA DE RECEPCIÓN DE ESTE REGISTRO
     </p>
+
+{% for registro in concurso.registros %}
+
+    {{ registro.numRegistro }} Fecha de registro {% if registro.fechaRegistro %}{{ registro.fechaRegistro|date('d-M-Y') }}{% endif %} <br>
+
+
+{% endfor %}
 
 
 
     <p><strong> ASPIRANTES:</strong></p>
 
     <TABLE class="table table-bordered" >
+
     {% for registro in concurso.registros %}
-        <tr>
-            <td>
-                <a href="#" class="modalAsp" data-toggle="modal" data-target="#myModal" idAspirante="{{ registro.aspiranteRfc.rfc }}">
+             <tr>
+
+            <td> {{ loop.index }} .-
+                <a href="#" class="modalAsp" data-toggle="modal" data-target="#myModal" idAspirante="{{ registro.aspiranteRfc.rfc }}" idregrfc="{{ registro.id }}">
                     {{ registro.aspiranteRfc.nombre }}  {{ registro.aspiranteRfc.apellidoPaterno }} {{ registro.aspiranteRfc.apellidoMaterno }}
                 </a>
                 <p id="cosa" idAspirante="2"></p>
             </td>
+
             <!-- Button trigger modal -->
 
         </tr>
     {% endfor %}
+
     </TABLE>
+
+
+    <table class="table table-bordered">
+        <tr>
+            <td width="50%"  align="right"><br>ANEXOS: </td>
+            <td align="left">
+                <ul>
+                    <li>CONVOCATORIA</li>
+                    <li>SOLICITUDES DE REGISTRO</li>
+                    <li>DOCUMENTOS DE LOS ASPIRANTES</li>
+                </ul></td>
+        </tr>
+    </table>
+
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog" id="tmmdl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    <h4 class="modal-title" id="myModalLabel">Información Entregada por el Aspirante</h4>
                 </div>
                 <div id="modal-body" class="modal-body">
                     ...
@@ -131,6 +154,9 @@
                 <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
+        <li>
+            <a href="{{ path('concurso_resgistradossalta', { 'concurso': concurso.id }) }}">HACER REGISTRO</a>
+        </li>
     </ul>
 </div>
 {% endblock %}
@@ -141,12 +167,16 @@
         $(document).ready(function () {
             $(".modalAsp").click(function () {
                 var idAspirante = $(this).attr('idAspirante');
+                var idregrfc = $(this).attr('idregrfc');
+                var lk = '{{ path('registro_show',{ 'id': '__id1__' }) }}';
+                var link = lk.replace('__id1__', idregrfc);
+
                // $("#modal-body").html(idAspirante);
 
                 $("#modal-body").html("<div></div>");
                 $.ajax({
                     // la URL para la petición
-                    url : '{{ path('concurso_index') }}',
+                    url : link,
 
                     // la información a enviar
                     // (también es posible utilizar una cadena de datos)

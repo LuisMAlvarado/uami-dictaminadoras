@@ -13,7 +13,14 @@ class DictamenType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('numDictamen')->add('fechaDictmen')->add('nivelAsignado')->add('modalidades')->add('argumento')->add('asesores')->add('pdfDictamen')        ;
+        $builder
+            ->add('numDictamen')
+            ->add('fechaDictmen')
+            ->add('nivelAsignado')
+            ->add('modalidades')->add('argumento')
+            ->add('asesores')
+            ->add('pdfDictamen')
+        ;
     }
     
     /**

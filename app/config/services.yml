@@ -7,6 +7,7 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+#Alta de servicio para la AddXXXSuscribers
     app.form.type.aspirante.concurso:
         class: AppBundle\Form\RegistroType
         arguments: ["@doctrine.orm.entity_manager"]
@@ -25,3 +26,15 @@ services:
         arguments: [ '@security.authorization_checker', '@doctrine.orm.entity_manager']
         tags:
             - { name: form.type }
+
+    app.form.type.registro:
+        class:  AppBundle\Form\RegistroType
+        arguments: [ '@security.authorization_checker', '@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type }
+
+    app.form.type.aspirante:
+            class:  AppBundle\Form\AspiranteType
+            arguments: [ '@security.authorization_checker', '@doctrine.orm.entity_manager']
+            tags:
+                - { name: form.type }

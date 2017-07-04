@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Clatesal edit</h1>
+
+    {{ form_start(edit_form) }}
+        {# {{ form_widget(edit_form) }} #}
+
+    <table>
+        <tr>
+            <td>{{ form_label(edit_form.clasificacion,"CLASIFICACION") }}
+                {{ form_widget(edit_form.clasificacion) }}
+                {{ form_errors(edit_form.clasificacion) }}
+            </td>
+
+            <td>{{ form_label(edit_form.categoria,"CATEGORIA") }}
+                {{ form_widget(edit_form.categoria) }}
+                {{ form_errors(edit_form.categoria) }}
+            </td>
+            <td>{{ form_label(edit_form.tiempoDedicacion,"TIEMPO DE DICACION") }}
+                {{ form_widget(edit_form.tiempoDedicacion) }}
+                {{ form_errors(edit_form.tiempoDedicacion) }}
+
+            </td>
+
+        </tr>
+    </table>
+
+    <table class="table table-responsive">
+        <tr>
+            <td>{{ form_label(edit_form.salA,"SALARIO MIN o 1") }}
+                {{ form_widget(edit_form.salA) }}
+                {{ form_errors(edit_form.salA) }}</td>
+            <td>
+                {{ form_label(edit_form.salB,"SALARIO MAX o 2") }}
+                {{ form_widget(edit_form.salB) }}
+                {{ form_errors(edit_form.salB) }}
+            </td>
+            <td>
+                {{ form_label(edit_form.multiplar,"MULTIPLO?") }}
+                {{ form_widget(edit_form.multiplar) }}
+                {{ form_errors(edit_form.multiplar) }}
+            </td>
+        </tr>
+    </table>
+
+    <table class="table table-responsive">
+        <tr>
+            <td>
+
+                {{ form_label(edit_form.actividad,"ACTIVIDAD") }}
+                {{ form_widget(edit_form.actividad,{'attr':{
+                    'class':'form-control',
+                    'rows' : '5',
+                    'cols' :'50',
+
+                }}) }}
+                {{ form_errors(edit_form.actividad) }}
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form_label(edit_form.tema,"TEMA") }}
+                {{ form_widget(edit_form.tema,{'attr':{
+                    'class':'form-control',
+                    'rows' : '2',
+                    'cols' :'50',
+
+                }}) }}
+                {{ form_errors(edit_form.tema) }}
+            </td>
+        </tr>
+        <tr>
+            <td> {{ form_label(edit_form.requisitos,"REQUISITOS ACADÉMICOS") }}
+                {{ form_widget(edit_form.requisitos,{'attr':{
+                    'class':'form-control',
+                    'rows' : '2',
+                    'cols' :'50',
+
+                }}) }}
+                {{ form_errors(edit_form.requisitos) }}
+            </td>
+        </tr>
+
+    </table>
+
+
+
+
+
+
+        <input type="submit" value="Edit" />
+    {{ form_end(edit_form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('clatesal_index') }}">Back to the list</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

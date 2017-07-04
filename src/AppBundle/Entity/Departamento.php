@@ -86,7 +86,7 @@ class Departamento
 
     public function __toString()
     {
-        return $this->abreviatura;
+        return $this->nombre;
     }
 
     /**

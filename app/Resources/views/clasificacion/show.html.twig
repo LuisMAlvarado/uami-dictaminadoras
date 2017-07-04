@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Clasificacion</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ clasificacion.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ clasificacion.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Abreviacion</th>
+                <td>{{ clasificacion.abreviacion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('clasificacion_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

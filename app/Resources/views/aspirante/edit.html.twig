@@ -54,18 +54,22 @@
             </td>
             <td>
 
-                {{ form_label(edit_form.rfc) }}
+                {{ form_label(edit_form.rfc,"RFC") }}
                 {{ form_widget(edit_form.rfc) }}
                 {{ form_errors(edit_form.rfc) }}
 
             </td>
             <td>
 
-                {{ form_label(edit_form.curp) }}
+                {{ form_label(edit_form.curp,"CURP") }}
                 {{ form_widget(edit_form.curp) }}
                 {{ form_errors(edit_form.curp) }}
 
             </td>
+            <td colspan="2">
+                {{ form_label(edit_form.fechaBirthday,"FECHA DE NACIMIENTO") }}
+                {{ form_widget(edit_form.fechaBirthday) }}
+                {{ form_errors(edit_form.fechaBirthday) }}</td>
 
         </tr>
 
@@ -109,14 +113,87 @@
         </tr>
 
         <tr>
-            <td colspan="5">
+            <td colspan="2">
 
-                {{ form_label(edit_form.direccion) }}
-                {{ form_widget(edit_form.direccion) }}
-                {{ form_errors(edit_form.direccion) }}
+                {{ form_label(edit_form.calle) }}
+                {{ form_widget(edit_form.calle,{'attr':{
+                    'class':'form-control',
+                    'rows' : '1',
+                    'cols' :'15',
+
+                }}) }}
+                {{ form_errors(edit_form.calle) }}
+
+            </td>
+            <td>
+
+                {{ form_label(edit_form.noExt,"No.EXT") }}
+                {{ form_widget(edit_form.noExt) }}
+                {{ form_errors(edit_form.noExt) }}
 
             </td>
 
+            <td>
+
+                {{ form_label(edit_form.edif,"EDIF.") }}
+                {{ form_widget(edit_form.edif) }}
+                {{ form_errors(edit_form.edif) }}
+
+            </td>
+            <td>
+
+                {{ form_label(edit_form.depto,"DEPTO .") }}
+                {{ form_widget(edit_form.depto) }}
+                {{ form_errors(edit_form.depto) }}
+
+            </td>
+        </tr>
+
+        <tr><td colspan="5">
+
+                {{ form_label(edit_form.coloniaFracc) }}
+                {{ form_widget(edit_form.coloniaFracc,{'attr':{
+                    'class':'form-control',
+                    'rows' : '1',
+                    'cols' :'15',
+
+                }}) }}
+                {{ form_errors(edit_form.coloniaFracc) }}
+
+            </td></tr>
+
+        <tr>
+            <td colspan="2">
+
+                {{ form_label(edit_form.delegMunc) }}
+                {{ form_widget(edit_form.delegMunc,{'attr':{
+                    'class':'form-control',
+                    'rows' : '1',
+                    'cols' :'15',
+
+                }}) }}
+                {{ form_errors(edit_form.delegMunc) }}
+
+            </td>
+            <td colspan="2">
+
+                {{ form_label(edit_form.estado) }}
+                {{ form_widget(edit_form.estado,{'attr':{
+                    'class':'form-control',
+                    'rows' : '1',
+                    'cols' :'15',
+
+                }}) }}
+                {{ form_errors(edit_form.estado) }}
+
+            </td>
+            <td>
+
+                {{ form_label(edit_form.codPost,"CÓDIGO POSTAL") }}
+                {{ form_widget(edit_form.codPost) }}
+                {{ form_errors(edit_form.codPost) }}
+
+            </td>
 
         </tr>
 
@@ -132,10 +209,10 @@
 
     </TABLE>
     <br>
-    <TABLE>
+    <TABLE class="table table-bordered">
         <tr> <td>
 
-                {{ form_label(edit_form.password,'Nueva Contraseña') }}
+                {{ form_label(edit_form.password,'Nva. Contraseña') }}
                 {{ form_widget(edit_form.password) }}
                 {{ form_errors(edit_form.password) }}
 
@@ -152,17 +229,29 @@
             </tr>
         {% endif %}
     </TABLE>
-        <input type="submit" value="Edit" />
+
+    <input class="btn btn-success" type="submit" value="MODIFICAR" />
+
     {{ form_end(edit_form) }}
 
+
+
+
     <ul>
+        {% if is_granted('ROLE_ADMINSTRADOR') %}
         <li>
             <a href="{{ path('aspirante_index') }}">Back to the list</a>
         </li>
-        <li>
+            <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+            <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
+        {% elseif is_granted('ROLE_ASPIRANTE') %}
+
+            <a class="btn btn-default" href="{{ path('aspirante_aspshow',{'id':aspirante.rfc}) }}">Regresar a mi pagina</a>
+
+        {% endif %}
+
     </ul>
 {% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Clatesal creation</h1>
+
+    {{ form_start(form) }}
+    {#    {{ form_widget(form) }}  #}
+
+    <table class="table table-responsive">
+        <tr>
+            <td>{{ form_label(form.clasificacion,"CLASIFICACION") }}
+                {{ form_widget(form.clasificacion) }}
+                {{ form_errors(form.clasificacion) }}
+
+
+            </td>
+            <td>{{ form_label(form.categoria,"CATEGORIA") }}
+                {{ form_widget(form.categoria) }}
+                {{ form_errors(form.categoria) }}
+
+
+            </td>
+            <td>{{ form_label(form.tiempoDedicacion,"TIEMPO DE DICACION") }}
+                {{ form_widget(form.tiempoDedicacion) }}
+                {{ form_errors(form.tiempoDedicacion) }}
+
+
+            </td>
+
+
+
+        </tr>
+    </table>
+
+    <table class="table table-responsive">
+        <tr>
+            <td>{{ form_label(form.salA,"SALARIO MIN o 1") }}
+                {{ form_widget(form.salA) }}
+                {{ form_errors(form.salA) }}</td>
+            <td>
+                {{ form_label(form.salB,"SALARIO MAX o 2") }}
+                {{ form_widget(form.salB) }}
+                {{ form_errors(form.salB) }}
+            </td>
+            <td>
+                {{ form_label(form.multiplar,"MULTIPLO?") }}
+                {{ form_widget(form.multiplar) }}
+                {{ form_errors(form.multiplar) }}
+            </td>
+        </tr>
+    </table>
+
+    <table class="table table-responsive">
+        <tr>
+            <td>
+
+                {{ form_label(form.actividad,"ACTIVIDAD") }}
+                {{ form_widget(form.actividad,{'attr':{
+                    'class':'form-control',
+                    'rows' : '5',
+                    'cols' :'50',
+
+                }}) }}
+                {{ form_errors(form.actividad) }}
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{ form_label(form.tema,"TEMA") }}
+                {{ form_widget(form.tema,{'attr':{
+                    'class':'form-control',
+                    'rows' : '2',
+                    'cols' :'50',
+
+                }}) }}
+                {{ form_errors(form.tema) }}
+            </td>
+        </tr>
+        <tr>
+            <td> {{ form_label(form.requisitos,"REQUISITOS ACADÉMICOS") }}
+                {{ form_widget(form.requisitos,{'attr':{
+                    'class':'form-control',
+                    'rows' : '2',
+                    'cols' :'50',
+
+                }}) }}
+                {{ form_errors(form.requisitos) }}
+            </td>
+        </tr>
+
+    </table>
+
+
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('clatesal_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

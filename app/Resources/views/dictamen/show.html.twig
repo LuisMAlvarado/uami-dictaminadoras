@@ -1,9 +1,109 @@
-{% extends 'base.html.twig' %}
+{% extends 'frontend.html.twig' %}
 
-{% block body %}
-    <h1>Dictaman</h1>
+{% block content %}
+    <h1>Dictamen</h1>
 
-    <table>
+    {% if is_granted(expression('"ROLE_ADMINISTRADOR" in roles or "ROLE_DICTAMINADOR" in roles')) %}
+        <table width="100%">
+            <tbody>
+            <tr>
+                <td colspan="3" width="50%"></td>
+                <th class="table-bordered text-right" >Convocatoria No. &nbsp;</th>
+
+                <td class="table-bordered text-center">{{ concurso.id }}</td>
+                {#  <th class="table-bordered text-right" >Fecha: &nbsp;</th>
+
+                <td class="table-bordered text-center">{% if aspiranteconcurso.createAt %}{{ aspiranteconcurso.createAt|date('d-M-Y') }}{% endif %}</td></tr>
+            #}
+            </tr>
+
+            </tbody>
+        </table> <br>
+
+        <br>
+        <a>EN RELACIÓN A LA CONVOCATORIA ARRIBA MENCIONADA , PARA OCUPAR CON CARACTER TEMPORAL LA SIGUIENTE PLAZA:</a>
+        <table  align="center" class="table table-bordered">
+            <tbody>
+
+
+
+            <tr>
+                <td><strong>Clasificación</strong><br />
+                    {{ concurso.clasificacion }}
+                </td>
+                <td><strong>Categoria</strong><br />
+                    {{ concurso.categoria }}
+                </td>
+                <td> <strong>Tiempo de Dedicación</strong><br>
+                    {{ concurso.tiempoDedicacion }}
+                </td>
+            </tr>
+
+            <tr>
+                <td> <strong>Unidad</strong><br>
+                    {{ concurso.unidad }}
+                </td>
+                <td><strong>División</strong><br />
+                    {{ concurso.departamento.division }}
+                </td>
+                <td > <strong>Departamento</strong><br>
+                    {{ concurso.departamento.nombre}}
+                </td>
+
+            </tr>
+
+
+
+
+            <tr>
+                <td colspan="2"> <strong>Area Departamental</strong><br>
+                    {{ concurso.areaDepartamental }}
+                </td>
+                <td><strong>Horario</strong><br />
+                    {{ concurso.horario }}
+                </td>
+            </tr>
+
+
+
+        </table>
+    {% endif %}
+    <br>
+
+<p><strong> ASPIRANTES:</strong></p>
+
+
+
+    <table class="table table-responsive">
+        <tr align="center">
+            <th>NOMBRE</th>
+            <th>PUNTAJE</th>
+            <th>PRELACION</th>
+            <th>NIVEL</th>
+        </tr>
+        {% for registro in registros %}
+        <tr>
+            <td>
+                {{ registro.aspiranteRfc.nombre }}  {{ registro.aspiranteRfc.apellidoPaterno }} {{ registro.aspiranteRfc.apellidoMaterno }}
+            </td>
+            <td>{{ registro.puntaje }} </td> <td>{{ registro.prelacion }}</td> <td>{{ registro.nivelAsig }}</td>
+        </tr>
+
+        {% endfor %}
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+
+    <table class="table table-striped">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -42,8 +142,12 @@
 
     <ul>
         <li>
-            <a href="{{ path('dictamen_index') }}">Back to the list</a>
+            <a href="{{ path('homepage') }}">Regresar a Inicio</a>
         </li>
+        <li>
+            <a href="{{ path('dictamen_index') }}">Convocatorias Dictaminadas</a>
+        </li>
+        <br><br>
         <li>
             <a href="{{ path('dictamen_edit', { 'id': dictaman.id }) }}">Edit</a>
         </li>

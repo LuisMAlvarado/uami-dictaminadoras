@@ -34,14 +34,31 @@ class AppController extends Controller
         $em = $this->getDoctrine()->getManager();
         $dato=(new \DateTime());
 
-        $concursop= $em->getRepository('AppBundle:Concurso')->findAllOrderedByFechaV($dato);
+        // aqui es Log
+
+        $authenticationUtils = $this->get('security.authentication_utils');
+
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        ///termina log
+
+
+
+
+        //$concursop= $em->getRepository('AppBundle:Concurso')->findAllOrderedByFechaV($dato);
+        $estp =3;
+        $concursop= $em->getRepository('AppBundle:Concurso')->EstadoPublicado($estp);
+//var_dump($concursop);
 
         return $this->render('concurso/portada.html.twig', array(
             'concursos' => $concursop,
-
-
+            'last_username' => $lastUsername,
+            'error'         => $error,
         ));
-
 
     }
 

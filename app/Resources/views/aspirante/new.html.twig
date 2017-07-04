@@ -1,10 +1,129 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Aspirante creation</h1>
+    <h1 align="center">Alta de nuevo Aspirante</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
+    {#  {{ form_widget(form) }} #}
+
+    <TABLE WIDTH="90%" align="center" class="table table-bordered">
+        <tr>
+            <td>
+
+                {{ form_label(form.apellidoPaterno) }}
+                {{ form_widget(form.apellidoPaterno) }}
+                {{ form_errors(form.apellidoPaterno) }}
+
+            </td>
+            <td>
+
+                {{ form_label(form.apellidoMaterno) }}
+                {{ form_widget(form.apellidoMaterno) }}
+                {{ form_errors(form.apellidoMaterno) }}
+
+            </td>
+            <td COLSPAN="2">
+
+                {{ form_label(form.nombre) }}
+                {{ form_widget(form.nombre) }}
+                {{ form_errors(form.nombre) }}
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>
+
+                {{ form_label(form.nacionalidad) }}
+                {{ form_widget(form.nacionalidad) }}
+                {{ form_errors(form.nacionalidad) }}
+
+            </td>
+            <td>
+
+                {{ form_label(form.rfc) }}
+                {{ form_widget(form.rfc) }}
+                {{ form_errors(form.rfc) }}
+
+            </td>
+            <td>
+
+                {{ form_label(form.curp) }}
+                {{ form_widget(form.curp) }}
+                {{ form_errors(form.curp) }}
+
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>
+
+                {{ form_label(form.edad) }}
+                {{ form_widget(form.edad) }}
+                {{ form_errors(form.edad) }}
+
+
+            <td>
+
+                {{ form_label(form.sexo) }}
+                {{ form_widget(form.sexo) }}
+                {{ form_errors(form.sexo) }}
+
+            </td>
+            <td>
+
+                {{ form_label(form.estadoCivil) }}
+                {{ form_widget(form.estadoCivil) }}
+                {{ form_errors(form.estadoCivil) }}
+
+            </td>
+            <td>
+
+                {{ form_label(form.telefonos) }}
+                {{ form_widget(form.telefonos) }}
+                {{ form_errors(form.telefonos) }}
+
+            </td>
+            <td>
+
+                {{ form_label(form.correoElectronico) }}
+                {{ form_widget(form.correoElectronico) }}
+                {{ form_errors(form.correoElectronico) }}
+
+            </td>
+
+        </tr>
+
+        <tr>
+            <td colspan="2">
+
+                {{ form_label(form.calle) }}
+                {{ form_widget(form.calle) }}
+                {{ form_errors(form.calle) }}
+
+            </td>
+
+
+        </tr>
+
+
+        <tr> <td>
+
+                {{ form_label(form.numeroEconomico) }}
+                {{ form_widget(form.numeroEconomico) }}
+                {{ form_errors(form.numeroEconomico) }}
+
+            </td>
+        </tr>
+
+    </TABLE>
+
+    <br>
+
+
         <input type="submit" value="Create" />
     {{ form_end(form) }}
 

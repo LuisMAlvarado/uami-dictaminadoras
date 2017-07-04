@@ -1,7 +1,7 @@
 {% extends 'frontend.html.twig' %}
 
 {% block content %}
-    {% if is_granted(expression('"ROLE_ADMININISTRADOR" in roles or "ROLE_ASISTENTEDEP" in roles or "ROLE_ASISTENTEDIV" in roles or "ROLE_DICTAMINADOR" in roles')) %}
+    {% if is_granted(expression('"ROLE_ADMININISTRADOR" in roles or "ROLE_ASISTENTEDEP" in roles or "ROLE_ASISTENTEDIV" in roles ')) %}
         <h1>CONVOCATORIAS</h1>
         <a class="btn btn-default" href="{{ path('homepage') }}"><span class="glyphicon glyphicon-home"></span>_MENU</a>
         <a class="btn btn-default" href="{{ path('concurso_new') }}"><span class="glyphicon glyphicon-duplicate"></span>Generar Convocatoria</a>
@@ -15,6 +15,7 @@
     {% endif %}
     <br><br>
 
+    {% if is_granted(expression('"ROLE_ADMININISTRADOR" in roles or "ROLE_ASISTENTEDEP" in roles or "ROLE_ASISTENTEDIV" in roles')) %}
      <div class="container">
         <h3>Seguimiento de concursos</h3>
         <ul class="nav nav-tabs">
@@ -30,7 +31,25 @@
             <li id="t-10"><a href="{{ path('concurso_index') }}">TODOS <span class="glyphicon glyphicon-list"></span></a></li>
         </ul>
     </div>
+    {% endif %}
 
+    {% if is_granted(expression('"ROLE_DICTAMINADOR" in roles')) %}
+        <h1>CONVOCATORIAS A DICTAMINAR</h1>
+        <a class="btn btn-default" href="{{ path('homepage') }}"><span class="glyphicon glyphicon-home"></span>_MENU</a>
+        <br>
+        <div class="container">
+            <h3>DICTAMEN de CONVOCATORAS</h3>
+            <ul class="nav nav-tabs">
+
+                <li id="t-5"><a href="{{ path('concurso_indexest', {'est':5}) }}">Dictaminando <span class="glyphicon glyphicon-tasks"></span></a></li>
+                <li id="t-6"><a href="{{ path('concurso_indexest', {'est':6}) }}">Dic.Asignado <span class="glyphicon glyphicon-ok"></span></a></li>
+                <li id="t-7"><a href="{{ path('concurso_indexest', {'est':7}) }}">Reconvocado <span class="glyphicon glyphicon-duplicate"></span></a></li>
+                <li id="t-8"><a href="{{ path('concurso_indexest', {'est':8}) }}">Cancelado <span class="glyphicon glyphicon-thumbs-down"></span></a></li>
+                <li id="t-9"><a href="{{ path('concurso_indexest', {'est':9}) }}">Desierto <span class="glyphicon glyphicon-inbox"></span></a></li>
+                <li id="t-10"><a href="{{ path('concurso_index') }}">TODOS <span class="glyphicon glyphicon-list"></span></a></li>
+            </ul>
+        </div>
+    {% endif %}
 
     <br><br>
 
@@ -99,7 +118,7 @@
                                 <br>
 
                             {% endif %}
-                            {% if concurso.estatus.id > 3 %}
+                            {% if concurso.estatus.id > 2 %}
 
                                     <a href="{{ path('concurso_showreg', { 'id': concurso.id }) }}"><span class="glyphicon glyphicon-info-sign "></span></a>
                                 <br>
@@ -112,7 +131,7 @@
 
                         {% endif %}
 
-                        {% if is_granted(expression('"ROLE_DICTAMINADOR" in roles')) %}
+                        {% if is_granted(expression('"ROLE_DICTAMINADOR" in roles')) and concurso.dictamen is empty %}
 
                                 <a href="{{ path('dictamen_new', { 'id': concurso.id }) }}">DICTAMINAR</a> <br>
 

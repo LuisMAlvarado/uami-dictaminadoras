@@ -1,0 +1,107 @@
+{% extends 'frontend.html.twig' %}
+
+{% block content %}
+    <h1 align="center">Solicitud de cuenta de acceso como ASPIRANTE</h1>
+
+    {{ form_start(form) }}
+    {#  {{ form_widget(form) }} #}
+
+    <TABLE WIDTH="90%" align="center" class="table table-bordered">
+        <tr>
+            <td>
+
+                {{ form_label(form.apellidoPaterno) }}
+                {{ form_widget(form.apellidoPaterno) }}
+                {{ form_errors(form.apellidoPaterno) }}
+
+            </td>
+            <td>
+
+                {{ form_label(form.apellidoMaterno) }}
+                {{ form_widget(form.apellidoMaterno) }}
+                {{ form_errors(form.apellidoMaterno) }}
+
+            </td>
+            <td COLSPAN="2">
+
+                {{ form_label(form.nombre) }}
+                {{ form_widget(form.nombre) }}
+                {{ form_errors(form.nombre) }}
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+
+            <td>
+
+                {{ form_label(form.rfc,"RFC") }}
+                {{ form_widget(form.rfc) }}
+                {{ form_errors(form.rfc) }}
+
+            </td>
+            <td>
+
+                {{ form_label(form.correoElectronico) }}
+                {{ form_widget(form.correoElectronico) }}
+                {{ form_errors(form.correoElectronico) }}
+
+            </td>
+            <td>
+
+                {{ form_label(form.edad) }}
+                {{ form_widget(form.edad) }}
+                {{ form_errors(form.edad) }}
+
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>
+                EN CASO DE SER O HABER SIDO TRABAJADOR DE LA UAM <br><br>
+                {{ form_label(form.numeroEconomico,"No. Empleado") }}
+                {{ form_widget(form.numeroEconomico) }}
+                {{ form_errors(form.numeroEconomico) }}
+
+            </td>
+
+            <td colspan="1">
+
+                {{ form_label(form.password,"Contraseña") }}
+                {{ form_widget(form.password) }}
+                {{ form_errors(form.password) }}
+
+            </td>
+            <td>
+
+                {{ form_label(form.telefonos) }}
+                {{ form_widget(form.telefonos) }}
+                {{ form_errors(form.telefonos) }}
+
+            </td>
+
+        </tr>
+
+
+
+        <tr>
+<td align="center" bgcolor="#ffa07a" colspan="3"><strong>PARA ACTIVAR SU CUENTA</strong>, ES IMPORTANTE LLEVAR EL ORIGINAL DE SUS DOCUMENTOS COMPROBATORIOS (ASIST. DIVISIONAL)</td>
+
+
+        </tr>
+
+    </TABLE>
+
+    <br>
+
+
+        <input class="btn btn-success" type="submit" value="Enviar Datos" />
+    {{ form_end(form) }}
+
+    <br><br>
+            <a class=" btn btn-default" href="{{ path('portada') }}">Regresar_<span class="glyphicon glyphicon-home"></span></a>
+
+{% endblock %}

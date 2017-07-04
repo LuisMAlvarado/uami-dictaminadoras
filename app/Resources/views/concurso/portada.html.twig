@@ -19,49 +19,75 @@
 
     {% endif %}
 
-    <div>
-{{ dump(concursos) }}
-        <table class="table-condensed">
+    <div class="row">
+        <div class="col-md-8">
+
+        <table width="90%" class="table-condensed">
             <tbody>
             {% for concurso in concursos %}
-            <tr>
-                <td>
-                    <br>
-                    <strong><a href="{{ path('concurso_show', { 'id': concurso.id }) }}">{{ concurso.id }}</a>  {{ concurso.categoria }} {{ concurso.tiempoDedicacion }} </strong> <br>
-                    <strong>Departamento: {{ concurso.departamento.nombre }}</strong> <br>
-                    <strong>Salario:</strong> ${{ concurso.salarioA |number_format(2, '.', ',')  }} <br>
-                    <strong>Horario: </strong> {{ concurso.horario }} <br>
-                    <strong>Fecha de inicio y término: </strong>  {{ concurso.fechaIn |date('d m y')  }} a  {{ concurso.fechaTer |date('d m y') }}<br>
-                    <strong>Actividades a realizar:</strong> {{ concurso.actividades }}<br>
-                    <strong>Área de Conocimiento:</strong>  {{ concurso.aConocimiento }}<br>
-                    <strong>Disciplina:</strong>  {{ concurso.disciplina }}<br>
-                    <strong>Requisitos académicos: </strong> {{ concurso.requisitos }}<br>
-                    <strong>Causal: </strong> {{ concurso.causal }}<br>
+                <tr>
+                    <td>
+                        <br>
+                        <strong><a href="{{ path('concurso_show', { 'id': concurso.id }) }}">{{ concurso.numConcurso }}</a>  {{ concurso.categoria.nombre }} {{ concurso.tiempoDedicacion.nombre }} </strong> <br>
+                        <strong>Departamento: {{ concurso.departamento }}</strong> <br>
+                        <strong>Salario:</strong> ${{ concurso.salarioA |number_format(2, '.', ',')  }} <br>
+                        <strong>Horario: </strong> {{ concurso.horario }} <br>
+                        <strong>Fecha de inicio y término: </strong>  {{ concurso.fechaIn |date('d m y')  }} a  {{ concurso.fechaTer |date('d m y') }}<br>
+                        <strong>Actividades a realizar:</strong> {{ concurso.actividades }}<br>
+                        <strong>Área de Conocimiento:</strong>  {{ concurso.aConocimiento }}<br>
+                        <strong>Disciplina:</strong>  {{ concurso.disciplina }}<br>
+                        <strong>Requisitos académicos: </strong> {{ concurso.requisitos }}<br>
+                        <strong>Causal: </strong> {{ concurso.causal }}<br>
 
-                </td>
-                <td class="right">
+                    </td>
+                    <td class="right">
 
-                    <strong>Fecha de Publicación: </strong> {% if concurso.fechaPublicacion %}   {{ concurso.fechaPublicacion|date ('d M Y') }}{% endif %}<br><br>
+                        <strong>Fecha de Publicación: </strong> {% if concurso.fechaPublicacion %}   {{ concurso.fechaPublicacion|date ('d M Y') }}{% endif %}<br><br>
 
-                    <a href="{{ path('registro_new',{'idc':concurso.id })}}"  class=" btn btn-success btn-xs ">REGISTRARSE </a> <p> antes del {% if concurso.fechaPublicacion %}   {{ concurso.fechaPublicacion|date_modify('+3 day')|date ('d M Y') }}{% endif %}</p>
-                </td>
-            </tr>
+                        <a href="{{ path('preregistro_show',{'concurso':concurso.id })}}"  class=" btn btn-success btn-xs ">REGISTRARSE </a> <p> antes del {% if concurso.fechaPublicacion %}   {{ concurso.fechaPublicacion|date_modify('+3 day')|date ('d M Y') }}{% endif %}</p>
+                    </td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>
+        </div>
 
+        {% if not (is_granted(expression('"ROLE_ASPIRANTE" in roles or "ROLE_ASISTENTEDIV" in roles or "ROLE_ASISTENTEDEP" in roles or "ROLE_DICTAMINADOR" in roles  '  ))) %}
+<div class="col-md-3 col-md-offset-1">
 
+        <aside>
+            <strong>ACCESO A LA PLATAFORMA</strong><br><br>
+            <form action="{{ path('login_check') }}" method="post" role="form">
+                <div class="form-group">
+                    <label for="username">RFC / # Eco. </label>
+                    <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control"  placeholder="ASPIRANTES / USUARIOS" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" name="_password" class="form-control"/>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="remember_me" name="_remember_me" checked />
+                        <label for="remember_me">No cerrar sesión</label>
+                        {# AQUI SE PUEDE REDIRIGIR A LA PAGINA QUE NO QUIERA<input type="hidden" name="_target_path" value="/concurso/" />#}
+                    </label>
+                </div>
+                <div class="pull-right">
+                    <input type="submit" name="login" value="Acceder" />
+                </div>
+
+            </form>
+            <br><br>
+            <a  href="{{ path('aspirante_prenew') }}">Solicitar Acceso como ASPIRANTE</a>
+
+        </aside>
+</div>
+        {% endif %}
     </div>
     <br>
-    <aside>
-        ## FORMULARIO DE LOGIN ##
-        <section id="nosotros">
-            <h2>Ingresar</h2>
-            <a href="{{ path('homepage') }}" class="btn btn-warning btn-xs">click aqui</a>
-        </section>
 
-    <br>
-    </aside>
+
     <footer>
         <br>&copy; {{ 'now' |date('Y') }}- DICTAMINADORA-UAMI
         <br>
@@ -83,12 +109,12 @@
         </li>
 {% endif %}
     {% if is_granted(expression('"ROLE_ADMINISTRADOR" in roles or "ROLE_ASISTENTE" in roles or "ROLE_DICTAMINADOR" in roles')) %}
-        <li> <a href="{{ path('homepage') }}">HOME</a> </li>
+        <li> <a href="{{ path('homepage') }}">HOMES</a> </li>
     </ul>
 {% endif %}
     {% if is_granted(expression('"ROLE_ASPIRANTE" in roles')) %}
 
-        <a href="{{ path('aspirante_aspshow',{'id' : aspirante.rfc}) }}">Regresar a sitio</a>
+       <a href="{{ path('aspirante_aspshow',{'id' : aspirante.rfc}) }}">Regresar a sitio</a>
 
     {% endif %}
 

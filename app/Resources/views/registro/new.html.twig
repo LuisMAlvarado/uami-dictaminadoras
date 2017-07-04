@@ -1,16 +1,174 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Registro creation</h1>
+
+    {% block header %}
+        <table class="table">
+            <tr>
+                <td> <img src="{{ asset('/resource/img/encabezado.png') }}"  /></td>
+                <td class="text-right"><H4>SOLICITUD DE REGISTRO A CONCURSO <br> DE EVALUACIÓN CURRICULAR </H4></td>
+            </tr>
+        </table>
+    {% endblock %}
+
+    <div id="showconcurso">
+
+        {% if is_granted(expression('"ROLE_ASISTENTE" in roles or "ROLE_ADMINISTRADOR" in roles or "ROLE_ASPIRANTE" in roles')) %}
+            <table width="100%">
+                <tbody>
+                <tr>
+                    <td colspan="3" width="50%"></td>
+                    <th class="table-bordered text-right" >Convocatoria No. &nbsp;</th>
+
+                    <td class="table-bordered text-center">{{ concurso.numConcurso }}</td>
+                    <th class="table-bordered text-right" >Fecha: &nbsp;</th>
+
+                    <td class="table-bordered text-center">{% if registro.createAt %}{{ registro.createAt|date('d-M-Y') }}{% endif %}</td></tr>
+
+                </tr>
+
+                </tbody>
+            </table> <br>
+
+            <br>
+            <a>EN RELACIÓN A LA CONVOCATORIA ARRIBA MENCIONADA , PARA OCUPAR CON CARACTER TEMPORAL LA SIGUIENTE PLAZA:</a>
+            <table  align="center" class="table table-bordered">
+                <tbody>
+
+
+
+                <tr>
+                    <td><strong>Clasificación</strong><br />
+                        {{ concurso.clasificacion }}
+                    </td>
+                    <td><strong>Categoria</strong><br />
+                        {{ concurso.categoria }}
+                    </td>
+                    <td> <strong>Tiempo de Dedicación</strong><br>
+                        {{ concurso.tiempoDedicacion }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td> <strong>Unidad</strong><br>
+                        {{ concurso.unidad }}
+                    </td>
+                    <td><strong>División</strong><br />
+                        {{ concurso.departamento.division }}
+                    </td>
+                    <td > <strong>Departamento</strong><br>
+                        {{ concurso.departamento.nombre}}
+                    </td>
+
+                </tr>
+
+
+
+
+                <tr>
+                    <td colspan="2"> <strong>Area Departamental</strong><br>
+                        {{ concurso.areaDepartamental }}
+                    </td>
+                    <td><strong>Horario</strong><br />
+                        {{ concurso.horario }}
+                    </td>
+                </tr>
+
+
+
+            </table>
+        {% endif %}
+        <br>
+
+        {% if is_granted('ROLE_ASPIRANTE') %}
+            <br />
+            <a>DESEO SER CONSIDERADO EN EL CONCURSO CORRESPONDIENTE, PARA LO CUAL PROPORCIONO LA SIGUIENTE INFORMACIÓN: </a>
+            <table  align="center" class="table table-bordered">
+                <tbody>
+
+
+
+                <tr>
+                    <td><strong>Apellido Paterno</strong><br />
+                        {{ aspirante.apellidoPaterno }}
+                    </td>
+                    <td> <strong>Apellido Materno</strong><br>
+                        {{ aspirante.apellidoMaterno }}
+                    </td>
+                    <td colspan="3"><strong>Nombre(s)</strong><br>
+                        {{ aspirante.nombre }}
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td><strong>Nacionalidad</strong><br />
+                        {{ aspirante.nacionalidad }}
+                    </td>
+                    <td> <strong>RFC</strong><br>
+                        {{ aspirante.rfc }}
+                    </td>
+                    <td><strong>CURP</strong><br>
+                        {{ aspirante.curp }}
+                    </td>
+
+                </tr>
+
+
+
+                <tr>
+                    <td><strong>Edad</strong><br />{{ aspirante.edad }}</td>
+
+                    <td><strong>Sexo</strong><br />{{ aspirante.sexo }}</td>
+
+                    <td><strong>Estado Civil</strong><br />{{ aspirante.estadoCivil }}</td>
+
+                    <td><strong>Teléfonos</strong><br />{{ aspirante.telefonos }}</td>
+
+                    <td><strong>Correo Eléctronico</strong><br />{{ aspirante.correoElectronico }}</td>
+
+                </tr>
+
+                <tr>
+                    <th>Direccion</th>
+                    <td>{{ aspirante.calle }}</td>
+                </tr>
+
+
+
+                </tbody>
+            </table>
+        {% endif %}
+        <br>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <h3>DATOS DEL REGISTRO</h3>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
+        <input class='btn btn-success' type="submit" value="Confirmo Registro" />
+        {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('registro_index') }}">Back to the list</a>
-        </li>
-    </ul>
+    <br>
+
+        <a class="btn btn-default" href="{{ path('registro_index') }}">Regresar a Mis convocatorias Registradas</a>
+
+
+
+
+
 {% endblock %}
+
+
+
+

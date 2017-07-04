@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Clatesals list</h1>
+
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Clasificacion</th>
+                <th>Categoria</th>
+                <th>Tiempodedicacion</th>
+                <th>SALARIO MIN</th>
+                <th>SALARIO MAX</th>
+
+                <th>Multiplar</th>
+
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for clatesal in clatesals %}
+            <tr>
+                <td><a href="{{ path('clatesal_show', { 'clasificacion': clatesal.clasificacion.id, 'categoria':clatesal.categoria.id, 'tiempoDedicacion': clatesal.tiempoDedicacion.id }) }}">[{{ clatesal.clasificacion.id }},{{ clatesal.categoria.id }},{{ clatesal.tiempoDedicacion.id }}]</a></td>
+                <td>{{ clatesal.clasificacion }}</td>
+                <td>{{ clatesal.categoria }}</td>
+                <td>{{ clatesal.tiempoDedicacion }}</td>
+                <td>$ {{ clatesal.salA |number_format(2, '.', ',') }}</td>
+                <td>$ {{ clatesal.salB |number_format(2, '.', ',') }}</td>
+
+                <td>{% if clatesal.multiplar %}Yes{% else %}No{% endif %}</td>
+
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('clatesal_show', { 'clasificacion': clatesal.clasificacion.id, 'categoria':clatesal.categoria.id, 'tiempoDedicacion': clatesal.tiempoDedicacion.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('clatesal_edit', { 'clasificacion': clatesal.clasificacion.id, 'categoria':clatesal.categoria.id, 'tiempoDedicacion': clatesal.tiempoDedicacion.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('clatesal_new') }}">Create a new clatesal</a>
+        </li>
+    </ul>
+{% endblock %}

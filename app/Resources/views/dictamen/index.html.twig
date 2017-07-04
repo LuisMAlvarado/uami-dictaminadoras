@@ -3,7 +3,7 @@
 {% block body %}
     <h1>Dictamens list</h1>
 
-    <table>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Id</th>
@@ -45,7 +45,12 @@
 
     <ul>
         <li>
+            <a href="{{ path('homepage') }}">Regresar a Inicio</a>
+        </li>
+        {% if is_granted(expression('"ROLE_ADMINISTRADOR" in roles ')) %}
+        <li>
             <a href="{{ path('dictamen_new') }}">Create a new dictaman</a>
         </li>
+        {% endif %}
     </ul>
 {% endblock %}

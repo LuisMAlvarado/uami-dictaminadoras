@@ -1,0 +1,200 @@
+{% extends 'frontend.html.twig' %}
+
+
+ {% block header %}
+     <table class="table">
+         <tr>
+             <td> <img src="{{ asset('/resource/img/encabezado.png') }}"  /></td>
+             <td class="text-right"><H4>SOLICITUD DE REGISTRO A CONCURSO <br> DE EVALUACIÓN CURRICULAR </H4></td>
+         </tr>
+     </table>
+ {% endblock %}
+{% block content %}
+
+
+    <br />
+
+
+    <table width="100%">
+        <tbody>
+        <tr>
+            <td colspan="3" width="50%"></td>
+            <th class="table-bordered text-right" >Convocatoria No. &nbsp;</th>
+
+            <td class="table-bordered text-center">{{ concurso.numConcurso }}</td>
+            <th class="table-bordered text-right" >Fecha: &nbsp;</th>
+
+
+
+        </tr>
+
+        </tbody>
+    </table> <br>
+
+    <br>
+    <a>EN RELACIÓN A LA CONVOCATORIA ARRIBA MENCIONADA , PARA OCUPAR CON CARACTER TEMPORAL LA SIGUIENTE PLAZA:</a>
+    <table  align="center" class="table table-bordered">
+        <tbody>
+
+
+
+        <tr>
+            <td><strong>Clasificación</strong><br />
+                {{ concurso.clasificacion.nombre }}
+            </td>
+            <td><strong>Categoria</strong><br />
+                {{ concurso.categoria.nombre }}
+            </td>
+            <td> <strong>Tiempo de Dedicación</strong><br>
+                {{ concurso.tiempoDedicacion.nombre }}
+            </td>
+        </tr>
+
+        <tr>
+            <td> <strong>Unidad</strong><br>
+                {{ concurso.unidad }}
+            </td>
+            <td><strong>División</strong><br />
+                {{ concurso.departamento.division }}
+            </td>
+            <td > <strong>Departamento</strong><br>
+                {{ concurso.departamento.nombre}}
+            </td>
+
+        </tr>
+
+
+
+
+        <tr>
+            <td colspan="2"> <strong>Area Departamental</strong><br>
+                {{ concurso.areaDepartamental }}
+            </td>
+            <td><strong>Horario</strong><br />
+                {{ concurso.horario }}
+            </td>
+        </tr>
+
+
+
+    </table>
+    <br>
+
+
+
+
+
+
+
+
+    <br />
+    <a>DESEO SER CONSIDERADO EN EL CONCURSO CORRESPONDIENTE, PARA LO CUAL PROPORCIONO LA SIGUIENTE INFORMACIÓN: </a>
+    <table  align="center" class="table table-bordered">
+        <tbody>
+
+
+
+        <tr>
+            <td><strong>Apellido Paterno</strong><br />
+                {{ aspirante.apellidoPaterno }}
+            </td>
+            <td> <strong>Apellido Materno</strong><br>
+                {{ aspirante.apellidoMaterno }}
+            </td>
+            <td colspan="3" ><strong>Nombre(s)</strong><br>
+                {{ aspirante.nombre }}
+            </td>
+
+        </tr>
+
+        <tr>
+            <td><strong>Nacionalidad</strong><br />
+                {{ aspirante.nacionalidad }}
+            </td>
+            <td> <strong>RFC</strong><br>
+                {{ aspirante.rfc }}
+            </td>
+            <td><strong>CURP</strong><br>
+                {{ aspirante.curp }}
+            </td>
+
+        </tr>
+
+
+
+        <tr>
+            <td><strong>Edad</strong><br />{{ aspirante.edad }}</td>
+
+            <td><strong>Sexo</strong><br />{{ aspirante.sexo }}</td>
+
+            <td><strong>Estado Civil</strong><br />{{ aspirante.estadoCivil }}</td>
+
+            <td><strong>Teléfonos</strong><br />{{ aspirante.telefonos }}</td>
+
+            <td><strong>Correo Eléctronico</strong><br />{{ aspirante.correoElectronico }}</td>
+
+        </tr>
+
+        <tr>
+            <th>Direccion</th>
+            <td>{{ aspirante.calle }}</td>
+        </tr>
+
+
+
+        </tbody>
+    </table>
+
+    <br>
+
+    {#<li>
+        <a href="#" data-toggle="modal" data-target="#estatusModal"  status="{{estadosSiguiente.id}}" status_nombre="{{ estadosSiguiente.estatus }}" class="link-modal">REGISTRARME</a>
+    </li>
+#}
+    <ul>
+        <li>
+            <a href="{{ path('concurso_index') }}">CANCELAR y REGRESAR</a>
+        </li>
+
+<li> <a href="#" data-toggle="modal" data-target="#estatusModal" registro="{{ concurso.id }}" registro_nombre="{{ concurso.numConcurso }}" class="link-modal">REGISTRARME</a>
+</li>
+
+
+    </ul>
+
+    <div class= "modal fade bd-modal-sm" id= "estatusModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" align="center">¿CONFIRMA?</h4>
+                </div>
+                <div id="modal-body" class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <a id="link-confirma" type="button" class="btn btn-primary" href="#">Si, Confirmo registro</a>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('.link-modal').click(function (e) {
+                var statusId= $(this).attr('registro');
+                var statusnombre= $(this).attr('registro_nombre');
+                var lk = '{{ path('registro_newasp',{ 'concurso': '__id1__' }) }}';
+                var link = lk.replace('__id1__', statusId);
+                $('#modal-body').html('<p>Deseo registrarme a la convocatoria &hellip; <strong>'+statusnombre+'</strong></p>');
+                $('#link-confirma').attr('href', link)
+            });
+        });
+    </script>
+{% endblock %}
+

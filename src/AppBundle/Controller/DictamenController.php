@@ -6,6 +6,7 @@ use AppBundle\Entity\Dictamen;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -25,7 +26,14 @@ class DictamenController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $dictamens = $em->getRepository('AppBundle:Dictamen')->findAll();
+
+       if ($this->isGranted(new Expression('"ROLE_ADMINSTRADOR" in roles'))){
+           $dictamens = $em->getRepository('AppBundle:Dictamen')->findAll();
+       }
+       elseif ($this->isGranted(new Expression('"ROLE_DICTAMINADOR" in roles or "ROLE_ASISTENTEDIV" in roles '))) {
+           $dictamens=$em->getRepository('AppBundle:Dictamen')->AllporDiv($this->getUser()->getDivision()->getId());
+       }
+
 
         return $this->render('dictamen/index.html.twig', array(
             'dictamens' => $dictamens,
@@ -40,20 +48,42 @@ class DictamenController extends Controller
      */
     public function newAction(Request $request)
     {
-        $dictaman = new Dictamen();
-        $form = $this->createForm('AppBundle\Form\DictamenType', $dictaman);
+
+
+        $em = $this->getDoctrine()->getManager();
+        if ($this->isGranted(new Expression(' "ROLE_DICTAMINADOR" in roles'))) {
+            $dictaman = new Dictamen();
+            $idc = $request->query->get('id');
+            $concurso = $em->getRepository('AppBundle:Concurso')->find($idc);
+
+            if($concurso->getDictamen() != null ){
+                return $this->redirectToRoute('dictamen_show', array('id' => $concurso->getDictamen()->getId()));
+            }
+
+           // $dictaman->setConcurso($concurso);
+            $concurso->setDictamen($dictaman);
+        }else{
+            return $this->createAccessDeniedException();
+        }
+
+       // $form = $this->createForm('AppBundle\Form\DictamenType', $dictaman); QUITO DICTAMEN e embebo A CONCURSO
+        $form = $this->createForm('AppBundle\Form\ConcursoDictamenType', $concurso);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($dictaman);
-            $em->flush($dictaman);
+
+            $em->persist($concurso); //Borra1
+            $em->flush(); //Borra2
+            //$em->persist($dictaman); P1
+            //$em->flush($dictaman); P2
 
             return $this->redirectToRoute('dictamen_show', array('id' => $dictaman->getId()));
         }
 
         return $this->render('dictamen/new.html.twig', array(
             'dictaman' => $dictaman,
+            'concurso' => $concurso,
             'form' => $form->createView(),
         ));
     }
@@ -67,10 +97,14 @@ class DictamenController extends Controller
     public function showAction(Dictamen $dictaman)
     {
         $deleteForm = $this->createDeleteForm($dictaman);
+        $concur=$dictaman->getConcurso();
+        $registros=$concur->getRegistros();
 
         return $this->render('dictamen/show.html.twig', array(
             'dictaman' => $dictaman,
             'delete_form' => $deleteForm->createView(),
+            'concurso' =>$concur,
+            'registros' =>$registros,
         ));
     }
 

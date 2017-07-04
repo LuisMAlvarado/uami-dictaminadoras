@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
 class DictamenRepository extends EntityRepository
 
 {
-    public function findAllOrderedByDiv($divisionId)
+    public function AllporDiv($divisionId)
     {
         $query = $this->getEntityManager()
             ->createQuery(

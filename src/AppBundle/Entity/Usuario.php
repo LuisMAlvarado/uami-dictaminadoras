@@ -19,7 +19,7 @@ class Usuario implements AdvancedUserInterface, \Serializable
     /**
      * @var integer
      *
-     * @ORM\Column(name="numero_economico", type="integer", nullable=false)
+     * @ORM\Column(name="numero_economico", type="integer", length=5, nullable=false)
      * @ORM\Id
      */
     private $numeroEconomico;
@@ -44,6 +44,13 @@ class Usuario implements AdvancedUserInterface, \Serializable
      * @ORM\Column(name="apellido_materno", type="string", length=45, nullable=true)
      */
     private $apellidoMaterno;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="correoelectronico", type="string", length=50, nullable=true)
+     */
+    private $correoElectronico;
 
     /**
      * @var string
@@ -516,5 +523,29 @@ class Usuario implements AdvancedUserInterface, \Serializable
     public function getDepartamento()
     {
         return $this->departamento;
+    }
+
+    /**
+     * Set correoElectronico
+     *
+     * @param string $correoElectronico
+     *
+     * @return Usuario
+     */
+    public function setCorreoElectronico($correoElectronico)
+    {
+        $this->correoElectronico = $correoElectronico;
+
+        return $this;
+    }
+
+    /**
+     * Get correoElectronico
+     *
+     * @return string
+     */
+    public function getCorreoElectronico()
+    {
+        return $this->correoElectronico;
     }
 }

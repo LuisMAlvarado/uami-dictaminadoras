@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="{{ asset('/resource/css/pdfshows.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="{{ asset('/resource/css/tablita_curva.css') }}" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
 
 <header>
-    <table bgcolor="#FFFFFF" cellpadding="3" border="0" width="99%"  >
+    <table bgcolor="#FFFFFF" cellpadding="3" border="0" width="100%"  >
 
         <tr>
 
             <td border="0" width="30%" rowspan="2" valign="bottom"> <img src="{{ asset('/resource/img/encabezado2.jpg') }}"  /></td>
-            <td align="right" width="69%" valign="bottom"><small>FI-DIPPPA-03 / 01122015 PÁGINA 1/2 </small></td>
+            <td class="clvdipp" align="right" width="69%" valign="bottom"><strong>FI-DIPPPA-03 / 01122015 PÁGINA 1/2 </strong></td>
         </tr>
         <tr>
-            <td class="titulo"  valign="top" > <strong>CONVOCATORIA A CONCURSO DE EVALUACIÓN CURRICULAR</strong></td>
+            <td class="titulo1"  valign="top" > <strong>CONVOCATORIA A CONCURSO DE EVALUACIÓN CURRICULAR</strong></td>
         </tr>
     </table> <br />
 </header>
@@ -25,9 +26,9 @@
     <tbody >
     <tr>
         <td colspan="3" width="35%"></td>
-        <th class="celizqH"><strong>PARA:</strong> </th>
+        <th class="celizqH1"><strong>PARA:</strong> </th>
 
-        <td class="celsola" width="235" align="center">{{ concurso.clasificacion }}</td>
+        <td class="celsola1" width="235" align="center">{{ concurso.clasificacion.nombre }}</td>
     </tr>
 
     </tbody>
@@ -39,13 +40,13 @@
     <tbody >
     <tr>
         <td colspan="2" width="32%"></td>
-        <th class="celizqH text-right " ><strong> No. EC. &nbsp;</strong></th>
+        <td class="celizqH1 text-right " ><strong> No. EC. &nbsp;</strong></td>
 
-        <td  border="1" class=" celsola text-center small "><strong> </strong>{{ concurso.numConcurso }}</td>
+        <td width="20%" border="1" class="celsola1" align="center"><strong> </strong>{{ concurso.numConcurso }}</td>
 
-        <th class="celizqH"   ><strong>FECHA &nbsp;</strong></th>
+        <td class="celizqH1" width="10%"  ><strong>FECHA &nbsp;</strong></td>
 
-        <td border="1" class=" celsola text-center ">{% if concurso.fechaPublicacion %}{{ concurso.fechaPublicacion|date('d-M-Y') }}{% endif %}</td>
+        <td width="20%" border="1" class="celsola1" align="center">DÍA &nbsp; MES &nbsp; AÑO <br>{% if concurso.fechaPublicacion %}{{ concurso.fechaPublicacion|date('d |  M  | Y') }}{% endif %}</td>
 
     </tr>
 
@@ -56,54 +57,55 @@
     <br>
     METROPOLITANA CONVOCA AL CONCURSO PARA OCUPAR CON CARÁCTER DE TEMPORAL LA SIGUIENTE PLAZA:  </p>
 <br/>
-<table  bgcolor="#FFFFFF"  align="center"  border="1" cellpadding="3" cellspacing="0"   width="99%">
+
+<table class="table-curved"   width="99%">
     <tbody >
     <tr>
-        <td class="celTL"><strong>CATEGORÍA</strong><br />
-            {{ concurso.categoria }}
+        <td colspan="2"><strong>CATEGORÍA</strong><br />
+            {{ concurso.categoria.nombre }}
         </td>
-        <td  colspan="2"> <strong>TIEMPO DE DEDICACIÓN</strong><br>
-            {{ concurso.tiempoDedicacion }}
+        <td  colspan="3"> <strong>TIEMPO DE DEDICACIÓN</strong><br>
+            {{ concurso.tiempoDedicacion.nombre }}
         </td>
     </tr>
 
     <tr>
-        <td class="celizquierda"> <strong>NÚMERO DE HORAS</strong> (SÓLO TIEMPO PARCIAL)<BR> <STRONG>DE CLASE:</STRONG>
+        <td colspan="2"> <strong>NÚMERO DE HORAS</strong> (SÓLO TIEMPO PARCIAL)<BR> <STRONG>DE CLASE:</STRONG>
             {{ concurso.tpHclase }}
         </td>
-        <td class="celcentro"><strong><BR>DE OTRAS ACTIVIDADES ACADÉMICAS:  </strong>
+        <td colspan="2"><strong><BR>DE OTRAS ACTIVIDADES ACADÉMICAS:  </strong>
             {{ concurso.tpHacademia }}
         </td>
 
-        <td class="celderecha"><strong><BR>DE AYUDANTÍA:  </strong>
+        <td ><strong><BR>DE AYUDANTÍA:  </strong>
             {{ concurso.tpHayudantia }}
         </td>
     </tr>
     <tr>
-        <td> <strong>UNIDAD</strong><br>
+        <td colspan="2"> <strong>UNIDAD</strong><br>
             {{ concurso.unidad }}
         </td>
-        <td colspan="2"><strong>DIVISIÓN</strong><br />
-            {{ concurso.departamento.division }}
+        <td colspan="3"><strong>DIVISIÓN</strong><br />
+            {{ concurso.departamento.division.nombre }}
         </td>
     </tr>
     <tr>
-        <td> <strong>DEPARTAMENTO</strong><br>
+        <td colspan="2"> <strong>DEPARTAMENTO</strong><br>
             {{ concurso.departamento.nombre}}
         </td>
-        <td colspan="2"> <strong>ÁREA DEPARTAMENTAL</strong>(EN SU CASO)<br>
+        <td colspan="3"> <strong>ÁREA DEPARTAMENTAL</strong>(EN SU CASO)<br>
             {{ concurso.areaDepartamental }}
         </td>
     </tr>
     <tr>
-        <td class="celizquierda">
+        <td >
             <strong>SALARIO</strong> <br>
             <strong>DE: $&nbsp;</strong>{{ concurso.salarioA |number_format(2, '.', ',')  }}
         </td>
-        <td class="celderecha"> <br /><br />
+        <td> <br><br>
            <strong> A: $&nbsp;</strong>{{ concurso.salarioB |number_format(2, '.', ',')  }}
         </td>
-        <td><strong>HORARIO</strong><br />
+        <td colspan="3"><strong>HORARIO</strong><br />
             {{ concurso.horario }}
         </td>
     </tr>
@@ -123,16 +125,16 @@
 
     </tbody>
 </table>
-<br /> <br /><br />
 
-<table   bgcbgcolor="#FFFFFF"  align="center"  border="1" cellpadding="1" cellspacing="0"   width="99%">
+
+<br /> <br />
+
+<table class="table-curved"  bgcbgcolor="#FFFFFF"  width="99%">
 
     <tr>
-        <td  valign="top" height="150" colspan="2">
-            <strong>ACTIVIDADES A REALIZAR</strong> <br>
-            {{ concurso.actividades }}
-
-
+        <td  valign="top" height="220" colspan="2">
+            <strong>ACTIVIDADES A REALIZAR</strong> <br> <br>
+            {{ concurso.actividades |nl2br }}
         </td>
     </tr>
 
@@ -152,9 +154,9 @@
     </tr>
 
     <tr>
-        <td  valign="top" height="60"  colspan="2">
+        <td  valign="top" height="70"  colspan="2">
             <strong>REQUISITOS ACADÉMICOS</strong><small> (para poder participar en los concursos, no deberán encontrarse en los supuestos establecidos en los articulos 137 bis y 137 ter. del RIPPPA</small> <br>
-            {{ concurso.requisitos }}
+            <br>{{ concurso.requisitos }}
 
 
         </td>
@@ -163,7 +165,7 @@
     <tr>
         <td valign="top" height="40" colspan="2">
             <strong>CAUSA QUE ORIGINA LA NECESIDAD</strong> <br>
-            {{ concurso.causal }}
+            <br>{{ concurso.causal }}
 
 
         </td>
@@ -171,8 +173,8 @@
 
 </table>
 
-<br /><br /><br />
-<TABLE  align="center" border="1" cellpadding="4" cellspacing="0"   width="99%">
+<br /><br />
+<TABLE class="table-curved"   width="99%">
     <tr>
         <td colspan="2">
             <strong>NÚMERO DE PLAZA DEFINITIVA QUE CUBRE: &nbsp;</strong>
@@ -183,23 +185,24 @@
     </tr>
 
 </TABLE>
-<br /><br /><br />
+<br /><br />
 
 
-    <TABLE class="tablapie"  width="100%"  cellpadding="1"  >
+    <TABLE align="center" width="99%"  cellpadding="1"  >
         <tr >
-            <td class="celdapie" align="center" > <strong>JEFE DE DEPARTAMENTO</strong>
+            <td width="32%" border="1" align="center" > <strong>JEFE DE DEPARTAMENTO</strong>
                 <br /><br /><br /><br /><br /><br />
                 {{ concurso.departamento.dpNombreCompleto }} <br />
                 <strong>  NOBRE Y FIRMA</strong>
             </td>
-            <td class="celdapie" align="center"  ><strong>DIRECTOR DE DIVISIÓN  </strong>
+            <td width="10px"></td>
+            <td width="32%" border="1" align="center"  ><strong>DIRECTOR DE DIVISIÓN  </strong>
                 <br /><br /><br /><br /><br /><br />
                 {{ concurso.departamento.division.dNombreCompleto }}<br />
                 <strong>  NOBRE Y FIRMA</strong>
             </td>
-
-            <td  class="celdapie" align="center"  ><strong>SUBDIRECTOR DE RELACIONES DE TRABAJO  </strong>
+            <td width="10px"></td>
+            <td width="32%" border="1" align="center"  ><strong>SUBDIRECTOR DE RELACIONES DE TRABAJO  </strong>
                 <br /><br /><br /><br /><br /><br />
                 M. EN C. HIPÓLITO LARA RESÉNDIZ <br />
               <strong>  NOBRE Y FIRMA</strong>
@@ -209,10 +212,10 @@
 
 
     </TABLE>
-<br /><br /><br /><br />
+<br /><br />
 <table align="center" width="100%">
     <tr>
-        <td width="35%"></td><td width="20%">T1 DIPPPA <br />T2 RECTORÍA GENERAL<br /> T3 CMGVPIPPA</td><td>T4 DIRECTOR DE DIVISIÓN<br /> T5 CMGVPIPPA</td><td width="15%"></td>
+        <td width="35%"></td><td width="20%" align="left">T1 DIPPPA <br />T2 RECTORÍA GENERAL<br /> T3 CMGVPIPPA</td><td align="left">T4 DIRECTOR DE DIVISIÓN<br /> T5 CMGVPIPPA</td><td width="15%"></td>
 
     </tr>
 

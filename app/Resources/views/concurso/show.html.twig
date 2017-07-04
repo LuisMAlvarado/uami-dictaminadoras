@@ -1,7 +1,9 @@
 {% extends 'frontend.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
+
     <link href="{{ asset('/resource/css/usershow.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/resource/css/tablita_curva.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 
@@ -90,7 +92,7 @@
             <td colspan="3" width="50%"></td>
             <th class="table-bordered text-right " >PARA: &nbsp;</th>
 
-            <td class="table-bordered text-center ">{{ concurso.clasificacion }}</td></tr>
+            <td class="table-bordered text-center ">{{ concurso.clasificacion.nombre }}</td></tr>
 
         </tbody>
     </table>
@@ -111,38 +113,38 @@
     </table> <br>
     <font size="0"><p   > CONFORME A LO PREVISTO EN EL REGLAMENTO DE INGRESO, PROMOCIÓN Y PERMANENCIA DEL PERSONAL ACADÉMICO, LA UNIVERSIDAD AUTÓNOMA
             METROPOLITANA CONVOCA AL CONCURSO PARA OCUPAR CON CARÁCTER DE TEMPORAL LA SIGUIENTE PLAZA: </p></font>
-    <table  class="small"  align="center" border="1" cellpadding="0" cellspacing="0"   width="100%">
+    <table class="table-curved" align="center"  width="100%">
         <tbody>
 
         <tr>
-            <td class="small"><strong>Categoria</strong><br />
-                {{ concurso.categoria }}
+            <td ><strong>Categorias</strong><br />
+                {{ concurso.categoria.nombre }}
             </td>
-            <td class="small" colspan="2"> <strong>Tiempo de Dedicación</strong><br>
-                {{ concurso.tiempoDedicacion }}
+            <td  colspan="2"> <strong>Tiempo de Dedicación</strong><br>
+                {{ concurso.tiempoDedicacion.nombre }}
             </td>
         </tr>
 
         <tr>
-            <td class="small"> <strong>Unidad</strong><br>
+            <td > <strong>Unidad</strong><br>
                 {{ concurso.unidad }}
             </td>
-            <td class="small" colspan="2"><strong>División</strong><br />
-                {{ concurso.departamento.division }}
+            <td  colspan="2"><strong>División</strong><br />
+                {{ concurso.departamento.division.nombre }}
             </td>
 
 
         </tr>
 
         <tr>
-            <td class="small"> <strong>DE CLASE:  </strong>
+            <td > <strong>DE CLASE:  </strong>
                 {{ concurso.tpHclase }}
             </td>
-            <td class="small"><strong>DE OTRAS ACTIVIDADES ACADÉMICAS:  </strong>
+            <td ><strong>DE OTRAS ACTIVIDADES ACADÉMICAS:  </strong>
                 {{ concurso.tpHacademia }}
             </td>
 
-            <td class="small"><strong>DE AYUDANTÍA:  </strong>
+            <td ><strong>DE AYUDANTÍA:  </strong>
                 {{ concurso.tpHayudantia }}
             </td>
 
@@ -150,72 +152,72 @@
 
 
         <tr>
-            <td class="small" > <strong>Departamento</strong><br>
+            <td  > <strong>Departamento</strong><br>
                 {{ concurso.departamento.nombre}}
             </td>
 
 
 
-            <td class="small" colspan="2"> <strong>Area Departamental</strong><br>
+            <td  colspan="2"> <strong>Area Departamental</strong><br>
                 {{ concurso.areaDepartamental }}
             </td>
         </tr>
 
         <tr>
-            <td class="small">
+            <td>
                 <strong>SALARIO</strong> <br>
                 DE: ${{ concurso.salarioA |number_format(2, '.', ',')  }}
             </td>
-            <td class="small"> <br>
+            <td > <br>
                 A: ${{ concurso.salarioB |number_format(2, '.', ',')  }}
             </td>
-            <td class="small"><strong>Horario</strong><br />
+            <td ><strong>Horario</strong><br />
                 {{ concurso.horario }}
             </td>
 
         </tr>
 
         <tr>
-            <td class="small" >
+            <td  >
                 <strong>FECHA  DE INGRESO: </strong> <br>
                 {{ concurso.fechaIn |date('d-M-Y')  }}
             </td>
 
-            <td class="small" colspan="2" >
+            <td  colspan="2" >
                 <strong>FECHA DE TERMINACIÓN DE LABORES: </strong> <br>
                 {{ concurso.fechaTer |date('d-M-Y') }}
         </tr>
         <tr>
-            <td class="small" colspan="3"> <strong>DURACIÓN DE LA CONTRATACIÓN</strong><br>
+            <td  colspan="3"> <strong>DURACIÓN DE LA CONTRATACIÓN</strong><br>
 
             </td>
         </tr>
         <tr>
-            <td  class="small" align="center" colspan="3">
+            <td  align="center" colspan="3">
                 {{ dias }}
             </td>
         </tr>
 
     </table> <br />
 
-    <TABLE  class="small"  align="center" border="1" cellpadding="0" cellspacing="0"    width="100%">
+    <TABLE  class="table-curved"  align="center"  width="99%">
         <tr>
-            <td valign="top" height="130" colspan="2" class="small">
+            <td valign="top" height="50" colspan="2" class="small">
                 <strong>ACTIVIDADES A REALIZAR</strong> <br>
-                {{ concurso.actividades }}
+                {{ concurso.actividades |nl2br }}
 
 
             </td>
         </tr>
 
         <tr>
-            <td class="small">
+            <td>
                 <strong>ÁREA DE CONOCIMIENTO</strong> <br>
                 {{ concurso.aConocimiento }}
 
 
             </td>
-            <td class="small">
+            <td>
                 <strong>DISCIPLINA</strong> <br>
 
                 {{ concurso.disciplina }}
@@ -224,7 +226,7 @@
         </tr>
 
         <tr>
-            <td  valign="top" height="40" class="small" colspan="2">
+            <td  valign="top" height="40" colspan="2">
                 <strong>REQUISITOS ACADÉMICOS</strong> (para poder participar en los concursos, no deberán encontrarse en los supuestos establecidos en los articulos 137 bis y 137 ter. del RIPPPA) <br>
                 {{ concurso.requisitos }}
 
@@ -233,7 +235,7 @@
         </tr>
 
         <tr>
-            <td  valign="top" height="40" class="small" colspan="2">
+            <td  valign="top" height="40" colspan="2">
                 <strong>CAUSA QUE ORIGINA LA NECESIDAD</strong> <br>
                 {{ concurso.causal }}
 
@@ -243,9 +245,9 @@
 
     </TABLE>
     <br>
-    <TABLE class="small"  align="center" border="1" cellpadding="0" cellspacing="0"    width="100%">
+    <TABLE class="table-curved" align="center" width="100%">
         <tr>
-            <td class="small" colspan="2">
+            <td ccolspan="2">
                 <strong>NÚMERO DE PLAZA DEFINITIVA QUE CUBRE: &nbsp;</strong>
                 {{ concurso.plaza }}
 
@@ -256,6 +258,7 @@
     </TABLE>
 
     <br>
+    <div class="div1">
     <TABLE WIDTH="95%"  align="center" class="table table-bordered small">
         <tr>
             <td width="30%"  height="90" class="text-center small"> <strong>JEFE DE DEPARTAMENTO</strong><br><br><br><br>
@@ -271,6 +274,7 @@
 
         </tr>
     </TABLE>
+    </div>
     <br>
 
     <font size="0"><p align="center" class="visible-print">T1 DIPPPA &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;T4 DIRECTOR DE DIVISIÓN<br>

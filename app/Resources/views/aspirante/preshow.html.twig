@@ -1,0 +1,98 @@
+{% extends 'frontend.html.twig' %}
+
+{% block header %}
+    <table class="table">
+        <tr>
+            <td> <img src="{{ asset('/resource/img/encabezado.png') }}"  /></td>
+            <td class="text-right"><strong>Datos utilizados  <br />  para su ALTA</strong></td>
+        </tr>
+    </table>
+{% endblock %}
+
+{% block content %}
+    <h1>Solicitud de alta como ASPIRANTE</h1>
+
+    <table width="100%">
+        <tbody>
+        <tr>
+            <td colspan="3" width="50%"></td>
+            <th class="table-bordered text-right" >Fecha de Solicitud &nbsp;</th>
+
+            <td class="table-bordered text-center">{% if aspirante.createAt %}{{  aspirante.createAt|date('d-M-Y') }}{% endif %}</td></tr>
+
+        </tbody>
+    </table>
+    <br />
+
+    <table  align="center" class="table table-bordered">
+        <tbody>
+
+
+
+        <tr>
+            <td><strong>Apellido Paterno</strong><br />
+                {{ aspirante.apellidoPaterno }}
+            </td>
+            <td> <strong>Apellido Materno</strong><br>
+                {{ aspirante.apellidoMaterno }}
+            </td>
+            <td><strong>Nombre</strong><br>
+                {{ aspirante.nombre }}
+            </td>
+
+        </tr>
+
+        <tr>
+
+            </td>
+            <td> <strong>RFC</strong><br>
+                {{ aspirante.rfc }}
+            </td>
+            <td><strong>No.Empleado</strong><br>
+                {{ aspirante.numeroEconomico }}
+            </td>
+
+            <td><strong>EDAD</strong><br>
+                {{ aspirante.edad }}
+            </td>
+
+        </tr>
+
+
+        <tr>
+            <td><strong>Telefonos</strong><br>
+                {{ aspirante.telefonos }}
+            </td>
+            <td><strong>Correo Electronico</strong><br>
+                {{ aspirante.correoElectronico }}
+            </td>
+        </tr>
+
+
+
+
+
+
+        </tbody>
+    </table>
+
+    <br>
+
+
+
+
+    <ul>
+        <li>
+            <a href="{{ path('portada') }}">Regresar a INICIO</a>
+        </li>
+
+        <li>
+            <a href="#">Salvar como PDF </a>
+        </li>
+
+        <li>
+            <a href="{{ path('aspirante_edit', { 'id': aspirante.rfc }) }}">Corregir Datos</a>
+        </li>
+
+    </ul>
+{% endblock %}

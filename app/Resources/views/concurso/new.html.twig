@@ -6,15 +6,18 @@
     {{ form_start(form) }}
     <table width="100%">
         <tbody>
-        <tr>
+
+        <div id="selecClasificacion">
+            <tr>
             <td colspan="3" width="50%"></td>
 
             <td class="table-bordered text-right">
                 {{ form_label(form.clasificacion,"PARA: ") }}
                 {{ form_widget(form.clasificacion) }}
-                {{ form_errors(form.clasificacion) }}</td>
-
-        </tr>
+                {{ form_errors(form.clasificacion) }}
+            </td>
+            </tr>
+        </div>
 
         </tbody>
     </table>
@@ -37,9 +40,9 @@
                 </td>
 
                 <td class="table-bordered text-center">
-                {{ form_label(form.fechaPublicacion) }}
-                {{ form_widget(form.fechaPublicacion) }}
-                {{ form_errors(form.fechaPublicacion) }}
+                {{ form_label(form.createAt,"FECHA DE ELABORACIÓN") }}
+                {{ form_widget(form.createAt) }}
+                {{ form_errors(form.createAt) }}
                 </td></tr>
 
         </tbody>
@@ -50,13 +53,15 @@
 
 
         <tr>
-            <td>
+           <div id="selectcategoria">
+            <td colspan="2">
 
                 {{ form_label(form.categoria) }}
                 {{ form_widget(form.categoria) }}
                 {{ form_errors(form.categoria) }}
 
             </td>
+           </div>
             <td colspan="2">
 
                 {{ form_label(form.tiempoDedicacion) }}
@@ -69,14 +74,13 @@
         </tr>
 
         <tr>
-            <td>
-
+            <td >
                 {{ form_label(form.tpHclase,"DE CLASE:  ") }}
                 {{ form_widget(form.tpHclase) }}
                 {{ form_errors(form.tpHclase) }}
 
             </td>
-            <td>
+            <td colspan="2" >
 
                 {{ form_label(form.tpHacademia,"DE OTRAS ACTIVIDADES ACADÉMICAS:  ") }}
                 {{ form_widget(form.tpHacademia) }}
@@ -94,7 +98,7 @@
         </tr>
 
         <tr>
-            <td>
+            <td colspan="2">
 
                 {{ form_label(form.unidad) }}
                 {{ form_widget(form.unidad) }}
@@ -106,13 +110,14 @@
                 <strong>DIVISION</strong>
 
 
+
             </td>
 
 
         </tr>
 
         <tr>
-            <td >
+            <td colspan="2">
 
                 {{ form_label(form.departamento) }}
                 {{ form_widget(form.departamento) }}
@@ -131,23 +136,26 @@
         </tr>
 
         <tr>
-            <td >
-                <strong>SALARIO</strong> <br>
+            <td colspan="2">
+                <strong>SALARIO</strong> <br><br>
                 {{  form_label(form.salarioA,"DE: " ) }}
                 {{ form_widget(form.salarioA) }}
                 {{ form_errors(form.salarioA) }}
-            </td>
-            <td>
-                <br>
+&nbsp;&nbsp;
                 {{  form_label(form.salarioB,"A: ") }}
                 {{ form_widget(form.salarioB) }}
                 {{ form_errors(form.salarioB) }}
+             </td>
 
-            </td>
-            <td>
+            <td width="47%" colspan="2">
                 <br>
                 {{ form_label(form.horario) }}
-                {{ form_widget(form.horario) }}
+                {{ form_widget(form.horario,{'attr':{
+                    'class':'form-control',
+                    'rows' : '1',
+                    'cols' : '1'
+
+                }}) }}
                 {{ form_errors(form.horario) }}
 
 
@@ -157,7 +165,9 @@
         </tr>
 
         <tr>
-            <td  colspan="2">
+            <td align="center" width="20%"><br><strong>DURACIÓN DE <br> LA CONTRATACION</strong></td>
+            <td align="center" width="20%"><br><strong>FECHA DE INICIO <br> DE LABORES</strong></td>
+            <td>
                 <strong>FECHA DE: </strong>
                 {{  form_label(form.fechaIn,"INGRESO " ) }}
                 {{ form_widget(form.fechaIn) }}
@@ -183,70 +193,73 @@
     <br>
 
     <TABLE WIDTH="90%" align="center" class="table table-bordered">
-        <tr>
+          <tr>
             <td colspan="2">
 
-                {{ form_label(form.actividades,"FUNCIONES A REALIZAR") }}
-                {{ form_widget(form.actividades,{'attr':{
-                    'class':'form-control',
-                    'rows' : '5'
+                 {{ form_label(form.actividades,"FUNCIONES A REALIZAR") }}
+                 {{ form_widget(form.actividades,{'attr':{
+                     'class':'form-control',
+                     'rows' : '15'
 
-                }}) }}
-                {{ form_errors(form.actividades) }}
+                 }}) }}
+                 {{ form_errors(form.actividades) }}
 
 
-            </td>
-        </tr>
+             </td>
+         </tr>
+
+         <tr>
+             <td>
+
+                 {{ form_label(form.aConocimiento,"AREA DE CONOCIMIENTO") }}
+                 {{ form_widget(form.aConocimiento) }}
+                 {{ form_errors(form.aConocimiento) }}
+
+
+             </td>
+             <td>
+
+                 {{ form_label(form.disciplina,"DISCIPLINA") }}
+                 {{ form_widget(form.disciplina,{'attr':{
+                     'class':'form-control',
+                     'rows' : '1',
+                     'cols' :'40',
+
+                 }}) }}
+                 {{ form_errors(form.disciplina) }}
+
+
+
+             </td>
+         </tr>
+
+         <tr>
+             <td colspan="2">
+
+                 {{ form_label(form.requisitos,"REQUISITOS ACADEMICOS") }}
+                 {{ form_widget(form.requisitos,{'attr':{
+                     'class':'form-control',
+                     'rows' : '2'
+
+                 }}) }}
+                 {{ form_errors(form.requisitos) }}
+
+
+             </td>
+         </tr>
 
         <tr>
-            <td>
-
-                {{ form_label(form.aConocimiento,"AREA DE CONOCIMIENTO") }}
-                {{ form_widget(form.aConocimiento) }}
-                {{ form_errors(form.aConocimiento) }}
-
-
-            </td>
-            <td>
-
-                {{ form_label(form.disciplina,"DISCIPLINA") }}
-                {{ form_widget(form.disciplina,{'attr':{
-                    'class':'form-control',
-                    'rows' : '1',
-                    'cols' :'40',
-
-                }}) }}
-                {{ form_errors(form.disciplina) }}
-
-
-
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="2">
-
-                {{ form_label(form.requisitos,"REQUISITOS ACADEMICOS") }}
-                {{ form_widget(form.requisitos,{'attr':{
-                    'class':'form-control',
-                    'rows' : '2'
-
-                }}) }}
-                {{ form_errors(form.requisitos) }}
-
-
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="2">{{ form_label(form.causal,"CAUSA QUE ORIGINA LA NECESIDAD") }}
-                {{ form_widget(form.causal,{'attr':{
-                    'class':'form-control',
-                    'rows' : '2'
-
-                }}) }}
+            <td width="20%">{{ form_label(form.causal,"SELECCIONE CAUSAL") }}
+                {{ form_widget(form.causal) }}
                 {{ form_errors(form.causal) }}</td>
 
+            <td>{{ form_label(form.causaltxt,"CAUSA QUE ORIGINA LA NECESIDAD") }}
+                {{ form_widget(form.causaltxt,{'attr':{
+                    'class':'form-control',
+                    'rows' : '1'
+
+                }}) }}
+                {{ form_errors(form.causaltxt) }}</td>
 
         </tr>
 
@@ -298,3 +311,23 @@
 
 
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            //$('.link-modal').click(function (e) {
+            //    var statusId= $(this).attr('status');
+            //    var statusnombre= $(this).attr('status_nombre');
+               // var lk = '{#{{ path('next_estatus',{ 'concurso': concurso.id ,'nest': '__id1__' }) }}';#}
+               // var link = lk.replace('__id1__', statusId);
+           //     $('#modal-body').html('<p>Cambio al estado &hellip; <strong>'+statusnombre+'</strong></p>');
+            //    $('#link-confirma').attr('href', link)
+           // });
+        });
+
+
+
+    </script>
+{% endblock %}
+

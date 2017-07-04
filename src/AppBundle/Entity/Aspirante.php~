@@ -25,28 +25,28 @@ class Aspirante implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="nombre", type="string", length=45, nullable=false)
+     * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
      */
     private $nombre;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="apellido_paterno", type="string", length=45, nullable=false)
+     * @ORM\Column(name="apellido_paterno", type="string", length=200, nullable=true)
      */
     private $apellidoPaterno;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="apellido_materno", type="string", length=45, nullable=true)
+     * @ORM\Column(name="apellido_materno", type="string", length=200, nullable=true)
      */
     private $apellidoMaterno;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="numero_economico", type="integer", nullable=true)
+     * @ORM\Column(name="numero_economico", type="integer", length=5, nullable=true)
      */
     private $numeroEconomico;
 
@@ -86,6 +86,13 @@ class Aspirante implements AdvancedUserInterface, \Serializable
     private $edad;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fechaBirthday", type="date", nullable=false)
+     */
+    private $fechaBirthday;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="sexo", type="string", length=10, nullable=true)
@@ -109,9 +116,58 @@ class Aspirante implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="direccion", type="string", length=255, nullable=true)
+     * @ORM\Column(name="calle", type="text", nullable=true)
      */
-    private $direccion;
+    private $calle;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="noext", type="string", length=30, nullable=true)
+     */
+    private $noExt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="edif", type="string", length=30, nullable=true)
+     */
+    private $edif;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="depto", type="string", length=30, nullable=true)
+     */
+    private $depto;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="coloniafracc", type="text", nullable=true)
+     */
+    private $coloniaFracc;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="delegMunc", type="text", nullable=true)
+     */
+    private $delegMunc;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="estado", type="text", nullable=true)
+     */
+    private $estado;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="codPost", type="integer", length=7, nullable=true)
+     */
+    private $codPost;
 
     /**
      * @var string
@@ -151,7 +207,7 @@ class Aspirante implements AdvancedUserInterface, \Serializable
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="ultimaConexion", type="date", nullable=false)
+     * @ORM\Column(name="ultimaConexion", type="date", nullable=true)
      */
     private $ultimaConexion;
 
@@ -183,7 +239,7 @@ class Aspirante implements AdvancedUserInterface, \Serializable
     {
         $this ->createAt = new \DateTime('now');
         $this ->loked =true;
-        $this ->enable=true;
+        $this ->enable=false;
         $this ->expired=7;
         $this->archivos = new ArrayCollection();
     }
@@ -810,5 +866,221 @@ return $this->rfc;
     public function getArchivos()
     {
         return $this->archivos;
+    }
+
+    /**
+     * Set calle
+     *
+     * @param string $calle
+     *
+     * @return Aspirante
+     */
+    public function setCalle($calle)
+    {
+        $this->calle = $calle;
+
+        return $this;
+    }
+
+    /**
+     * Get calle
+     *
+     * @return string
+     */
+    public function getCalle()
+    {
+        return $this->calle;
+    }
+
+    /**
+     * Set noExt
+     *
+     * @param string $noExt
+     *
+     * @return Aspirante
+     */
+    public function setNoExt($noExt)
+    {
+        $this->noExt = $noExt;
+
+        return $this;
+    }
+
+    /**
+     * Get noExt
+     *
+     * @return string
+     */
+    public function getNoExt()
+    {
+        return $this->noExt;
+    }
+
+    /**
+     * Set edif
+     *
+     * @param string $edif
+     *
+     * @return Aspirante
+     */
+    public function setEdif($edif)
+    {
+        $this->edif = $edif;
+
+        return $this;
+    }
+
+    /**
+     * Get edif
+     *
+     * @return string
+     */
+    public function getEdif()
+    {
+        return $this->edif;
+    }
+
+    /**
+     * Set depto
+     *
+     * @param string $depto
+     *
+     * @return Aspirante
+     */
+    public function setDepto($depto)
+    {
+        $this->depto = $depto;
+
+        return $this;
+    }
+
+    /**
+     * Get depto
+     *
+     * @return string
+     */
+    public function getDepto()
+    {
+        return $this->depto;
+    }
+
+    /**
+     * Set coloniaFracc
+     *
+     * @param string $coloniaFracc
+     *
+     * @return Aspirante
+     */
+    public function setColoniaFracc($coloniaFracc)
+    {
+        $this->coloniaFracc = $coloniaFracc;
+
+        return $this;
+    }
+
+    /**
+     * Get coloniaFracc
+     *
+     * @return string
+     */
+    public function getColoniaFracc()
+    {
+        return $this->coloniaFracc;
+    }
+
+    /**
+     * Set delegMunc
+     *
+     * @param string $delegMunc
+     *
+     * @return Aspirante
+     */
+    public function setDelegMunc($delegMunc)
+    {
+        $this->delegMunc = $delegMunc;
+
+        return $this;
+    }
+
+    /**
+     * Get delegMunc
+     *
+     * @return string
+     */
+    public function getDelegMunc()
+    {
+        return $this->delegMunc;
+    }
+
+    /**
+     * Set estado
+     *
+     * @param string $estado
+     *
+     * @return Aspirante
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return string
+     */
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+
+    /**
+     * Set codPost
+     *
+     * @param integer $codPost
+     *
+     * @return Aspirante
+     */
+    public function setCodPost($codPost)
+    {
+        $this->codPost = $codPost;
+
+        return $this;
+    }
+
+    /**
+     * Get codPost
+     *
+     * @return integer
+     */
+    public function getCodPost()
+    {
+        return $this->codPost;
+    }
+
+    /**
+     * Set fechaBirthday
+     *
+     * @param \DateTime $fechaBirthday
+     *
+     * @return Aspirante
+     */
+    public function setFechaBirthday($fechaBirthday)
+    {
+        $this->fechaBirthday = $fechaBirthday;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaBirthday
+     *
+     * @return \DateTime
+     */
+    public function getFechaBirthday()
+    {
+        return $this->fechaBirthday;
     }
 }

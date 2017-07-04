@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Tiempodedicacions list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Abreviacion</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tiempoDedicacion in tiempoDedicacions %}
+            <tr>
+                <td><a href="{{ path('tiempodedicacion_show', { 'id': tiempoDedicacion.id }) }}">{{ tiempoDedicacion.id }}</a></td>
+                <td>{{ tiempoDedicacion.nombre }}</td>
+                <td>{{ tiempoDedicacion.abreviacion }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('tiempodedicacion_show', { 'id': tiempoDedicacion.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

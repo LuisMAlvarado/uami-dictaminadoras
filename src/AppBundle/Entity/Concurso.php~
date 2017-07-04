@@ -10,7 +10,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Concurso
  *
- * @ORM\Table(name="concurso", indexes={@ORM\Index(name="fk_Concurso_Departamento1_idx", columns={"Departamento_id"}), @ORM\Index(name="fk_concurso_dictamen1_idx", columns={"dictamen_id"}), @ORM\Index(name="fk_concurso_estatus1_idx", columns={"estatus_id"})})
+ * @ORM\Table(name="concurso", indexes={@ORM\Index(name="fk_Concurso_Departamento1_idx", columns={"Departamento_id"}), @ORM\Index(name="fk_concurso_dictamen1_idx", columns={"dictamen_id"}), @ORM\Index(name="fk_concurso_estatus1_idx", columns={"estatus_id"}),@ORM\Index(name="fk_Concurso_clasificacion1_idx", columns={"clasificacion_id"}), @ORM\Index(name="fk_concurso_categoria1_idx", columns={"categoria_id"}), @ORM\Index(name="fk_concurso_tiempodedicacion1_idx", columns={"tiempodedicacion_id"})})
+ *
+ *
+ *
  * @ORM\Entity(repositoryClass="AppBundle\Entity\ConcursoRepository")
  */
 class Concurso
@@ -73,31 +76,41 @@ class Concurso
      */
     private $areaDepartamental;
 
+
     /**
-     * @var string
+     * @var \Clasificacion
      *
-     * @ORM\Column(name="clasificacion", type="string", length=45, nullable=true)
+     * @ORM\ManyToOne(targetEntity="Clasificacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="clasificacion_id", referencedColumnName="id")
+     * })
      */
     private $clasificacion;
 
     /**
-     * @var string
+     * @var \Categoria
      *
-     * @ORM\Column(name="categoria", type="string", length=100, nullable=true)
+     * @ORM\ManyToOne(targetEntity="Categoria")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="categoria_id", referencedColumnName="id")
+     * })
      */
     private $categoria;
 
     /**
-     * @var string
+     * @var \TiempoDedicacion
      *
-     * @ORM\Column(name="tiempoDedicacion", type="string", length=45, nullable=true)
+     * @ORM\ManyToOne(targetEntity="TiempoDedicacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tiempodedicacion_id", referencedColumnName="id")
+     * })
      */
     private $tiempoDedicacion;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="horario", type="string", length=100, nullable=true)
+     * @ORM\Column(name="horario", type="text", nullable=true)
      */
     private $horario;
 
@@ -107,6 +120,13 @@ class Concurso
      * @ORM\Column(name="causal", type="text", nullable=true)
      */
     private $causal;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="causaltxt", type="text", nullable=true)
+     */
+    private $causaltxt;
 
     /**
      * @var string
@@ -205,7 +225,7 @@ class Concurso
     /**
      * @var \Dictamen
      *
-     * @ORM\ManyToOne(targetEntity="Dictamen")
+     * @ORM\OneToOne(targetEntity="Dictamen", inversedBy="concurso" , cascade={"all"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="dictamen_id", referencedColumnName="id")
      * })
@@ -237,6 +257,7 @@ class Concurso
     public function __construct()
     {
         $this->createAt= new \DateTime('now');
+        $this->fechaPublicacion= new \DateTime('now');
         $this->unidad='Iztapalapa';
         $this->registros = new ArrayCollection();
     }
@@ -440,77 +461,7 @@ public function __clone()
         return $this->areaDepartamental;
     }
 
-    /**
-     * Set clasificacion
-     *
-     * @param string $clasificacion
-     *
-     * @return Concurso
-     */
-    public function setClasificacion($clasificacion)
-    {
-        $this->clasificacion = $clasificacion;
 
-        return $this;
-    }
-
-    /**
-     * Get clasificacion
-     *
-     * @return string
-     */
-    public function getClasificacion()
-    {
-        return $this->clasificacion;
-    }
-
-    /**
-     * Set categoria
-     *
-     * @param string $categoria
-     *
-     * @return Concurso
-     */
-    public function setCategoria($categoria)
-    {
-        $this->categoria = $categoria;
-
-        return $this;
-    }
-
-    /**
-     * Get categoria
-     *
-     * @return string
-     */
-    public function getCategoria()
-    {
-        return $this->categoria;
-    }
-
-    /**
-     * Set tiempoDedicacion
-     *
-     * @param string $tiempoDedicacion
-     *
-     * @return Concurso
-     */
-    public function setTiempoDedicacion($tiempoDedicacion)
-    {
-        $this->tiempoDedicacion = $tiempoDedicacion;
-
-        return $this;
-    }
-
-    /**
-     * Get tiempoDedicacion
-     *
-     * @return string
-     */
-    public function getTiempoDedicacion()
-    {
-        return $this->tiempoDedicacion;
-    }
 
     /**
      * Set horario
@@ -621,11 +572,11 @@ public function __clone()
                 ->atPath('salarioA')
                 ->addViolation();
         }
-        elseif (($this->salarioA != null && $this->salarioB == null )){
+        /**elseif (($this->salarioA != null && $this->salarioB == null )){
             $context->buildViolation('NO salarios VACIOS')
                 ->atPath('salarioB')
                 ->addViolation();
-        }
+        }*/
 
         if($this->salarioA < 0 )
         {
@@ -640,13 +591,14 @@ public function __clone()
                 ->atPath('salarioB')
                 ->addViolation();
         }
-
+if($this->salarioB != 0 or $this->salarioB != null ){
         if($this->salarioB < $this->salarioA)
         {
             $context->buildViolation('Salario FINAL es menor al INICIAL')
                 ->atPath('salarioB')
                 ->addViolation();
         }
+}
     }
 
     /**
@@ -758,9 +710,9 @@ public function __clone()
                 ->addViolation();
         }
 
-        if($this->fechaIn < $this->fechaPublicacion )
+        if($this->fechaIn < $this->createAt )
         {
-            $context->buildViolation('La [Fecha de Inicio] debe ser mayor que la [Fecha publicación]')
+            $context->buildViolation('La [FECHA INICIO] debe ser mayor que la [FECHA ELABORACION]')
                 ->atPath('fechaIn')
                 ->addViolation();
         }
@@ -768,7 +720,7 @@ public function __clone()
 
         if($this->fechaTer <= $this->fechaIn)
         {
-            $context->buildViolation('La [Fecha de Termino] debe ser mayor que [Fecha de Inicio]')
+            $context->buildViolation('La [FECHA TERMINO] debe ser mayor que [FECHA INICIO]')
                 ->atPath('fechaTer')
                 ->addViolation();
         }
@@ -953,6 +905,8 @@ public function __clone()
     {
         $this->dictamen = $dictamen;
 
+        $dictamen->setConcurso($this);
+
         return $this;
     }
 
@@ -1022,5 +976,106 @@ public function __clone()
     public function getRegistros()
     {
         return $this->registros;
+    }
+
+    /**
+     * Set clasificacion
+     *
+     * @param \AppBundle\Entity\Clasificacion $clasificacion
+     *
+     * @return Concurso
+     */
+    public function setClasificacion(\AppBundle\Entity\Clasificacion $clasificacion = null)
+    {
+        $this->clasificacion = $clasificacion;
+
+        return $this;
+    }
+
+    /**
+     * Get clasificacion
+     *
+     * @return \AppBundle\Entity\Clasificacion
+     */
+    public function getClasificacion()
+    {
+        return $this->clasificacion;
+    }
+
+    /**
+     * Set categoria
+     *
+     * @param \AppBundle\Entity\Categoria $categoria
+     *
+     * @return Concurso
+     */
+    public function setCategoria(\AppBundle\Entity\Categoria $categoria = null)
+    {
+        $this->categoria = $categoria;
+
+        return $this;
+    }
+
+    /**
+     * Get categoria
+     *
+     * @return \AppBundle\Entity\Categoria
+     */
+    public function getCategoria()
+    {
+        return $this->categoria;
+    }
+
+    /**
+     * Set tiempoDedicacion
+     *
+     * @param \AppBundle\Entity\TiempoDedicacion $tiempoDedicacion
+     *
+     * @return Concurso
+     */
+    public function setTiempoDedicacion(\AppBundle\Entity\TiempoDedicacion $tiempoDedicacion = null)
+    {
+        $this->tiempoDedicacion = $tiempoDedicacion;
+
+        return $this;
+    }
+
+    /**
+     * Get tiempoDedicacion
+     *
+     * @return \AppBundle\Entity\TiempoDedicacion
+     */
+    public function getTiempoDedicacion()
+    {
+        return $this->tiempoDedicacion;
+    }
+
+    /**
+     * Set causaltxt
+     *
+     * @param string $causaltxt
+     *
+     * @return Concurso
+     */
+    public function setCausaltxt($causaltxt)
+    {
+        $this->causaltxt = $causaltxt;
+
+        return $this;
+    }
+
+    /**
+     * Get causaltxt
+     *
+     * @return string
+     */
+    public function getCausaltxt()
+    {
+        return $this->causaltxt;
+    }
+
+    public function getCausalC()
+    {
+        return $this->causal." ".$this->causaltxt;
     }
 }

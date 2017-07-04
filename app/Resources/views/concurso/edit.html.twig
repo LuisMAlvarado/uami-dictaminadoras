@@ -192,17 +192,24 @@
 
     <TABLE WIDTH="90%" align="center" class="table table-bordered">
         <tr>
-            <td colspan="2">
+            <td align="right">
+                <div id="contador"></div>
+            </td> <td align="left"><strong>NUMERO DE CARACTERES PERMITIDOS</strong></td>
+            </tr>
+        <tr>
+          <div id="comment"> <td colspan="2">
                 {{ form_label(edit_form.actividades,"FUNCIONES A REALIZAR") }}
                 {{ form_widget(edit_form.actividades,{'attr':{
                     'class':'form-control',
-                    'rows' : '5'
+                    'rows' :10,
+                    'cols' :20,
+                    'maxlength' : 2200,
 
                 }}) }}
                 {{ form_errors(edit_form.actividades) }}
 
 
-            </td>
+            </td></div>
         </tr>
 
         <tr>
@@ -219,6 +226,7 @@
                     'class':'form-control',
                     'rows' : '1',
                     'cols' :'40',
+
 
                 }}) }}
                 {{ form_errors(edit_form.disciplina) }}
@@ -318,4 +326,26 @@
             {{ form_end(delete_form) }}
         </li>
     </ul>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+
+            var max_chars = 2268;
+            $('#max').html(max_chars);
+            $('#appbundle_concurso_actividades').keyup(function () {
+               var chars = $(this).val().length;
+
+               var diff = max_chars - chars;
+               $('#contador').html(diff);
+
+            });
+
+
+        });
+    </script>
+
+
 {% endblock %}

@@ -16,24 +16,20 @@
         <tbody>
         <tr>
             <td colspan="3" width="50%"></td>
-            <th class="table-bordered text-right" >Fecha: &nbsp;</th>
+            <th class="table-bordered text-right" >Fecha de Registro: &nbsp;</th>
 
             <td class="table-bordered text-center">{% if aspirante.createAt %}{{  aspirante.createAt|date('d-M-Y') }}{% endif %}</td></tr>
 
         </tbody>
-    </table>
-    <br />
+    </table><BR>
 
     <table  align="center" class="table table-bordered">
         <tbody>
-
-
-
         <tr>
-            <td><strong>Apellido Paterno</strong><br />
+            <td colspan="2"><strong>Apellido Paterno</strong><br />
                 {{ aspirante.apellidoPaterno }}
             </td>
-            <td> <strong>Apellido Materno</strong><br>
+            <td colspan="2"> <strong>Apellido Materno</strong><br>
                 {{ aspirante.apellidoMaterno }}
             </td>
             <td><strong>Nombre</strong><br>
@@ -46,38 +42,89 @@
             <td><strong>Nacionalidad</strong><br />
                 {{ aspirante.nacionalidad }}
             </td>
-            <td> <strong>RFC</strong><br>
+            <td><strong>RFC</strong><br>
+
                 {{ aspirante.rfc }}
             </td>
             <td><strong>CURP</strong><br>
+
                 {{ aspirante.curp }}
+
+            </td>
+            <td><strong>FECHA DE NACIMIENTO</strong><br>
+                </td>
+            <td>   {% if aspirante.fechaBirthday %}{{  aspirante.fechaBirthday|date('d-M-Y') }}{% endif %}
+
+
+            </td>
+        </tr>
+
+        <tr>
+            <td><strong>EDAD</strong><br />
+                {{ aspirante.edad }}
+            </td>
+            <td> <strong>SEXO</strong><br>
+                {{ aspirante.sexo }}
+            </td>
+            <td><strong>ESTADO CIVIL</strong><br>
+                {{ aspirante.estadoCivil }}
+            </td>
+            <td><strong>TELEFONO(S)</strong><br>
+                {{ aspirante.telefonos }}
+            </td>
+            <td><strong>CORREO ELECTRÓNICO</strong><br>
+                {{ aspirante.correoElectronico }}
             </td>
 
         </tr>
 
-
         <tr>
-            <th>Edad</th> <th>Sexo</th> <th>Estado Civil</th> <th>Telefonos</th> <th>mail</th>
-         </tr>
-        <tr>
-            <td>{{ aspirante.edad }}</td>
+            <td colspan="2"><strong>CALLE</strong><br />
 
-            <td>{{ aspirante.sexo }}</td>
+                {{ aspirante.calle }}
 
-            <td>{{ aspirante.estadoCivil }}</td>
+            </td>
+            <td><strong>No.EXT.</strong><br />
+                {{ aspirante.noExt }}
 
-            <td>{{ aspirante.telefonos }}</td>
+            </td>
 
-            <td>{{ aspirante.correoElectronico }}</td>
+            <td><strong>EDIF.</strong><br />
 
+                {{ aspirante.edif }}
+
+            </td>
+            <td><strong>DEPTO.</strong><br />
+
+                {{aspirante.depto }}
+
+            </td>
         </tr>
 
+        <tr><td colspan="5"><strong>COLONIA, FRACC. O UNIDAD HABITACIONAL</strong><br />
+
+                {{ aspirante.coloniaFracc }}
+
+            </td></tr>
+
         <tr>
-            <th>Direccion</th>
-            <td>{{ aspirante.direccion }}</td>
+            <td colspan="2"><strong>DELEGACIÓN O MUNICIPIO:</strong><br />
+
+                {{ aspirante.delegMunc }}
+
+            </td>
+            <td colspan="2"><strong>ESTADO</strong><br />
+
+                {{ aspirante.estado }}
+
+            </td>
+            <td><strong>CÓDIGO POSTAL</strong><br />
+
+                {{ aspirante.codPost }}
+
+            </td>
+
         </tr>
-
-
 
          </tbody>
     </table>

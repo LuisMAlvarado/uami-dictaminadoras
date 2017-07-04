@@ -36,31 +36,41 @@ public function __construct($security,$em)
 
             ->add('plaza')
 
-          //  ->add('createAt')
-            ->add('fechaPublicacion', DateType::class, array(
-                'format' => 'dd-MM-yyyy',
+            ->add('createAt', DateType::class,array(
+                'format' => 'dd-MM-yyyy'
             ))
+            //->add('fechaPublicacion', DateType::class, array(
+            //    'format' => 'dd-MM-yyyy',
+            // ))
             ->add('unidad')
             ->add('areaDepartamental')
-            ->add('clasificacion',  ChoiceType::class, array(
-                'choices'  => array(
-                    'PROFESOR' => 'PROFESOR ORDINARIO POR TIEMPO DETERMINADO',
-                    'TECNICO ACAD.' => 'TECNICO ACADÉMICO POR TIEMPO DETERMINADO',
-                    'AYUDANTE' => 'AYUDANTE'
-                ),
-                'placeholder' => '--SELECCIONE--',
-                'empty_data'  => null))
+            ->add('clasificacion')
             ->add('categoria')
-            ->add('tiempoDedicacion', ChoiceType::class, array(
-                'choices'  => array(
-                    'COMPLETO' => 'COMPLETO',
-                    'MEDIO' => 'MEDIO TIEMPO',
-                    'PARCIAL' => 'PARCIAL',
-                ),
-                'placeholder' => '--SELECCIONE--',
-                'empty_data'  => null))
+            ->add('tiempoDedicacion')
             ->add('horario')
-            ->add('causal')
+            ->add('causaltxt')
+            ->add('causal',
+                ChoiceType::class, array(
+                    'choices'  => array(
+                        'SABÁTICO' => 'SABÁTICO.',
+                        'NOMBRAMIENTO DE CONFIANZA ' => 'NOMBRAMIENTO DE CONFIANZA',
+                        'DESIGNACIÓN COMO ÓRGANO PERSONAL ' => 'DESIGNACIÓN COMO ÓRGANO PERSONAL.',
+                        'CONCURSO OP. DESIERTO' => 'CONCURSO DE OPOSICIÓN DESIERTO O CONCURSO DE OPOSICIÓN SIN ASPIRANTES',
+                        ' NO OPORTUNA DE C. OPO.'=> 'REALIZACIÓN NO OPORTUNA DE CONCURSO DE OPOSICIÓN.',
+                        'CON. OPOSI. RECURSADO O IMPUGNADO ' => 'CONCURSO DE  OPOSICIÓN RECURSADO O IMPUGNADO',
+                        'GRUPOS ADICIONALES' => 'CREACIÓN NO PREVISTA DE GRUPOS ADICIONALES.',
+                        'NUEVA PLAZA' => 'PLAZA NUEVA CREACIÓN.',
+                        'LIC. PERSONAL' => 'LICENCIA PERSONAL',
+                        'LIC. SINDICAL' => 'LICENCIA SINDICAL',
+                        'INCAPACIDAD' => 'INCAPACIDAD FÍSICA TEMPORAL.',
+                        ' RENUNCIA O RECISIÓN.' =>'RENUNCIA O RECISIÓN.',
+                        ' DEFUNCIÓN.' => 'DEFUNCIÓN.',
+                        'ABANDONO DE EMPLEO ' => 'ABANDONO DE EMPLEO.',
+                        ' CONDICIÓN DE EXTRANJERO.' => 'CONDICIÓN DE EXTRANJERO.',
+                        'ASIGNACIÓN A COMISIÓN' => 'POR ASIGNACIÓN DE COMISIÓN.',
+                    ),'placeholder' => '--SELECCIONE--',
+                    'empty_data'  => null))
+
             ->add('salarioA', MoneyType::class, array('currency'=>'MXN','grouping'=> true, 'required' => false))
             ->add('salarioB', MoneyType::class, array('currency'=>'MXN','grouping'=> true, 'required' => false))
             ->add('actividades')

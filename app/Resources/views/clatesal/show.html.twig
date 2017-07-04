@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Clatesal</h1>
+
+    <table class="table table-responsive">
+        <tr>
+
+            <td> Clasificacion <br>{{ clatesal.clasificacion.nombre }}</td>
+
+            <td>Categoria <br>{{ clatesal.categoria.nombre }}</td>
+
+            <td>Tiempo de Dedicacion <br>{{ clatesal.tiempoDedicacion.nombre }}</td>
+        </tr>
+    </table>
+
+
+    <table class="table table-responsive">
+        <tr>
+            <td>SALARIO</td>
+            <td>$ {{ clatesal.salA |number_format(2, '.', ',') }}</td>
+            <td>$ {{ clatesal.salB |number_format(2, '.', ',') }}</td>
+            <td>MULTIPO : {{ clatesal.multiplar }}</td>
+        </tr>
+    </table>
+
+    <table class="table table-responsive">
+        <tr>
+            <td> <strong>ACTIVIDADES: </strong> <br>
+            {{ clatesal.actividad }}</td>
+        </tr>
+        <tr>
+            <td><strong>TEMA: </strong> <br>
+                {{ clatesal.tema }}
+
+            </td>
+        </tr>
+        <tr>
+            <td><strong>REQUISITOS: </strong> <br>
+                {{ clatesal.requisitos }}
+
+            </td>
+        </tr>
+    </table>
+
+
+
+    <ul>
+        <li>
+            <a href="{{ path('clatesal_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('clatesal_edit', { 'clasificacion': clatesal.clasificacion.id, 'categoria':clatesal.categoria.id, 'tiempoDedicacion': clatesal.tiempoDedicacion.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

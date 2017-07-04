@@ -11,6 +11,9 @@ namespace AppBundle\Form\EventListener;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Doctrine\Bundle\DoctrineBundle\Registry as Doctrine;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
@@ -59,6 +62,9 @@ class AddConcursoAsisDivSubscriber implements EventSubscriberInterface
 
             //$form->add('estatus');
             $form->add('pdfConcurso');
+            $form->add('fechaPublicacion', DateType::class, array(
+                'format' => 'dd-MM-yyyy',
+            ));
             //$form->add('numConcurso');
                     }
 

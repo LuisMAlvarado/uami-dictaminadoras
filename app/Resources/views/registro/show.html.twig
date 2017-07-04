@@ -1,52 +1,201 @@
-{% extends 'base.html.twig' %}
+{% extends 'frontend.html.twig' %}
 
-{% block body %}
-    <h1>Registro</h1>
 
-    <table>
+ {% block header %}
+     <table class="table">
+         <tr>
+             <td> <img src="{{ asset('/resource/img/encabezado.png') }}"  /></td>
+             <td class="text-right"><H4>SOLICITUD DE REGISTRO A CONCURSO <br> DE EVALUACIÓN CURRICULAR </H4></td>
+         </tr>
+     </table>
+ {% endblock %}
+{% block content %}
+
+
+    <br />
+
+
+    <table width="100%">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ registro.id }}</td>
-            </tr>
-            <tr>
-                <th>Numregistro</th>
-                <td>{{ registro.numRegistro }}</td>
-            </tr>
-            <tr>
-                <th>Puntaje</th>
-                <td>{{ registro.puntaje }}</td>
-            </tr>
-            <tr>
-                <th>Prelacion</th>
-                <td>{{ registro.prelacion }}</td>
-            </tr>
-            <tr>
-                <th>Nivelasig</th>
-                <td>{{ registro.nivelAsig }}</td>
-            </tr>
-            <tr>
-                <th>Createat</th>
-                <td>{% if registro.createAt %}{{ registro.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Pdfanexo</th>
-                <td>{{ registro.pdfAnexo }}</td>
-            </tr>
+        <tr>
+            <td colspan="3" width="50%"></td>
+            <th class="table-bordered text-right" >Convocatoria No. &nbsp;</th>
+
+            <td class="table-bordered text-center">{{ concurso.numConcurso }}</td>
+            <th class="table-bordered text-right" >Fecha: &nbsp;</th>
+
+            <td class="table-bordered text-center">{% if registro.createAt %}{{ registro.createAt|date('d-M-Y') }}{% endif %}</td></tr>
+
+        </tr>
+
+        </tbody>
+    </table> <br>
+
+    <br>
+    <a>EN RELACIÓN A LA CONVOCATORIA ARRIBA MENCIONADA , PARA OCUPAR CON CARACTER TEMPORAL LA SIGUIENTE PLAZA:</a>
+    <table  align="center" class="table table-bordered">
+        <tbody>
+
+
+
+        <tr>
+            <td><strong>Clasificación</strong><br />
+                {{ concurso.clasificacion }}
+            </td>
+            <td><strong>Categoria</strong><br />
+                {{ concurso.categoria }}
+            </td>
+            <td> <strong>Tiempo de Dedicación</strong><br>
+                {{ concurso.tiempoDedicacion }}
+            </td>
+        </tr>
+
+        <tr>
+            <td> <strong>Unidad</strong><br>
+                {{ concurso.unidad }}
+            </td>
+            <td><strong>División</strong><br />
+                {{ concurso.departamento.division }}
+            </td>
+            <td > <strong>Departamento</strong><br>
+                {{ concurso.departamento.nombre}}
+            </td>
+
+        </tr>
+
+
+
+
+        <tr>
+            <td colspan="2"> <strong>Area Departamental</strong><br>
+                {{ concurso.areaDepartamental }}
+            </td>
+            <td><strong>Horario</strong><br />
+                {{ concurso.horario }}
+            </td>
+        </tr>
+
+
+
+    </table>
+    <br>
+
+
+
+
+
+
+
+
+    <br />
+    <a>DESEO SER CONSIDERADO EN EL CONCURSO CORRESPONDIENTE, PARA LO CUAL PROPORCIONO LA SIGUIENTE INFORMACIÓN: </a>
+    <table  align="center" class="table table-bordered">
+        <tbody>
+
+
+
+        <tr>
+            <td><strong>Apellido Paterno</strong><br />
+                {{ aspirante.apellidoPaterno }}
+            </td>
+            <td> <strong>Apellido Materno</strong><br>
+                {{ aspirante.apellidoMaterno }}
+            </td>
+            <td colspan="3" ><strong>Nombre(s)</strong><br>
+                {{ aspirante.nombre }}
+            </td>
+
+        </tr>
+
+        <tr>
+            <td><strong>Nacionalidad</strong><br />
+                {{ aspirante.nacionalidad }}
+            </td>
+            <td> <strong>RFC</strong><br>
+                {{ aspirante.rfc }}
+            </td>
+            <td><strong>CURP</strong><br>
+                {{ aspirante.curp }}
+            </td>
+
+        </tr>
+
+
+
+        <tr>
+            <td><strong>Edad</strong><br />{{ aspirante.edad }}</td>
+
+            <td><strong>Sexo</strong><br />{{ aspirante.sexo }}</td>
+
+            <td><strong>Estado Civil</strong><br />{{ aspirante.estadoCivil }}</td>
+
+            <td><strong>Teléfonos</strong><br />{{ aspirante.telefonos }}</td>
+
+            <td><strong>Correo Eléctronico</strong><br />{{ aspirante.correoElectronico }}</td>
+
+        </tr>
+
+        <tr>
+            <th>Direccion</th>
+            <td>{{ aspirante.calle }}</td>
+        </tr>
+
+
+
         </tbody>
     </table>
 
+    <br>
+
+
+{% if is_granted(expression('"ROLE_DICTAMINADOR" in roles or "ROLE_ADMINISTRADOR" in roles')) %}
+    <table class="table table-striped">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ registro.id }}</td>
+        </tr>
+        <tr>
+            <th>Pdfanexo</th>
+            <td>{{ registro.pdfAnexo }}</td>
+        </tr>
+        <tr>
+            <th>Puntaje</th>
+            <td>{{ registro.puntaje }}</td>
+        </tr>
+        <tr>
+            <th>Prelacion</th>
+            <td>{{ registro.prelacion }}</td>
+        </tr>
+        <tr>
+            <th>Nivelasig</th>
+            <td>{{ registro.nivelAsig }}</td>
+        </tr>
+        <tr>
+            <th>Createat</th>
+            <td>{% if registro.createAt %}{{ registro.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+        </tr>
+        </tbody>
+    </table>
+{% endif %}
+
     <ul>
+
+        {% if is_granted(expression('"ROLE_ADMINSTRDADOR" in roles')) %}
+              <li>
+                 <a href="{{ path('registro_edit', { 'id': registro.id }) }}">Edit</a>
+              </li>
+        {% endif %}
+        {% if is_granted(expression('"ROLE_ASPIRANTE" in roles')) %}
         <li>
-            <a href="{{ path('registro_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('registro_edit', { 'id': registro.id }) }}">Edit</a>
+            <a href="{{ path('registro_index') }}">Listado de Solicitud de Registros</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+            <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
+        {% endif %}
     </ul>
 {% endblock %}
+

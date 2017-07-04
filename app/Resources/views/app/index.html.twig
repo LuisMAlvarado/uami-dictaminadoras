@@ -5,7 +5,7 @@
         <div id="container">
             <div id="bienvenida">
                 <h1><span>Bienvenid@</span> <br /></h1>{{ usuario.nombre }}
-                <br />puede gestionar los Convocatorias de : {{ usuario.departamento.nombre }} <br /><br />
+                <br />puede gestionar las Convocatorias de : {{ usuario.departamento.nombre }} <br /><br />
 
             </div>
 
@@ -14,7 +14,7 @@
                     Esta Plataforma permite el control y Registro de: <br><br>
 
                     *Convocatorias de Concursos de Evaluación Curricular (CEC). <br>
-                    *Registro de Aspiranrtes. <br>
+                    *Registro de Aspirantes. <br>
                     *Segimiento de convocatorias hasta finalizar con el Dictamen. <br>
                 </h2>
                 </p>
@@ -29,8 +29,12 @@
         <li>   <a href="{{ path('dictamen_index') }}">Convocatorias Dictaminadas</a></li>
     </ul>
 
-    <a href="{{ path('registro_index') }}">Registro de ASPIRANTES en CEC</a>
-
+    <ul><a>ASPIRANTES</a>
+        <li><a href="{{ path('aspirante_index') }}">Habilitar cuenta de ASPIRANTES</a></li>
+        <li><a href="{{ path('registro_index') }}">Registro de ASPIRANTES en CEC</a></li>
+    </ul>
+    <br>
+    <a href="{{ path('form_pdf') }}">HOLA7 PDF_FORM</a>
     {% endif %}
 
     {% if is_granted('ROLE_ASISTENTEDEP') %}
@@ -38,6 +42,21 @@
             <li><a href="{{ path('concurso_new') }}">Generar Convocatoria</a></li>
             <li>  <a href="{{ path('concurso_indexest', {'est':1}) }}">Listado de Convocatorias</a></li>
             <li>   <a href="{{ path('dictamen_index') }}">Convocatorias Dictaminadas</a></li>
+        </ul>
+
+
+    {% endif %}
+
+    {% if is_granted('ROLE_DICTAMINADOR') %}
+        <ul> <a>CONCURSOS</a>
+
+            <li>  <a href="{{ path('concurso_indexest', {'est':5}) }}">Listado de Convocatorias </a></li>
+            <li>   <a href="{{ path('dictamen_index') }}">Listado de Dictamenes</a></li>
+        </ul>
+
+        <ul><a>ASPIRANTES</a>
+            <li><a href="{{ path('aspirante_index') }}">Todos los Aspirantes</a></li>
+
         </ul>
 
 
@@ -57,6 +76,10 @@
 
         </ul>
 
+        <ul><p>CLASIFICACION, CATEGORIA, T.D.</p>
+            <li><a href="{{ path('clatesal_index') }}">Catalogo Prellenado</a></li>
+            <li><a href="{{ path('clatesal_new') }}">Nuevo registro de prellenado</a></li>
+        </ul>
 
     {% endif %}
     <br />

@@ -4,13 +4,138 @@
     <h1>Dictaman creation</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
+    {% if is_granted(expression('"ROLE_ADMINISTRADOR" in roles or "ROLE_DICTAMINADOR" in roles')) %}
+
+
+        <br />
+        <table width="100%">
+            <tbody>
+            <tr>
+                <td colspan="3" width="50%"></td>
+                <th class="table-bordered text-right" >PARA: &nbsp;</th>
+
+                <td class="table-bordered text-center">{{ concurso.clasificacion }}</td></tr>
+
+            </tbody>
+        </table>
+        <br />
+
+        <table width="100%">
+            <tbody>
+            <tr>
+                <td colspan="3" width="50%"></td>
+
+                <td class="table-bordered text-center">
+                    {{ form_label(form.dictamen.numDictamen,"No.de Dictamen ") }}
+                    {{ form_widget(form.dictamen.numDictamen) }}
+                    {{ form_errors(form.dictamen.numDictamen) }}</td>
+
+                <td class="table-bordered text-center">
+                    {{ form_label(form.dictamen.fechaDictmen,"Fecha") }}
+                    {{ form_widget(form.dictamen.fechaDictmen) }}
+                    {{ form_errors(form.dictamen.fechaDictmen) }}</td></tr>
+
+            </tbody>
+        </table>
+        <br>
+
+        <strong>De la Comision Dictaminadora de: </strong><br />
+        {{ concurso.departamento.division }}
+
+
+
+        <br>
+
+        <br>
+        <a>EN RELACIÓN A LA CONVOCATORIA ARRIBA MENCIONADA , PARA OCUPAR CON CARACTER TEMPORAL LA SIGUIENTE PLAZA:</a>
+        <table  align="center" class="table table-bordered">
+            <tbody>
+
+
+
+            <tr>
+                <td><strong>Clasificación</strong><br />
+                    {{ concurso.clasificacion }}
+                </td>
+                <td><strong>Categoria</strong><br />
+                    {{ concurso.categoria }}
+                </td>
+                <td> <strong>Tiempo de Dedicación</strong><br>
+                    {{ concurso.tiempoDedicacion }}
+                </td>
+            </tr>
+
+            <tr>
+                <td> <strong>Unidad</strong><br>
+                    {{ concurso.unidad }}
+                </td>
+                <td><strong>División</strong><br />
+                    {{ concurso.departamento.division }}
+                </td>
+                <td > <strong>Departamento</strong><br>
+                    {{ concurso.departamento.nombre}}
+                </td>
+
+            </tr>
+
+
+
+
+            <tr>
+                <td colspan="2"> <strong>Area Departamental</strong><br>
+                    {{ concurso.areaDepartamental }}
+                </td>
+                <td><strong>Horario</strong><br />
+                    {{ concurso.horario }}
+                </td>
+            </tr>
+
+
+
+        </table>
+    {% endif %}
+
+
+
+    <br>
+
+    <div>
+        <br>
+        {%  for aspirante in form.registros %}
+            {{ aspirante.puntaje.vars.attr.nombre }}
+            <br>
+            {{ form_label(aspirante.puntaje) }}
+            {{ form_widget(aspirante.puntaje) }}
+            {{ form_errors(aspirante.puntaje) }}
+
+            {{ form_label(aspirante.prelacion) }}
+            {{ form_widget(aspirante.prelacion) }}
+            {{ form_errors(aspirante.prelacion) }}
+
+            {{ form_label(aspirante.nivelAsig) }}
+            {{ form_widget(aspirante.nivelAsig) }}
+            {{ form_errors(aspirante.nivelAsig) }}
+            <br>
+        {% endfor %}
+
+    </div>
+    <br>
+
+
+
+
         <input type="submit" value="Create" />
     {{ form_end(form) }}
+
+
+
 
     <ul>
         <li>
             <a href="{{ path('dictamen_index') }}">Back to the list</a>
         </li>
     </ul>
+
+
+
 {% endblock %}

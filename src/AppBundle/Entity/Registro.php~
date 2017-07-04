@@ -31,6 +31,13 @@ class Registro
     private $numRegistro;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecharegistro", type="datetime", nullable=true)
+     */
+    private $fechaRegistro;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="puntaje", type="string", length=5, nullable=true)
@@ -61,7 +68,7 @@ class Registro
     /**
      * @var string
      *
-     * @ORM\Column(name="pdfanexo", type="string", length=255, nullable=false)
+     * @ORM\Column(name="pdfanexo", type="string", length=255, nullable=true)
      */
     private $pdfAnexo;
 

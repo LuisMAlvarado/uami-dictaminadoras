@@ -27,9 +27,14 @@ class Dictamen
     /**
      * @var string
      *
-     * @ORM\Column(name="numdictamen", type="string", length=21, nullable=true)
+     * @ORM\Column(name="numdictamen", type="string", length=21, nullable=false)
      */
     private $numDictamen;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Concurso", mappedBy="dictamen")
+     */
+    private $concurso;
 
     /**
      * @var \DateTime
@@ -266,4 +271,32 @@ class Dictamen
     {
         return $this->pdfDictamen;
     }
+
+    /**
+     * Set concurso
+     *
+     * @param \AppBundle\Entity\Concurso $concurso
+     *
+     * @return Dictamen
+     */
+    public function setConcurso(\AppBundle\Entity\Concurso $concurso = null)
+    {
+        $this->concurso = $concurso;
+
+        return $this;
+    }
+
+    /**
+     * Get concurso
+     *
+     * @return \AppBundle\Entity\Concurso
+     */
+    public function getConcurso()
+    {
+        return $this->concurso;
+    }
+
+
+
+
 }

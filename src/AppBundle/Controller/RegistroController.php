@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Concurso;
 use AppBundle\Entity\Registro;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\ExpressionLanguage\Expression;
@@ -38,7 +39,7 @@ class RegistroController extends Controller
         }
         else {
             //  $concursos = $repository->findBy HAY QUE GENERAR EL ARREGLO PARA QUE DESPLIEGE LOS allConcursos DEL USUARIO
-            $aspiranteconcursos = $em->getRepository('AppBundle:AspiranteConcurso')->findAll();
+            $registros = $em->getRepository('AppBundle:Registro')->findAll();
         }
         
         return $this->render('registro/index.html.twig', array(
@@ -47,16 +48,33 @@ class RegistroController extends Controller
         ));
     }
 
-    /**
-     * Creates a new registro entity.
+    /**  NO USAR!!!
+     * PARA RESTAURARLO SOLO QUITA 2 DE ROUTE, NAME Y newAction()
      *
-     * @Route("/new", name="registro_new")
+     * Creates a new registro entity. (INAVILITADO)
+     *
+     * NO SE DEBE USAR ESTE ACTION!!!!!
+     *
+     * @Route("/{concurso}/2new", name="registro_2new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function new2Action(Request $request, Concurso $concurso)
     {
         $registro = new Registro();
-        $form = $this->createForm('AppBundle\Form\RegistroType', $registro);
+        $em = $this->getDoctrine()->getManager();
+        $concurso2reg= $concurso;
+
+        if ($this->isGranted(new Expression(' "ROLE_ASPIRANTE" in roles'))) {
+            $aspi = $this->getUser();
+           $registro->setConcurso($concurso2reg);
+           $registro->setAspiranteRfc($aspi);
+            $form = $this->createForm('AppBundle\Form\RegistroAspType', $registro);
+        }
+        if ($this->isGranted(new Expression(' "ROLE_ADMINISTRADOR" in roles'))) {
+            $form = $this->createForm('AppBundle\Form\RegistroType', $registro);
+        }
+
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -67,11 +85,98 @@ class RegistroController extends Controller
             return $this->redirectToRoute('registro_show', array('id' => $registro->getId()));
         }
 
-        return $this->render('registro/new.html.twig', array(
-            'registro' => $registro,
-            'form' => $form->createView(),
-        ));
+        if ($this->isGranted(new Expression(' "ROLE_ADMINSTRADOR" in roles'))) {
+            return $this->render('registro/new.html.twig', array(
+                'registro' => $registro,
+                'form' => $form->createView(),
+            ));
+        }
+        elseif ($this->isGranted(new Expression(' "ROLE_ASPIRANTE" in roles or "ROLE_ASISTENTEDIV" in roles'))){
+            return $this->render('registro/new.html.twig', array(
+                'registro' => $registro,
+                'concurso' => $concurso2reg,
+                'aspirante' => $aspi,
+                'form' => $form->createView(),
+
+            ));
+
+        }
+
     }
+
+
+
+
+
+    /**
+     * Creates a new registro entity.
+     *SE USA PARA REGISTRAR AL ASPIRANTE (IDE) PASANDO EL IDE DEL CONCURSO ANTES HAY UN MODAL
+     * @Route("/{concurso}/newasp", name="registro_newasp")
+     * @Method({"GET", "POST"})
+     */
+    public function newAction(Request $request, Concurso $concurso)
+    {
+        $registro = new Registro();
+        $em = $this->getDoctrine()->getManager();
+        $concurso2reg= $concurso;
+        if($this->isGranted(new Expression(' "ROLE_ASPIRANTE" in roles'))){
+
+            $aspi = $this->getUser();
+            $registro->setConcurso($concurso2reg);
+            $registro->setAspiranteRfc($aspi);
+            $em=$this->getDoctrine()->getManager();
+            $em->persist($registro);
+            $em->flush($registro);
+            return $this->redirectToRoute('registro_index',
+                array(
+                    'registros' => $em->getRepository('AppBundle:Registro')->findByAspiranteRfc($this->getUser()->getRfc()),
+
+                    'aspirante'=>$aspi,
+            ));
+
+        }
+        elseif ($this->isGranted(new Expression('"ROLE_ASISTENTEDIV" in roles'))){
+            $form = $this->createForm('AppBundle\Form\RegistroType', $registro);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($registro);
+                $em->flush($registro);
+
+                return $this->redirectToRoute('registro_show', array('id' => $registro->getId()));
+            }
+
+        }
+
+    }
+
+    /**
+     * @Route("/{concurso}/prereg", name="preregistro_show")
+     * @Method("GET")
+     *
+     */
+    public function preshowAction(Request $request, Concurso $concurso)
+    {
+        //$registro = new Registro();
+        //$em = $this->getDoctrine()->getManager();
+        $aspi=$this->getUser();
+        $concur = $concurso;
+
+
+        if($this->isGranted('ROLE_ASPIRANTE')) {
+
+
+            return $this->render('registro/preshow.html.twig', array(
+
+                'concurso' => $concur,
+                'aspirante' => $aspi,
+            ));
+        }
+
+    }
+
+
 
     /**
      * Finds and displays a registro entity.
@@ -81,12 +186,41 @@ class RegistroController extends Controller
      */
     public function showAction(Registro $registro)
     {
-        $deleteForm = $this->createDeleteForm($registro);
+        if($this->isGranted('ROLE_ASPIRANTE')) {
+            $aspi = $registro->getAspiranteRfc();
+            $concur = $registro->getConcurso();
+            $deleteForm = $this->createDeleteForm($registro);
 
-        return $this->render('registro/show.html.twig', array(
-            'registro' => $registro,
-            'delete_form' => $deleteForm->createView(),
-        ));
+            return $this->render('registro/show.html.twig', array(
+                'registro' => $registro,
+                'delete_form' => $deleteForm->createView(),
+                'concurso' => $concur,
+                'aspirante' => $aspi,
+            ));
+        }
+
+        elseif($this->isGranted('ROLE_ADMINISTRADOR')) {
+            $deleteForm = $this->createDeleteForm($registro);
+
+            return $this->render('registro/show.html.twig', array(
+                'registro' => $registro,
+                'delete_form' => $deleteForm->createView(),
+            ));
+        }
+
+        elseif($this->isGranted('ROLE_ASISTENTEDIV')) {
+            $deleteForm = $this->createDeleteForm($registro);
+            $concurso=$registro->getConcurso();
+            $aspirante=$registro->getAspiranteRfc();
+            //var_dump($aspirante);exit();
+            return $this->render('registro/show.html.twig', array(
+                'registro' => $registro,
+                'concurso' => $concurso ,
+                'aspirante'=> $aspirante,
+                'delete_form' => $deleteForm->createView(),
+            ));
+        }
+
     }
 
     /**

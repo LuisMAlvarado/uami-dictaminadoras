@@ -4,6 +4,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Concurso;
 use AppBundle\Entity\Estatus;
+use Doctrine\ORM\Mapping\Id;
+use FPDM\FPDM;
+use mikehaertl\pdftk\Pdf;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\ExpressionLanguage\Expression;
@@ -37,15 +40,19 @@ class ConcursoController extends Controller
         }
         elseif ($this->isGranted('ROLE_ASPIRANTE')){
             $dato=(new \DateTime());
-
-            //se debe generar una consulta usando un comparador ArrayCollect
+            $estp=3;
             $rfc1=$aspi->getRfc();
-            $concursos= $em->getRepository('AppBundle:Concurso')->findAllOrderedBynoReg($dato,$rfc1);
+            // $concursos= $em->getRepository('AppBundle:Concurso')->findAllOrderedBynoReg($dato,$rfc1);
+            $concursos= $em->getRepository('AppBundle:Concurso')->PublicadonoReg($estp,$rfc1);
+            //se debe generar una consulta usando un comparador ArrayCollect
+
+            //$concursos= $em->getRepository('AppBundle:Concurso')->findAllOrderedBynoReg($dato,$rfc1);
 
         }
 
         elseif ($this->isGranted('ROLE_DICTAMINADOR')){
-            $concursos= $em->getRepository('AppBundle:Concurso')->findAllOrderedByDictamen($this->getUser()->getDivision()->getId());
+            $mdic=4;
+            $concursos= $em->getRepository('AppBundle:Concurso')->EstadoMayorQue($this->getUser()->getDivision()->getId(),$mdic);
         }
         elseif ($this->isGranted('ROLE_ASISTENTEDEP')) {
             //  $concursos = $repository->findBy HAY QUE GENERAR EL ARREGLO PARA QUE DESPLIEGE LOS allConcursos DEL USUARIO
@@ -77,6 +84,46 @@ class ConcursoController extends Controller
         ));
     }
 
+    /**
+     * @Route("/prubDF", name="prub_pdf")
+     */
+    public function prbPDFAction()
+    {
+        $pdf = new Pdf(__DIR__.'/../../../formulariosPDF/template.pdf');
+        $pdf->fillForm(array(
+            'name'    => 'My name',
+            'address' => 'My address',
+            'city'    => 'My city',
+            'phone'   => 'My phone number',
+        ))
+            ->needAppearances()
+            ->send();
+
+
+}
+
+
+    /**
+     * @Route("/formPDF", name="form_pdf")
+     */
+    public function formFPDMAction()
+    {
+
+        $fields= array(
+            'name'    => 'My name',
+            'address' => 'My address',
+            'city'    => 'My city',
+            'phone'   => 'My phone number',
+
+        );
+
+        $pdf = new FPDM(__DIR__."/../../../formulariosPDF/template.pdf");
+        $pdf->Load($fields,true);
+        $pdf->Merge();
+        $pdf->Output('lmap2.pdf','D');
+    }
+
+
 
     /**
      * Lists all concurso entities segun el estado
@@ -95,15 +142,17 @@ class ConcursoController extends Controller
         }
         elseif ($this->isGranted('ROLE_ASPIRANTE')){
             $dato=(new \DateTime());
-
+            //$estp=3;
             //se debe generar una consulta usando un comparador ArrayCollect
             $rfc1=$aspi->getRfc();
-            $concursos= $em->getRepository('AppBundle:Concurso')->findAllOrderedBynoReg($dato,$rfc1);
+           $concursos= $em->getRepository('AppBundle:Concurso')->findAllOrderedBynoReg($dato,$rfc1);
+            //$concursos= $em->getRepository('AppBundle:Concurso')->findAllOrderedBynoReg($estp,$rfc1);
 
         }
 
         elseif ($this->isGranted('ROLE_DICTAMINADOR')){
-            $concursos= $em->getRepository('AppBundle:Concurso')->findAllOrderedByDictamen($this->getUser()->getDivision()->getId());
+            // $concursos= $em->getRepository('AppBundle:Concurso')->TodosEstado($this->getUser()->getDivision()->getId(),$est);
+            $concursos= $em->getRepository('AppBundle:Concurso')->EdoNoImportaDictamen($this->getUser()->getDivision()->getId(),$est);
         }
         elseif ($this->isGranted('ROLE_ASISTENTEDEP')) {
             //  $concursos = $repository->findBy HAY QUE GENERAR EL ARREGLO PARA QUE DESPLIEGE LOS allConcursos DEL USUARIO
@@ -152,21 +201,50 @@ class ConcursoController extends Controller
         $newestatus = $this->getDoctrine()->getRepository('AppBundle:Estatus')->find(Estatus::EnRevision); //Estatus::"nombre_variable" definida en ENTIDAD en este caso Estatus
         $concurso ->setEstatus($newestatus);
 
+        if ($this->isGranted(new Expression(' "ROLE_ASISTENTEDEP" in roles'))){
+            $asisdiv =$this->getUser()->getDivision()->getId();
+            $asisdep1 = $this->getUser()->getDepartamento()->getId();
+            $asisdep=$this->getDoctrine()->getRepository('AppBundle:Departamento')->find($asisdep1);
+            $concurso->setDepartamento($asisdep);
+
+        }
+
         $form = $this->createForm('AppBundle\Form\ConcursoType', $concurso);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //obtengo e inserto el valor de clasificacion,categoria,tiempoDedicacion
             $em = $this->getDoctrine()->getManager();
+            $clatesalS=$em->getRepository('AppBundle:Clatesal')->findOneBy(array(
+                'clasificacion' => $form->getdata()->getClasificacion()->getId(),
+                'categoria' => $form->getdata()->getCategoria()->getId(),
+                'tiempoDedicacion' => $form->getdata()->getTiempoDedicacion()->getId(),
+            ));
+
+            $concurso->setActividades($clatesalS->getActividad());
+            $concurso->setRequisitos($clatesalS->getRequisitos());
+            $concurso->setSalarioA((int)$salA=$clatesalS->getSalA());
+            $concurso->setSalarioB((int)$salB=$clatesalS->getSalB());
+            //termina la insercion de Clatesal
+
             $em->persist($concurso);
             $em->flush($concurso);
 
             return $this->redirectToRoute('concurso_show', array('id' => $concurso->getId()));
+        }
+        if ($this->isGranted(new Expression(' "ROLE_ASISTENTEDEP" in roles'))){
+
+            return $this->render('concurso/new.html.twig', array(
+                'concurso' => $concurso,
+                'form' => $form->createView(),
+            ));
         }
 
         return $this->render('concurso/new.html.twig', array(
             'concurso' => $concurso,
             'form' => $form->createView(),
         ));
-        
+
 
     }
 
@@ -178,8 +256,11 @@ class ConcursoController extends Controller
      */
     public function showAction(Concurso $concurso)
     {
+        $em = $this->getDoctrine()->getManager();
         $deleteForm = $this->createDeleteForm($concurso);
         $dias = $concurso->getFechaIn()->diff($concurso->getFechaTer())->format('%Y AÑOS - %M MESES - %D DÍAS');
+
+
         return $this->render('concurso/show.html.twig', array(
             'concurso' => $concurso,
             'delete_form' => $deleteForm->createView(),
@@ -260,6 +341,9 @@ class ConcursoController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+
+
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('concurso_show', array('id' => $concurso->getId()));
@@ -307,7 +391,7 @@ public function reconvocarAction(Request $request, Concurso $concurso)// SE USA 
 
     /**
      * @Route("/{concurso}/{nest}/nxstatus/", name="next_estatus")
-     *
+     *CAMBIA EL ESTATUS DE FORMA QUE ENVIAS EL CONCURSO Y EL IDE DEL ESTATUS DESEADO ANTES DE ESO HAY UNA VENTANA MODAL PARA PREGUNTAR
      *
      * @Method({"GET", "POST"})
      *
@@ -343,6 +427,85 @@ public function reconvocarAction(Request $request, Concurso $concurso)// SE USA 
         )); */
 
     }
+
+
+    /**
+     * @Route("/{concurso}/registrados/", name="concurso_resgistradossalta")
+     *PARA CAMBIAR EL NUMERO DE REGISTRO EN CADA UNO DE LOS REGISTROS DE LOS ASPIRANTES Y FECHA DE ESA ALTA DE REGISTRO DEL CONCURSO
+     *
+     * @Method({"GET", "POST"})
+     *
+     */
+
+    public function altaRegistradosAction(Request $request, Concurso $concurso)// SE USA JUNTO CON EL @rotue {"propiedad"} y en conjunto con el twig cuando pasas Ruta(Controlador) pasas a la funcion esa Entidad
+    {
+
+
+        $em = $this->getDoctrine()->getManager();
+        $deleteForm = $this->createDeleteForm($concurso);
+
+        $registros= $concurso->getRegistrosCompletos();
+        dump($registros); exit();  //   CAMBIAR LA FORMA DE SELECIONAR LOS REGISTROS!!!!!
+         $numRegistro='REG.'.$concurso->getNumConcurso();
+         $fechaRegistro=new \DateTime('now');
+         foreach ($registros as $registro)
+         {
+             $registro->setNumRegistro($numRegistro);
+             $registro->setFechaRegistro($fechaRegistro);
+             $em->persist($registro);
+
+         }
+        $em->flush($registro);
+
+
+
+        // $dias = $concurso->getFechaIn()->diff($concurso->getFechaTer())->format('%Y AÑOS - %M MESES - %D DÍAS');
+        return $this->render('concurso/showregistros.html.twig', array(
+            'concurso' => $concurso,
+            'numregistro' =>$numRegistro,
+            'fecharegistro' =>$fechaRegistro,
+            'delete_form' => $deleteForm->createView(),
+
+            //   'dias' => $dias,
+        ));
+
+
+///var_dump($numRegistro,$fechaRegistro); exit();
+
+
+/** lo uso de base
+ *
+        $newestatus = $this->getDoctrine()->getRepository('AppBundle:Estatus')->find($nest);
+        //Estatus::"nombre_variable" definida en ENTIDAD en este caso Estatus
+        $concurso ->setEstatus($newestatus);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($concurso);
+        $em->flush($concurso);
+        return $this->redirectToRoute('concurso_show', array('id' => $concurso->getId()));
+
+ */
+
+        /**QUITO ESTO PARA QUE ENVIE DIRECTO AL CAMBIO
+         * $form = $this->createForm('AppBundle\Form\ConcursoType', $reconcurso);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($reconcurso);
+        $em->flush($reconcurso);
+
+        return $this->redirectToRoute('concurso_show', array('id' => $reconcurso->getId()));
+        }
+
+        return $this->render('concurso/new.html.twig', array(
+        'concurso' => $reconcurso,
+        'form' => $form->createView(),
+        )); */
+
+    }
+
+
+
 
     /**
      * Deletes a concurso entity.

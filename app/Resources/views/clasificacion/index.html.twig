@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Clasificacions list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Abreviacion</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for clasificacion in clasificacions %}
+            <tr>
+                <td><a href="{{ path('clasificacion_show', { 'id': clasificacion.id }) }}">{{ clasificacion.id }}</a></td>
+                <td>{{ clasificacion.nombre }}</td>
+                <td>{{ clasificacion.abreviacion }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('clasificacion_show', { 'id': clasificacion.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

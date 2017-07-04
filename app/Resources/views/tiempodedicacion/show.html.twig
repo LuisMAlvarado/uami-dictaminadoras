@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Tiempodedicacion</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ tiempoDedicacion.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ tiempoDedicacion.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Abreviacion</th>
+                <td>{{ tiempoDedicacion.abreviacion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('tiempodedicacion_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

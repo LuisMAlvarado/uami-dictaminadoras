@@ -1,33 +1,28 @@
-{% extends 'base.html.twig' %}
+{% extends 'frontend.html.twig' %}
 
-{% block body %}
-    <h1>Aspirantes list</h1>
+{% block content %}
+    <h1>Aspirantes</h1>
+    <a href="{{ path('homepage') }}">HOME</a>
 
-    <table>
+    <table class="table table-striped">
         <thead>
-            <tr>
-                <th>Rfc</th>
-                <th>Nombre</th>
-                <th>Apellidopaterno</th>
-                <th>Apellidomaterno</th>
-                <th>Numeroeconomico</th>
-                <th>Createat</th>
-                <th>Curp</th>
-                <th>Correoelectronico</th>
-                <th>Nacionalidad</th>
-                <th>Edad</th>
-                <th>Sexo</th>
-                <th>Estadocivil</th>
-                <th>Telefonos</th>
-                <th>Direccion</th>
-                <th>Password</th>
-                <th>Salt</th>
-                <th>Enable</th>
-                <th>Loked</th>
-                <th>Expired</th>
-                <th>Ultimaconexion</th>
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>RFC</th>
+            <th>Nombre</th>
+            <th>Apellido Paterno</th>
+            <th>Apellido Materno</th>
+            <th>#Economico</th>
+            <th>Fecha de Conexion</th>
+            <th>CURP</th>
+            <th>mail</th>
+            <th>Nacionalidad</th>
+            <th>Edad</th>
+            <th>Sexo</th>
+            <th>Estadocivil</th>
+            <th>Telefonos</th>
+            <th>Calle</th>
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for aspirante in aspirantes %}
@@ -37,7 +32,8 @@
                 <td>{{ aspirante.apellidoPaterno }}</td>
                 <td>{{ aspirante.apellidoMaterno }}</td>
                 <td>{{ aspirante.numeroEconomico }}</td>
-                <td>{% if aspirante.createAt %}{{ aspirante.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if aspirante.ultimaConexion %}{{ aspirante.ultimaConexion|date('Y-m-d H:i:s') }}{% endif %}</td>
+                {# <td>{% if aspirante.createAt %}{{ aspirante.createAt|date('Y-m-d H:i:s') }}{% endif %}</td> #}
                 <td>{{ aspirante.curp }}</td>
                 <td>{{ aspirante.correoElectronico }}</td>
                 <td>{{ aspirante.nacionalidad }}</td>
@@ -45,13 +41,7 @@
                 <td>{{ aspirante.sexo }}</td>
                 <td>{{ aspirante.estadoCivil }}</td>
                 <td>{{ aspirante.telefonos }}</td>
-                <td>{{ aspirante.direccion }}</td>
-                <td>{{ aspirante.password }}</td>
-                <td>{{ aspirante.salt }}</td>
-                <td>{% if aspirante.enable %}Yes{% else %}No{% endif %}</td>
-                <td>{% if aspirante.loked %}Yes{% else %}No{% endif %}</td>
-                <td>{{ aspirante.expired }}</td>
-                <td>{% if aspirante.ultimaConexion %}{{ aspirante.ultimaConexion|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ aspirante.calle }}</td>
                 <td>
                     <ul>
                         <li>
@@ -69,7 +59,8 @@
 
     <ul>
         <li>
-            <a href="{{ path('aspirante_new') }}">Create a new aspirante</a>
+            <a href="{{ path('aspirante_new') }}">Crear nuevo ASPIRANTE</a>
         </li>
+        <li> <a href="{{ path('homepage') }}">HOME</a> </li>
     </ul>
 {% endblock %}
