@@ -257,9 +257,11 @@ class Concurso
 
     public function __construct()
     {
+
         $this->createAt = new \DateTime('now');
         $this->fechaPublicacion = new \DateTime('now');
-        $this->unidad = 'Iztapalapa';
+        $this->unidad = 'IZTAPALAPA';
+
         $this->registros = new ArrayCollection();
     }
 

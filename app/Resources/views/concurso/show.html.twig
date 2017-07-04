@@ -31,7 +31,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li ><a href="{{ path('concurso_index') }}">Ver Todos <span class=" glyphicon glyphicon-list-alt"></span></a></li>
-                    <li><a href="{{ path('concurso_showpdfs', { 'id': concurso.id }) }}" target="_blank">PDF<span class=" glyphicon glyphicon-file"></span></a></li>
+                    <li><a href="{{ path('cecFORM_pdf', { 'id': concurso.id }) }}" target="_self"
+                           rel="popover"  data-container="body" data-toggle= "popover" data-placement="bottom"
+                           title= "PARA VER EL ARCHIVO" data-content= "Seleccione el directorio donde gurdara el PDF por default es la carpeta DESCARGAS / DOWNLOAD"
+                        >Guardar en PDF<span class=" glyphicon glyphicon-file"></span></a></li>
 
                 </ul>
 
@@ -409,4 +412,11 @@
         });
     });
 </script>
+    <script>
+        $('[rel="popover"]').popover({
+            trigger:'hover',
+            html:true,
+            delay:500,
+        });
+    </script>
 {% endblock %}

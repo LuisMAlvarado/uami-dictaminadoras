@@ -4,7 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+
     "content-hash": "7ef659345a8aedc859e36deb5707eeb4",
+
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -972,6 +974,7 @@
             "time": "2016-06-22T15:03:46+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "mikehaertl/php-pdftk",
             "version": "0.4.0",
             "source": {
@@ -1089,6 +1092,8 @@
             "time": "2016-07-07T05:59:42+00:00"
         },
         {
+=======
+>>>>>>> c639a7f43d00e4fa9b65b6b2210dc9ccd4218845
             "name": "monolog/monolog",
             "version": "1.22.1",
             "source": {
