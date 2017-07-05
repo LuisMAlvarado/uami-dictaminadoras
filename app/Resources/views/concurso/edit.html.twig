@@ -250,17 +250,20 @@
         </tr>
 
         <tr>
-            <td colspan="2">
-                {{ form_label(edit_form.causal,"CAUSA QUE ORIGINA LA NECESIDAD") }}
-                {{ form_widget(edit_form.causal,{'attr':{
+            <td width="20%">{{ form_label(edit_form.causal,"SELECCIONE CAUSAL") }}
+                {{ form_widget(edit_form.causal) }}
+                {{ form_errors(edit_form.causal) }}</td>
+
+            <td>{{ form_label(edit_form.causaltxt,"CAUSA QUE ORIGINA LA NECESIDAD") }}
+                {{ form_widget(edit_form.causaltxt,{'attr':{
                     'class':'form-control',
-                    'rows' : '2'
+                    'rows' : '1'
 
                 }}) }}
-                {{ form_errors(edit_form.causal) }}
-
-            </td>
+                {{ form_errors(edit_form.causaltxt) }}</td>
         </tr>
+
+       
 
     </TABLE>
     <br>
@@ -333,7 +336,7 @@
     <script>
         $(document).ready(function () {
 
-            var max_chars = 2268;
+            var max_chars = 1600;
             $('#max').html(max_chars);
             $('#appbundle_concurso_actividades').keyup(function () {
                var chars = $(this).val().length;
