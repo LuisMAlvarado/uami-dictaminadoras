@@ -491,7 +491,7 @@ public function reconvocarAction(Request $request, Concurso $concurso)// SE USA 
         $deleteForm = $this->createDeleteForm($concurso);
 
         $registros= $concurso->getRegistrosCompletos();
-        dump($registros); exit();  //   CAMBIAR LA FORMA DE SELECIONAR LOS REGISTROS!!!!!
+       // dump($registros); exit();  //   CAMBIAR LA FORMA DE SELECIONAR LOS REGISTROS!!!!!
          $numRegistro='REG.'.$concurso->getNumConcurso();
          $fechaRegistro=new \DateTime('now');
          foreach ($registros as $registro)
@@ -499,9 +499,10 @@ public function reconvocarAction(Request $request, Concurso $concurso)// SE USA 
              $registro->setNumRegistro($numRegistro);
              $registro->setFechaRegistro($fechaRegistro);
              $em->persist($registro);
+             $em->flush($registro);
 
          }
-        $em->flush($registro);
+
 
 
 

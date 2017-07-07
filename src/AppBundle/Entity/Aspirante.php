@@ -5,6 +5,8 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Aspirante
@@ -87,8 +89,8 @@ class Aspirante implements AdvancedUserInterface, \Serializable
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="fechaBirthday", type="date", nullable=false)
+     * @Assert\Date()
+     * @ORM\Column(name="fechaBirthday", type="date", nullable=true)
      */
     private $fechaBirthday;
 

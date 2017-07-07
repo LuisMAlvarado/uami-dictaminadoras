@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class AspirantePreType extends AbstractType
 {
@@ -31,7 +32,7 @@ class AspirantePreType extends AbstractType
            // ->add('sexo')
            // ->add('estadoCivil')
             ->add('telefonos')
-           // ->add('direccion')
+          //  ->add('fechaBirthday')
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'invalid_message' => 'Las contraseñas no coinciden.',
