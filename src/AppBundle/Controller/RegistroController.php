@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Concurso;
 use AppBundle\Entity\Registro;
+use FPDM\FPDM;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -149,6 +150,56 @@ class RegistroController extends Controller
 
         }
 
+    }
+
+    /**
+     *
+     * @Route("/{id}/FRAsppdf", name="RAspFORM_pdf")
+     * @Method({"GET", "POST"})
+     */
+    public function pdfFRAspAction(Request $request, Registro $registro)
+    {
+        $aspi = $registro->getAspiranteRfc();
+        $concurso = $registro->getConcurso();
+
+        $aspi = $this->getUser();
+        //$clasificacion = $concurso->getClasificacion();
+        //var_dump($clasificacion);exit();
+        $fields = array(
+            'clasificacionn' => $concurso->getClasificacion()->getNombre() ,
+            'numEC'=> $concurso->getNumConcurso(),
+            //'fechaEdia'=>$concurso->getFechaPublicacion()->format('d'),
+            //'fechaEmes'=>$concurso->getFechaPublicacion()->format('m'),
+            //'fechaEanio'=>$concurso->getFechaPublicacion()->format('Y'),
+            'categoria' => $concurso->getCategoria()->getNombre(),
+            'tdedicacionn' =>$concurso->getTiempoDedicacion()->getNombre(),
+           // 'hclase'=>$concurso->getTpHclase(),
+           // 'hotras'=>$concurso->getTpHacademia(),
+           // 'hayudantia'=>$concurso->getTpHayudantia(),
+            'unidadd'=>$concurso->getUnidad(),
+            'divisionn'=>$concurso->getDepartamento()->getDivision()->getNombre(),
+            'departamentoo'=>$concurso->getDepartamento()->getNombre(),
+            'areadepto'=>$concurso->getAreaDepartamental(),
+            'horario'=>$concurso->getHorario(),
+            
+
+
+
+        );
+        /*
+                foreach ($concurso->getRegistros() as $i => $registro)
+                {
+                    $fields['aspirante_'.$i] = $registro->getAspiranteRfc()->getNombreCompleto();
+                }
+        */
+        //       dump($fields); exit();
+
+        $pdf = new FPDM(__DIR__."/../../../formatosPDF/solregAsp.pdf");
+        $pdf->Load($fields, true); // second parameter: false if field values are in ISO-8859-1, true if UTF-8
+        $pdf->Merge();
+        $nombre=preg_replace('/\./', '', 'REG_'.$concurso->getNumConcurso());
+        $pdf->Output($nombre.'.pdf', 'I');
+        //$pdf->Output($nombre.'.pdf', 'D');
     }
 
     /**

@@ -190,6 +190,7 @@
         <li>
             <a href="{{ path('registro_index') }}">Listado de Solicitud de Registros</a>
         </li>
+            <li><a href="{{ path('RAspFORM_pdf',{ 'id': registro.id }) }}">PDF</a></li>
         <li>
             {{ form_start(delete_form) }}
             <input type="submit" value="Delete">
