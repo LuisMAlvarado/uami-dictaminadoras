@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,7 +33,11 @@ class AspirantePreType extends AbstractType
            // ->add('sexo')
            // ->add('estadoCivil')
             ->add('telefonos')
-          //  ->add('fechaBirthday')
+           ->add('fechaBirthday',BirthdayType::class,array(
+                   'format'=>'dd-MM-yyyy',
+                   'placeholder' => array('year' => 'AñO','day' => 'DIA','month' => 'MES',)
+               )
+           )
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'invalid_message' => 'Las contraseñas no coinciden.',

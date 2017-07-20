@@ -84,7 +84,13 @@
             </td>
 
         </tr>
-
+        <tr>
+            <td colspan="3">
+                {{ form_label(form.fechaBirthday,"Fecha de Nacimiento") }}
+                {{ form_widget(form.fechaBirthday) }}
+                {{ form_errors(form.fechaBirthday) }}
+            </td>
+        </tr>
 
         <tr>
 <td align="center" bgcolor="#ffa07a" colspan="3"><strong>PARA ACTIVAR SU CUENTA</strong>, ES IMPORTANTE LLEVAR EL ORIGINAL DE SUS DOCUMENTOS COMPROBATORIOS (ASIST. DIVISIONAL)</td>

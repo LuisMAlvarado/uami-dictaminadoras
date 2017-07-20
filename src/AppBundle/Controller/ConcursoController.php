@@ -185,29 +185,37 @@ class ConcursoController extends Controller
         $concurso ->setEstatus($newestatus);
 
         if ($this->isGranted(new Expression(' "ROLE_ASISTENTEDEP" in roles'))){
+
             $asisdiv =$this->getUser()->getDivision()->getId();
             $asisdep1 = $this->getUser()->getDepartamento()->getId();
             $asisdep=$this->getDoctrine()->getRepository('AppBundle:Departamento')->find($asisdep1);
             $concurso->setDepartamento($asisdep);
 
         }
-
         $form = $this->createForm('AppBundle\Form\ConcursoType', $concurso);
         $form->handleRequest($request);
+
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             //obtengo e inserto el valor de clasificacion,categoria,tiempoDedicacion
             $em = $this->getDoctrine()->getManager();
-            $clatesalS=$em->getRepository('AppBundle:Clatesal')->findOneBy(array(
-                'clasificacion' => $form->getdata()->getClasificacion()->getId(),
-                'categoria' => $form->getdata()->getCategoria()->getId(),
-                'tiempoDedicacion' => $form->getdata()->getTiempoDedicacion()->getId(),
-            ));
+//PRUEBAS
+        //    $clasificacionId = $form->getdata()->getClasificacion()->getId();
+        //    $categ = $em->getRepository('AppBundle:Clatesal')->getArrayByClasificacionId($clasificacionId) ;
+          //  dump($clasificacionId,$categ);exit();
+            //COMENTAR LO ANTERIOR
 
-            $concurso->setActividades($clatesalS->getActividad());
-            $concurso->setRequisitos($clatesalS->getRequisitos());
-            $concurso->setSalarioA((int)$salA=$clatesalS->getSalA());
-            $concurso->setSalarioB((int)$salB=$clatesalS->getSalB());
+          //  $clatesalS=$em->getRepository('AppBundle:Clatesal')->findOneBy(array(
+          //      'clasificacion' => $form->getdata()->getClasificacion()->getId(),
+          //      'categoria' => $form->getdata()->getCategoria()->getId(),
+          //      'tiempoDedicacion' => $form->getdata()->getTiempoDedicacion()->getId(),
+          //  ));
+
+          //  $concurso->setActividades($clatesalS->getActividad());
+          //  $concurso->setRequisitos($clatesalS->getRequisitos());
+          //  $concurso->setSalarioA((int)$salA=$clatesalS->getSalA());
+          //  $concurso->setSalarioB((int)$salB=$clatesalS->getSalB());
             //termina la insercion de Clatesal
 
             $em->persist($concurso);
@@ -274,11 +282,9 @@ class ConcursoController extends Controller
      *
      * @Route("/{id}/FORMpdf", name="cecFORM_pdf")
      */
-    public function pdfF(Concurso $concurso)
+    public function pdfFAction(Concurso $concurso)
     {
 
-        //$clasificacion = $concurso->getClasificacion();
-        //var_dump($clasificacion);exit();
         $fields = array(
             'clasificacionn' => $concurso->getClasificacion()->getNombre() ,
             'numEC'=> $concurso->getNumConcurso(),
@@ -314,17 +320,7 @@ class ConcursoController extends Controller
             'subdirRL'=>'M. EN C. HIPÓLITO LARA RESÉNDIZ',
             'nombrectrlplantilla'=>'LIC. CIRO M. DÍAZ ROJAS',
 
-
-
         );
-/*
-        foreach ($concurso->getRegistros() as $i => $registro)
-        {
-            $fields['aspirante_'.$i] = $registro->getAspiranteRfc()->getNombreCompleto();
-        }
-*/
- //       dump($fields); exit();
-
         $pdf = new FPDM(__DIR__."/../../../formatosPDF/regCEC.pdf");
         $pdf->Load($fields, true); // second parameter: false if field values are in ISO-8859-1, true if UTF-8
         $pdf->Merge();
@@ -332,8 +328,52 @@ class ConcursoController extends Controller
         $pdf->Output($nombre.'.pdf', 'D');
     }
 
+    /**
+     * @Route("/{id}/FRAspspdf", name="FORMRAsps_pdf")
+     * 
+     */
 
-    
+    public function pdfFRAspsAction(Concurso $concurso)
+
+
+    {
+
+        //$clasificacion = $concurso->getClasificacion();
+        //var_dump($clasificacion);exit();
+        $fields = array(
+
+            'NumConcurso'=> $concurso->getNumConcurso(),
+
+            'divisionCOM'=>$concurso->getDepartamento()->getDivision()->getNombre(),
+            'NumConcursoREF'=>$concurso->getNumConcurso(),
+            'divisionSEC'=>$concurso->getDepartamento()->getDivision()->getNombre(),
+            'FPublicacion'=>$concurso->getFechaPublicacion()->format('d - m - Y'),
+
+            // 'subdirRL'=>'M. EN C. HIPÓLITO LARA RESÉNDIZ',
+            // 'nombrectrlplantilla'=>'LIC. CIRO M. DÍAZ ROJAS',
+
+
+
+        );
+
+        foreach ($concurso->getRegistros() as $i => $registro)
+        {
+            $fields['asp_'.$i] = $registro->getAspiranteRfc()->getNombreCompleto();
+        }
+
+        //dump($fields); exit();
+
+        $pdf = new FPDM(__DIR__."/../../../formatosPDF/regAsps.pdf");
+        $pdf->Load($fields, true); // second parameter: false if field values are in ISO-8859-1, true if UTF-8
+        $pdf->Merge();
+        $nombre=preg_replace('/\./', '', 'R_'.$concurso->getNumConcurso());
+        $pdf->Output($nombre.'.pdf', 'D');
+    }
+
+
+
+
+
     /**
      * Finds and genera PDFs a Concurso entity.
      *
@@ -382,16 +422,18 @@ class ConcursoController extends Controller
      */
     public function editAction(Request $request, Concurso $concurso)
     {
+        $em = $this->getDoctrine()->getManager();
         $deleteForm = $this->createDeleteForm($concurso);
         $editForm = $this->createForm('AppBundle\Form\ConcursoType', $concurso);
         $editForm->handleRequest($request);
+//PRUEBAS
+       //  $clasificacionId = $editForm->getdata()->getClasificacion()->getId();
+        // $categ = $em->getRepository('AppBundle:Categoria')->getArrayByClasificacionId($clasificacionId) ;
+        // dump($clasificacionId,$categ);exit();
+
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-
-
-
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('concurso_show', array('id' => $concurso->getId()));
         }
 
@@ -448,13 +490,35 @@ public function reconvocarAction(Request $request, Concurso $concurso)// SE USA 
 
 
         $newestatus = $this->getDoctrine()->getRepository('AppBundle:Estatus')->find($nest);
+        $em = $this->getDoctrine()->getManager();
+        $deleteForm = $this->createDeleteForm($concurso);
+        $editForm = $this->createForm('AppBundle\Form\ConcursoType', $concurso);
+        $editForm->handleRequest($request);
         //Estatus::"nombre_variable" definida en ENTIDAD en este caso Estatus
+        $v1=$concurso->getEstatus()->getId();
+        $v2=$concurso->getNumConcurso();
+       // var_dump($v1,$v2);exit();
+        if ($concurso->getEstatus()->getId() < 3 && $concurso->getNumConcurso() == null) {
+
+            return $this->redirectToRoute('concurso_edit', array('id' => $concurso->getId(),
+                //    'concurso' => $concurso,
+                //    'edit_form' => $editForm->createView(),
+                //    'delete_form' => $deleteForm->createView(),
+            ));
+        }
+
         $concurso ->setEstatus($newestatus);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($concurso);
         $em->flush($concurso);
         return $this->redirectToRoute('concurso_show', array('id' => $concurso->getId()));
+
+       // return $this->render('concurso/edit.html.twig', array(
+       //     'concurso' => $concurso,
+       //     'edit_form' => $editForm->createView(),
+       //     'delete_form' => $deleteForm->createView(),
+       // ));
 
        /**QUITO ESTO PARA QUE ENVIE DIRECTO AL CAMBIO
         * $form = $this->createForm('AppBundle\Form\ConcursoType', $reconcurso);
@@ -488,21 +552,22 @@ public function reconvocarAction(Request $request, Concurso $concurso)// SE USA 
 
 
         $em = $this->getDoctrine()->getManager();
-        $deleteForm = $this->createDeleteForm($concurso);
+       // $deleteForm = $this->createDeleteForm($concurso);
 
-        $registros= $concurso->getRegistrosCompletos();
-       // dump($registros); exit();  //   CAMBIAR LA FORMA DE SELECIONAR LOS REGISTROS!!!!!
+        $registros= $concurso->getRegistrosCompletos();//SE DEBE HACER EL INPUT(SELECTOR PALOMITA)URGE ARREGLO LMAP
+        //dump($registros); exit();  //   CAMBIAR LA FORMA DE SELECIONAR LOS REGISTROS!!!!!
          $numRegistro='REG.'.$concurso->getNumConcurso();
          $fechaRegistro=new \DateTime('now');
          foreach ($registros as $registro)
          {
              $registro->setNumRegistro($numRegistro);
              $registro->setFechaRegistro($fechaRegistro);
+
              $em->persist($registro);
-             $em->flush($registro);
+
 
          }
-
+        $em->flush();
 
 
 
@@ -511,7 +576,7 @@ public function reconvocarAction(Request $request, Concurso $concurso)// SE USA 
             'concurso' => $concurso,
             'numregistro' =>$numRegistro,
             'fecharegistro' =>$fechaRegistro,
-            'delete_form' => $deleteForm->createView(),
+            //'delete_form' => $deleteForm->createView(),
 
             //   'dias' => $dias,
         ));

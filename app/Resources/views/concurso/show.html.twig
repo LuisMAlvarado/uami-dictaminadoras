@@ -2,8 +2,8 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    <link href="{{ asset('/resource/css/usershow.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('/resource/css/tablita_curva.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('resource/css/usershow.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('resource/css/tablita_curva.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 
@@ -33,8 +33,8 @@
                     <li ><a href="{{ path('concurso_index') }}">Ver Todos <span class=" glyphicon glyphicon-list-alt"></span></a></li>
                     <li><a href="{{ path('cecFORM_pdf', { 'id': concurso.id }) }}" target="_self"
                            rel="popover"  data-container="body" data-toggle= "popover" data-placement="bottom"
-                           title= "PARA VER EL ARCHIVO" data-content= "Seleccione el directorio donde gurdara el PDF por default es la carpeta DESCARGAS / DOWNLOAD"
-                        >Guardar en PDF<span class=" glyphicon glyphicon-file"></span></a></li>
+                           title= "PARA VER EL ARCHIVO" data-content= "Seleccione el directorio donde se guardara y genera el PDF por default es la carpeta DESCARGAS / DOWNLOAD"
+                        >Guardar y Generar en PDF<span class=" glyphicon glyphicon-file"></span></a></li>
 
                 </ul>
 
@@ -76,7 +76,7 @@
 
         <tr>
 
-            <td border="0" rowspan="2" valign="bottom"> <img src="{{ asset('/resource/img/encabezado.png') }}"  /></td>
+            <td border="0" rowspan="2" valign="bottom"> <img src="{{ asset('resource/img/encabezado.png') }}"  /></td>
             <td align="right" valign="bottom"><font size="0">FI-DIPPPA-03 / 01122015 PÁGINA 1/2 </font></td>
         </tr>
         <tr>
@@ -300,7 +300,10 @@
 
 
     {% endif %}
-
+    
+    {% if is_granted(expression('"ROLE_DICTAMINADOR" in roles '))%}
+        <a    href="{{ path('concurso_index')}}">Listado de CONVOCATORIAS</a>
+    {% endif %}
 
     <ul class="hidden-print  text-center">
 
@@ -322,6 +325,9 @@
                 <input type="submit" value="BORRAR">
             {{ form_end(delete_form) }}
         {% endif %}
+
+
+
     </div>
 
     <div class="visible-print" >
@@ -403,6 +409,8 @@
 <script>
     $(document).ready(function () {
         $('.link-modal').click(function (e) {
+           // var edonumec = $('{#{ concurso.numConcurso.vars.id }#}').val();
+           // alert(edonumec);
             var statusId= $(this).attr('status');
             var statusnombre= $(this).attr('status_nombre');
             var lk = '{{ path('next_estatus',{ 'concurso': concurso.id ,'nest': '__id1__' }) }}';

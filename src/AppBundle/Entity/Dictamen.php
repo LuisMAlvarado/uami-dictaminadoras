@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Dictamen
@@ -93,6 +94,12 @@ class Dictamen
         return $this->numDictamen;
     }
 
+    public function __construct()
+    {
+        $this->fechaDictmen = new \DateTime('now');
+        
+
+    }
 
     /**
      * Get id
@@ -296,7 +303,57 @@ class Dictamen
         return $this->concurso;
     }
 
+    /**
+     * @Assert\Callback
+     */
+    public function validaGanador(ExecutionContextInterface $context){
+        $prelacionMin = null;
+        foreach($this->concurso->getRegistros() as $registro)
+        {
 
+            if($registro->getPrelacion() !== null && ( $prelacionMin == null ||$prelacionMin > $registro->getPrelacion())){
+                $prelacionMin = $registro->getPrelacion();
+               //dump($registro)
+            }
+        }
 
+     //   dump($prelacionMin,$registro); exit();
 
+        if($prelacionMin != null && $prelacionMin > 0){
+            // Hay prelados pero no hay ganador
+            $context->buildViolation('Debe asignar un Ganador (Prelado 0)!')
+                ->atPath('nivelAsignado')
+                ->addViolation();
+        }
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validaNoRep(ExecutionContextInterface $context){
+        $countPrelaciones = array();
+        foreach($this->concurso->getRegistros() as $registro)
+        {
+            if($registro->getPrelacion() !== null)
+            {
+                if(isset($countPrelaciones[$registro->getPrelacion()])) {
+                    $countPrelaciones[$registro->getPrelacion()]++;
+                }else{
+                    $countPrelaciones[$registro->getPrelacion()] = 1;
+                }
+
+            }
+        }
+        //dump($countPrelaciones); exit();
+
+        foreach ($countPrelaciones as $prelacion => $contador)
+        {
+            if($contador > 1 ){
+                $context->buildViolation('Asigno a mas de un aspirante la prelacion ' . $prelacion)
+                    ->atPath('nivelAsignado')
+                    ->addViolation();
+            }
+        }
+
+    }
 }

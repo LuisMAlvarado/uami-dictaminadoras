@@ -7,7 +7,11 @@
  */
 
 namespace AppBundle\Form\EventListener;
+use Symfony\Component\Security\Core\User\UserInterface;
 
+use AppBundle\Entity\Departamento;
+use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -24,11 +28,12 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 class AddConcursoAsisDivSubscriber implements EventSubscriberInterface
 {
 
-    private $em, $security;
-    public function __construct($security, $em)
+    private $em, $security, $user;
+    public function __construct($security, $em, $user)
     {
         $this->security = $security;
         $this->em      = $em;
+        $this->user =$user;
 
     }
 
@@ -57,19 +62,35 @@ class AddConcursoAsisDivSubscriber implements EventSubscriberInterface
        //     echo 'no lo contien';
        // }
 
-        
+        $departamentos =array();
         if ($this->security->isGranted('ROLE_ASISTENTEDIV')) {
 
-            //$form->add('estatus');
+
+            $usuario= $this->user->getToken()->getUser();
+
+            $departamentos = $this->em->getRepository('AppBundle:Departamento')->getByDivisionId($usuario->getDivision()->getId());
+            //dump($departamentos);exit();
+            $form->add('departamento', EntityType::class, array(
+                'class' => 'AppBundle\Entity\Departamento',
+               'choices' => $departamentos,
+                'required'   => true,
+                'placeholder' => '',
+            ));
             $form->add('pdfConcurso');
             $form->add('fechaPublicacion', DateType::class, array(
                 'format' => 'dd-MM-yyyy',
             ));
             //$form->add('numConcurso');
                     }
+        if ($this->security->isGranted('ROLE_ASISTENTEDEP')){
+            $form->add('departamento', null, array(
+                'disabled' => true,
+            ));
+        }
 
         if ($this->security->isGranted('ROLE_ADMINISTRADOR')){
             $form->add('estatus');
+            $form->add('departamento');
         }
 
     }

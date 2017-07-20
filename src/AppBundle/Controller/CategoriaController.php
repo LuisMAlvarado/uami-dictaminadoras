@@ -3,9 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Categoria;
+use AppBundle\Entity\Clasificacion;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Categorium controller.
@@ -44,4 +47,10 @@ class CategoriaController extends Controller
             'categorium' => $categorium,
         ));
     }
+
+
+   
+    
+    
+    
 }

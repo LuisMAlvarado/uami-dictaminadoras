@@ -10,4 +10,5 @@ namespace AppBundle\Repository;
  */
 class CategoriaRepository extends \Doctrine\ORM\EntityRepository
 {
+   
 }

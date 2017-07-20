@@ -143,19 +143,13 @@
 <div class="hidden-print">
     <ul>
         <li>
-            <a href="{{ path('concurso_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('concurso_edit', { 'id': concurso.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
+            <a href="{{ path('concurso_index') }}">Listado de CONVOCATORIAS</a>
         </li>
 
+
         <li>
-            <a href="{{ path('concurso_resgistradossalta', { 'concurso': concurso.id }) }}">HACER REGISTRO</a>
+            <a href="{{ path('FORMRAsps_pdf', { 'id': concurso.id }) }}">hacer PDF</a>
+
         </li>
     </ul>
 </div>

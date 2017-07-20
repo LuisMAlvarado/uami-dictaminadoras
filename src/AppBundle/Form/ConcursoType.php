@@ -14,16 +14,18 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Doctrine\ORM\EntityManager;
 
 
 class ConcursoType extends AbstractType
 {
-    private $security, $em;
+    private $security, $em, $user;
     
-public function __construct($security,$em)
+public function __construct($security,$em, $user)
 {
     $this->security=$security;
     $this->em=$em;
+    $this->user=$user;
     
 }
 
@@ -97,9 +99,9 @@ public function __construct($security,$em)
             ->add('tpHacademia')
             ->add('tpHayudantia')
             ->add('clavePlaza')
-            ->add('departamento')
+            
             ->add('dictamen',HiddenType::class)
-            ->addEventSubscriber(new AddConcursoAsisDivSubscriber($this->security,$this->em))
+            ->addEventSubscriber(new AddConcursoAsisDivSubscriber($this->security,$this->em,$this->user))
 
            // ->add('estatus')
            // ->add('pdfConcurso')

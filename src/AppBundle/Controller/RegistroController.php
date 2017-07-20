@@ -162,27 +162,45 @@ class RegistroController extends Controller
         $aspi = $registro->getAspiranteRfc();
         $concurso = $registro->getConcurso();
 
-        $aspi = $this->getUser();
         //$clasificacion = $concurso->getClasificacion();
         //var_dump($clasificacion);exit();
         $fields = array(
             'clasificacionn' => $concurso->getClasificacion()->getNombre() ,
             'numEC'=> $concurso->getNumConcurso(),
-            //'fechaEdia'=>$concurso->getFechaPublicacion()->format('d'),
-            //'fechaEmes'=>$concurso->getFechaPublicacion()->format('m'),
-            //'fechaEanio'=>$concurso->getFechaPublicacion()->format('Y'),
+            'FechaDIA'=>$concurso->getCreateAt()->format('d'),
+            'FechaMES'=>$concurso->getCreateAt()->format('m'),
+            'FechaANIO'=>$concurso->getCreateAt()->format('Y'),
             'categoria' => $concurso->getCategoria()->getNombre(),
             'tdedicacionn' =>$concurso->getTiempoDedicacion()->getNombre(),
-           // 'hclase'=>$concurso->getTpHclase(),
-           // 'hotras'=>$concurso->getTpHacademia(),
-           // 'hayudantia'=>$concurso->getTpHayudantia(),
             'unidadd'=>$concurso->getUnidad(),
             'divisionn'=>$concurso->getDepartamento()->getDivision()->getNombre(),
             'departamentoo'=>$concurso->getDepartamento()->getNombre(),
             'areadepto'=>$concurso->getAreaDepartamental(),
             'horario'=>$concurso->getHorario(),
-            
-
+            'nombre'=>$aspi->getNombre(),
+            'apellidoPaterno'=>$aspi->getApellidoPaterno(),
+            'apellidoMaterno'=>$aspi->getApellidoMaterno(),
+            'nacionalidad'=>$aspi->getNacionalidad(),
+            'rfc'=>$aspi->getRfc(),
+            'curp'=>$aspi->getCurp(),
+            'birthdayDia'=>$aspi->getFechaBirthday()->format('d'),
+            'birthdayMes'=>$aspi->getFechaBirthday()->format('m'),
+            'birthdayAnio'=>$aspi->getFechaBirthday()->format('Y'),
+            'edad'=>$aspi->getEdad(),
+            'sexo'=>$aspi->getSexo(),
+            'estadoCivil'=>$aspi->getEstadoCivil(),
+            'telefonos'=>$aspi->getTelefonos(),
+            'correoElectronico'=>$aspi->getCorreoElectronico(),
+            'calle'=>$aspi->getCalle(),
+            'noExt'=>$aspi->getNoExt(),
+            'edif'=>$aspi->getEdif(),
+            'depto'=>$aspi->getDepto(),
+            'coloniaFracc'=>$aspi->getColoniaFracc(),
+            'delegMunc'=>$aspi->getDelegMunc(),
+            'estado'=>$aspi->getEstado(),
+            'codPost'=>$aspi->getCodPost(),
+            'numeroEconomico'=>$aspi->getNumeroEconomico(),
+            'NombreCompleto'=>$aspi->getNombreCompleto(),
 
 
         );
@@ -197,9 +215,9 @@ class RegistroController extends Controller
         $pdf = new FPDM(__DIR__."/../../../formatosPDF/solregAsp.pdf");
         $pdf->Load($fields, true); // second parameter: false if field values are in ISO-8859-1, true if UTF-8
         $pdf->Merge();
-        $nombre=preg_replace('/\./', '', 'REG_'.$concurso->getNumConcurso());
-        $pdf->Output($nombre.'.pdf', 'I');
-        //$pdf->Output($nombre.'.pdf', 'D');
+        $nombre=preg_replace('/\./', '', $aspi->getRfc().'_'.$concurso->getNumConcurso());
+       // $pdf->Output($nombre.'.pdf', 'I');
+        $pdf->Output($nombre.'.pdf', 'D');
     }
 
     /**

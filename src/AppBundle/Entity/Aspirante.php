@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 
 /**
@@ -13,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="aspirante", uniqueConstraints={@ORM\UniqueConstraint(name="RFC_UNIQUE", columns={"rfc"})}, indexes={@ORM\Index(name="fk_aspirante_role1_idx", columns={"role_id"})})
  * @ORM\Entity
+ * @DoctrineAssert\UniqueEntity("correoElectronico")
  */
 class Aspirante implements AdvancedUserInterface, \Serializable
 {
@@ -28,6 +30,7 @@ class Aspirante implements AdvancedUserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
+     *
      */
     private $nombre;
 
@@ -61,13 +64,14 @@ class Aspirante implements AdvancedUserInterface, \Serializable
 
     /**
      * @var string
-     *
+     *@Assert\NotBlank(message = "Por favor, escribe tu CURP")
      * @ORM\Column(name="curp", type="string", length=20, nullable=true)
      */
     private $curp;
 
     /**
      * @var string
+     * @Assert\Email()
      *
      * @ORM\Column(name="correoelectronico", type="string", length=50, nullable=true)
      */
@@ -75,7 +79,7 @@ class Aspirante implements AdvancedUserInterface, \Serializable
 
     /**
      * @var string
-     *
+     *@Assert\NotBlank(message = "Por favor, escribe tu Nacionalidad")
      * @ORM\Column(name="nacionalidad", type="string", length=45, nullable=true)
      */
     private $nacionalidad;
@@ -117,14 +121,14 @@ class Aspirante implements AdvancedUserInterface, \Serializable
 
     /**
      * @var string
-     *
+     *@Assert\NotBlank(message = "Por favor, escribe tu CALLE")
      * @ORM\Column(name="calle", type="text", nullable=true)
      */
     private $calle;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message = "Por favor, escribe tu Num. Exterior")
      * @ORM\Column(name="noext", type="string", length=30, nullable=true)
      */
     private $noExt;
@@ -145,7 +149,7 @@ class Aspirante implements AdvancedUserInterface, \Serializable
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message = "Por favor, escribe tu COL./FRACC.")
      * @ORM\Column(name="coloniafracc", type="text", nullable=true)
      */
     private $coloniaFracc;

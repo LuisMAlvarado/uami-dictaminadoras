@@ -68,7 +68,7 @@ security:
         - { path: ^/aspirante/prenew, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/usuario, roles: ROLE_ADMINISTRADOR }
-        - { path: ^/clatesal, roles: ROLE_ADMINISTRADOR }
+        - { path: ^/clatesal, roles:  [ROLE_ASISTENTEDIV, ROLE_ASISTENTEDEP, ROLE_ADMINISTRADOR] }
         - { path: ^/aspirante, roles: [ROLE_ASISTENTEDIV,ROLE_DICTAMINADOR, ROLE_ADMINISTRADOR, ROLE_ASPIRANTE]}
         - { path: ^/registro, roles: [ROLE_ASISTENTEDIV,ROLE_ASISTENTEDEP,ROLE_DICTAMINADOR, ROLE_ADMINISTRADOR, ROLE_ASPIRANTE]}
         - { path: ^/concurso, roles: [ROLE_ASISTENTEDIV, ROLE_ASISTENTEDEP,ROLE_DICTAMINADOR,ROLE_DIGITALIZADOR, ROLE_ADMINISTRADOR, ROLE_ASPIRANTE]}

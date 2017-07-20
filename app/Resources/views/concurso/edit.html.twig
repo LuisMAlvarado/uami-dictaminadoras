@@ -30,7 +30,7 @@
                 {% if is_granted(expression('"ROLE_ASISTENTEDIV" in roles or "ROLE_ASISTENTEDEP" in roles ')) %}
                     {{ form_label(edit_form.numConcurso,"No. EC. ") }}
                     {{ form_widget(edit_form.numConcurso) }}
-                    {{ form_errors(edit_form.numConcurso) }}
+                <div class="alert-danger">  {{ form_errors(edit_form.numConcurso) }} </div>
                 {% else %}
                     No. EC.
                 {% endif %}

@@ -10,4 +10,68 @@ namespace AppBundle\Repository;
  */
 class ClatesalRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getArrayByClasificacionId($clasificacionId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT DISTINCT ca
+                    FROM AppBundle:Categoria ca 
+                        JOIN AppBundle:Clatesal c WITH c.categoria = ca
+                    WHERE c.clasificacion = :clasificacionId     
+         '
+            )->setParameter('clasificacionId', $clasificacionId);
+
+
+        return $query->getArrayResult();
+
+    }
+
+    public function getByClasificacionId($clasificacionId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT c FROM AppBundle:Clatesal c
+                        WHERE c.clasificacion = :clasificacionId 
+                      
+         '
+            )->setParameter('clasificacionId', $clasificacionId);
+
+        return $query->getResult();
+    }
+
+    public function getArrayByClasificacionIdCategoriaId($clasificacionId, $categoriaId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT DISTINCT td
+                    FROM AppBundle:TiempoDedicacion td 
+                        JOIN AppBundle:Clatesal c WITH c.tiempoDedicacion = td
+                    WHERE c.clasificacion = :clasificacionId
+                        AND c.categoria = :categoriaId
+         '
+            )->setParameter('clasificacionId', $clasificacionId)
+             ->setParameter('categoriaId', $categoriaId);
+
+
+        return $query->getArrayResult();
+
+    }
+
+    public function getArrayByClasificacionIdCategoriaIdTiempoDedicacionId($clasificacionId, $categoriaId, $tiempoDedicacionId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT DISTINCT c
+                    FROM AppBundle:Clatesal c
+                    WHERE c.clasificacion = :clasificacionId
+                        AND c.categoria = :categoriaId
+                        AND c.tiempoDedicacion = :tiempoDedicacionId
+         '
+            )->setParameter('clasificacionId', $clasificacionId)
+             ->setParameter('categoriaId', $categoriaId)
+             ->setParameter('tiempoDedicacionId', $tiempoDedicacionId);
+
+        return $query->getArrayResult();
+
+    }
 }

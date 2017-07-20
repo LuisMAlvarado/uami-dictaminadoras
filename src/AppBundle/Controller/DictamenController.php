@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Dictamen;
+use FPDM\FPDM;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -89,6 +90,83 @@ class DictamenController extends Controller
     }
 
     /**
+     * @Route("/{id}/FDictamenpdf", name="FDictamen_pdf")
+     *
+     */
+
+    public function pdfFRAspsAction(Dictamen $dictaman)
+    {
+        $concurso=$dictaman->getConcurso();
+        $registros=$concurso->getRegistros();
+        $Regs= $concurso->getGanador();
+
+      // dump($ganador);exit();
+
+        $fields = array(
+            'clasificacion'=>$concurso->getClasificacion()->getNombre(),
+            'numDictamen'=>$concurso->getDictamen()->getNumDictamen(),
+            'fechaDictmenDIA'=>$dictaman->getFechaDictmen()->format('d'),
+            'fechaDictmenMES'=>$dictaman->getFechaDictmen()->format('m'),
+            'fechaDictmenANIO'=>$dictaman->getFechaDictmen()->format('Y'),
+            'divCOM'=>$concurso->getDepartamento()->getDivision()->getNombre(),
+            'divDIR'=>$concurso->getDepartamento()->getDivision()->getNombre(),
+            'numConcurso'=> $concurso->getNumConcurso(),
+            'fechaPublicacion'=>$concurso->getFechaPublicacion()->format('d - m - Y'),
+
+         //   'pre_0'=> $ganador->getApellidoPaterno().' '.$ganador->getApellidoMaterno().' '.$ganador->getNombre(),
+         //   'nivpre_0'=>$concurso->getClasificacion()->getNombre().'   NIVEL  '.$Regs->getNivelAsig(),
+
+            'unidad'=>$concurso->getUnidad(),
+            'division'=>$concurso->getDepartamento()->getDivision()->getNombre(),
+            'departamento'=>$concurso->getDepartamento()->getNombre(),
+            'areaDepartamental'=>$concurso->getAreaDepartamental(),
+
+            'modalidades'=>$dictaman->getModalidades(),
+            'argumento1'=>$dictaman->getArgumento(),
+            'asesores_0'=>$dictaman->getAsesores(),
+            'clasificacion2'=>$concurso->getClasificacion()->getNombre(),
+            'numDictamen2'=>$concurso->getDictamen()->getNumDictamen(),
+            'fechaDictmenDIA2'=>$dictaman->getFechaDictmen()->format('d'),
+            'fechaDictmenMES2'=>$dictaman->getFechaDictmen()->format('m'),
+            'fechaDictmenANIO2'=>$dictaman->getFechaDictmen()->format('Y'),
+
+        );
+        if($Regs!= null){
+            $ganador= $concurso->getGanador()->getAspiranteRfc();
+
+           // $fields[pre_0]=2;
+            $fields['pre_0']=$ganador->getApellidoPaterno().' '.$ganador->getApellidoMaterno().' '.$ganador->getNombre();
+        }
+
+
+
+        foreach ($registros as $regis )
+        {
+            if($regis->getPrelacion()==0) {continue;}
+            $fields['pre_'.$regis->getPrelacion()]=$regis->getAspiranteRfc()->getNombreCompleto();
+            $fields['nivpre_'.$regis->getPrelacion()]=$regis->getNivelAsig();
+        }
+      //  dump($fields);exit();
+
+        foreach ($registros as $i => $registro)
+        {
+            $fields['asp_'.$i] = $registro->getAspiranteRfc()->getNombreCompleto();
+        }
+
+      //  dump($fields);exit();
+        $pdf = new FPDM(__DIR__."/../../../formatosPDF/dictamen.pdf");
+        $pdf->Load($fields, true); // second parameter: false if field values are in ISO-8859-1, true if UTF-8
+        $pdf->Merge();
+        $nombre=preg_replace('/\./', '', 'DICTAMEN_'.$concurso->getDictamen()->getNumDictamen());
+        $pdf->Output($nombre.'.pdf', 'D');
+    }
+
+
+
+
+
+
+    /**
      * Finds and displays a Dictamen entity.
      *
      * @Route("/{id}", name="dictamen_show")
@@ -117,17 +195,20 @@ class DictamenController extends Controller
     public function editAction(Request $request, Dictamen $dictaman)
     {
         $deleteForm = $this->createDeleteForm($dictaman);
-        $editForm = $this->createForm('AppBundle\Form\DictamenType', $dictaman);
+        $concurso=$dictaman->getConcurso();
+        $editForm = $this->createForm('AppBundle\Form\ConcursoDictamenType', $concurso);
+        //$editForm = $this->createForm('AppBundle\Form\DictamenType', $dictaman);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('dictamen_edit', array('id' => $dictaman->getId()));
+            return $this->redirectToRoute('dictamen_show', array('id' => $dictaman->getId()));
         }
 
         return $this->render('dictamen/edit.html.twig', array(
             'dictaman' => $dictaman,
+            'concurso' => $concurso,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));

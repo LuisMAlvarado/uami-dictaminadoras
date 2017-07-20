@@ -49,7 +49,7 @@
 
                 {{ form_label(edit_form.nacionalidad) }}
                 {{ form_widget(edit_form.nacionalidad) }}
-                {{ form_errors(edit_form.nacionalidad) }}
+                <div class="alert-danger"> {{ form_errors(edit_form.nacionalidad) }} </div>
 
             </td>
             <td>
@@ -63,7 +63,7 @@
 
                 {{ form_label(edit_form.curp,"CURP") }}
                 {{ form_widget(edit_form.curp) }}
-                {{ form_errors(edit_form.curp) }}
+                <div class="alert-danger">{{ form_errors(edit_form.curp) }}</div>
 
             </td>
             <td colspan="2">
@@ -122,14 +122,14 @@
                     'cols' :'15',
 
                 }}) }}
-                {{ form_errors(edit_form.calle) }}
+                <div class="alert-danger"> {{ form_errors(edit_form.calle) }} </div>
 
             </td>
             <td>
 
                 {{ form_label(edit_form.noExt,"No.EXT") }}
                 {{ form_widget(edit_form.noExt) }}
-                {{ form_errors(edit_form.noExt) }}
+                <div class="alert-danger">  {{ form_errors(edit_form.noExt) }} </div>
 
             </td>
 
@@ -158,7 +158,7 @@
                     'cols' :'15',
 
                 }}) }}
-                {{ form_errors(edit_form.coloniaFracc) }}
+                <div class="alert-danger">{{ form_errors(edit_form.coloniaFracc) }} </div>
 
             </td></tr>
 

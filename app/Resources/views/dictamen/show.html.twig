@@ -1,73 +1,140 @@
 {% extends 'frontend.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset('resource/css/usershow.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('resource/css/tablita_curva.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block header %}
+    <table border="0" width="99%" >
+
+        <tr>
+
+            <td border="0" rowspan="2" valign="bottom"> <img src="{{ asset('resource/img/encabezado.png') }}"  /></td>
+            <td align="right" valign="bottom"><font size="0">FI-DIPPPA-06 / 01122015 PÁGINA 1/2 </font></td>
+        </tr>
+        <tr>
+            <td valign="top" class="  text-right "> <strong>DICTAMEN CONCURSO DE EVALUACIÓN CURRICULAR</strong></td>
+        </tr>
+    </table>
+{% endblock %}
+
 
 {% block content %}
-    <h1>Dictamen</h1>
+    <br>
+    <table  width="100%">
+        <tbody class=" small">
+        <tr>
+            <td colspan="3" width="50%"></td>
+            <th class="table-bordered text-right " >PARA: &nbsp;</th>
 
-    {% if is_granted(expression('"ROLE_ADMINISTRADOR" in roles or "ROLE_DICTAMINADOR" in roles')) %}
-        <table width="100%">
-            <tbody>
-            <tr>
-                <td colspan="3" width="50%"></td>
-                <th class="table-bordered text-right" >Convocatoria No. &nbsp;</th>
+            <td class="table-bordered text-center ">{{ concurso.clasificacion.nombre }}</td></tr>
 
-                <td class="table-bordered text-center">{{ concurso.id }}</td>
-                {#  <th class="table-bordered text-right" >Fecha: &nbsp;</th>
+        </tbody>
+    </table>
+    <br />
+    <table width="100%">
+        <tbody class="small">
+        <tr>
+            <td colspan="3" width="50%"></td>
+            <th class="table-bordered text-right small" >No. &nbsp;</th>
 
-                <td class="table-bordered text-center">{% if aspiranteconcurso.createAt %}{{ aspiranteconcurso.createAt|date('d-M-Y') }}{% endif %}</td></tr>
-            #}
-            </tr>
+            <td class="table-bordered text-center small">{{ dictaman.numDictamen }}</td>
+            <th class="table-bordered text-right small" >FECHA: &nbsp;</th>
 
-            </tbody>
-        </table> <br>
+            <td class="table-bordered text-center small">{% if dictaman.fechaDictmen %}{{ dictaman.fechaDictmen|date('d-M-Y') }}{% endif %}</td>
+        </tr>
 
-        <br>
-        <a>EN RELACIÓN A LA CONVOCATORIA ARRIBA MENCIONADA , PARA OCUPAR CON CARACTER TEMPORAL LA SIGUIENTE PLAZA:</a>
-        <table  align="center" class="table table-bordered">
-            <tbody>
+        </tbody>
+    </table> <br>
+
+    <br>
+    <strong>DE LA</strong> <br>
+    <table class="table-curved" align="center"  width="100%">
+        <tr>
+            <td>COMISIÓN DITAMINADORA DIVISIONAL DE &nbsp;&nbsp;&nbsp; <strong>{{ concurso.departamento.division.nombre }}</strong></td>
+        </tr>
+    </table>
+    <strong>AL</strong> <br>
+    <table class="table-curved" align="center"  width="100%">
+        <tr>
+            <td>DIRECTOR DE LA DIVISIÓN DE &nbsp;&nbsp;&nbsp; <strong>{{ concurso.departamento.division.nombre }}</strong></td>
+        </tr>
+    </table>
+
+    <br>
+    <p class="small" > RESPECTO A LA CONVOCATORIA A CONCURSO DE EVALUACIÓN CURRICULAR
+        No. <strong> <u> &nbsp;&nbsp;{{ concurso.numConcurso }} &nbsp;&nbsp;</u> </strong>  PUBLICADA  EN LA FECHA <BR>  <strong> <u>&nbsp;&nbsp;{% if concurso.fechaPublicacion %}{{ concurso.fechaPublicacion|date('d-M-Y') }}{% endif %}</strong> &nbsp;&nbsp;</u>
+        DESPUÉS DE CONSIDERAR A LOS ASPIRANTES REGISTRADOS Y EVALUAR A LOS CONCURSANTES, ESTA <BR> COMISIÓN EMITE EL SIGUIENTE
+
+    </p>
+    <h3 align="center">DICTAMEN</h3>
+
+    <table class="table-curved" align="center"  width="100%">
+        <tbody>
+        <tr>
+            <td colspan="4"><strong>CONCURSANTE GANADOR</strong><br />
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><strong>CATEGORÍA </strong><br />
+                </td> &nbsp;&nbsp;
+            <td>
+                NIVELPRE_0
+
+            </td>
+            <td  colspan="1"> <strong>TIEMPO DE DEDICACIÓN</strong><br>
+                {{ concurso.tiempoDedicacion.nombre }}
+            </td>
+        </tr>
+        <tr>
+            <td > <strong>UNIDAD</strong><br>
+                {{ concurso.unidad }}
+            </td>
+            <td colspan="2" ><strong>DIVISIÓN</strong><br />
+                {{ concurso.departamento.division.nombre }}
+            </td>
+            <td  > <strong>DEPARTAMENTO</strong><br>
+                {{ concurso.departamento.nombre}}
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="4"> <strong>ÁREA DEPARTAMENTAL</strong><br>
+                {{ concurso.areaDepartamental }}
+            </td>
+        </tr>
+
+        <tr>
+        <tr>
+            <td colspan="4">
+                <strong>EVALUACIONES REALIZADAS</strong><br>
+                {{ dictaman.modalidades}}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <strong>ARGUMENTOS QUE JUSTIFICAN LA DECISIÓN</strong><br>
+                {{ dictaman.argumento }}
 
 
+            </td>
+        </tr>
 
-            <tr>
-                <td><strong>Clasificación</strong><br />
-                    {{ concurso.clasificacion }}
-                </td>
-                <td><strong>Categoria</strong><br />
-                    {{ concurso.categoria }}
-                </td>
-                <td> <strong>Tiempo de Dedicación</strong><br>
-                    {{ concurso.tiempoDedicacion }}
-                </td>
-            </tr>
+        </tr>
+        <tr>
+            <td colspan="4"><strong>NOMBRE DE ASESORES</strong><br>
 
-            <tr>
-                <td> <strong>Unidad</strong><br>
-                    {{ concurso.unidad }}
-                </td>
-                <td><strong>División</strong><br />
-                    {{ concurso.departamento.division }}
-                </td>
-                <td > <strong>Departamento</strong><br>
-                    {{ concurso.departamento.nombre}}
-                </td>
-
-            </tr>
+                {{ dictaman.asesores }}
 
 
+            </td>
+        </tr>
 
+        </tbody></table>
 
-            <tr>
-                <td colspan="2"> <strong>Area Departamental</strong><br>
-                    {{ concurso.areaDepartamental }}
-                </td>
-                <td><strong>Horario</strong><br />
-                    {{ concurso.horario }}
-                </td>
-            </tr>
-
-
-
-        </table>
-    {% endif %}
     <br>
 
 <p><strong> ASPIRANTES:</strong></p>
@@ -84,9 +151,13 @@
         {% for registro in registros %}
         <tr>
             <td>
-                {{ registro.aspiranteRfc.nombre }}  {{ registro.aspiranteRfc.apellidoPaterno }} {{ registro.aspiranteRfc.apellidoMaterno }}
+               {# {{ registro.aspiranteRfc.nombre }}  {{ registro.aspiranteRfc.apellidoPaterno }} {{ registro.aspiranteRfc.apellidoMaterno }}  #}
+                {{ registro.aspiranteRfc.nombreCompleto }}
             </td>
-            <td>{{ registro.puntaje }} </td> <td>{{ registro.prelacion }}</td> <td>{{ registro.nivelAsig }}</td>
+            <td>  {% if is_granted(expression('"ROLE_DICTAMINADOR"  in roles '))%}
+
+
+                {{ registro.puntaje }}{% endif %} </td> <td>{{ registro.prelacion }}</td> <td>{{ registro.nivelAsig }}</td>
         </tr>
 
         {% endfor %}
@@ -103,42 +174,6 @@
 
 
 
-    <table class="table table-striped">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ dictaman.id }}</td>
-            </tr>
-            <tr>
-                <th>Numdictamen</th>
-                <td>{{ dictaman.numDictamen }}</td>
-            </tr>
-            <tr>
-                <th>Fechadictmen</th>
-                <td>{% if dictaman.fechaDictmen %}{{ dictaman.fechaDictmen|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Nivelasignado</th>
-                <td>{{ dictaman.nivelAsignado }}</td>
-            </tr>
-            <tr>
-                <th>Modalidades</th>
-                <td>{{ dictaman.modalidades }}</td>
-            </tr>
-            <tr>
-                <th>Argumento</th>
-                <td>{{ dictaman.argumento }}</td>
-            </tr>
-            <tr>
-                <th>Asesores</th>
-                <td>{{ dictaman.asesores }}</td>
-            </tr>
-            <tr>
-                <th>Pdfdictamen</th>
-                <td>{{ dictaman.pdfDictamen }}</td>
-            </tr>
-        </tbody>
-    </table>
 
     <ul>
         <li>
@@ -147,7 +182,10 @@
         <li>
             <a href="{{ path('dictamen_index') }}">Convocatorias Dictaminadas</a>
         </li>
-        <br><br>
+        <br>
+        <li>
+        <a href="{{ path('FDictamen_pdf', { 'id': dictaman.id }) }}">Salvar en  PDF</a>
+        </li>
         <li>
             <a href="{{ path('dictamen_edit', { 'id': dictaman.id }) }}">Edit</a>
         </li>

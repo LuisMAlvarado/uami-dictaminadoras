@@ -1,10 +1,18 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset('/resource/css/usershow.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/resource/css/tablita_curva.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
 {% block body %}
-    <h1>Dictaman creation</h1>
+    <h1>Elaboración del DICTAMEN</h1>
 
     {{ form_start(form) }}
     {% if is_granted(expression('"ROLE_ADMINISTRADOR" in roles or "ROLE_DICTAMINADOR" in roles')) %}
+
 
 
         <br />
@@ -18,12 +26,16 @@
 
             </tbody>
         </table>
+
+
         <br />
 
         <table width="100%">
             <tbody>
             <tr>
                 <td colspan="3" width="50%"></td>
+
+                <td></td>
 
                 <td class="table-bordered text-center">
                     {{ form_label(form.dictamen.numDictamen,"No.de Dictamen ") }}
@@ -33,66 +45,116 @@
                 <td class="table-bordered text-center">
                     {{ form_label(form.dictamen.fechaDictmen,"Fecha") }}
                     {{ form_widget(form.dictamen.fechaDictmen) }}
-                    {{ form_errors(form.dictamen.fechaDictmen) }}</td></tr>
+                    {{ form_errors(form.dictamen.fechaDictmen) }}
+                </td></tr>
 
             </tbody>
         </table>
         <br>
-
-        <strong>De la Comision Dictaminadora de: </strong><br />
-        {{ concurso.departamento.division }}
-
-
-
-        <br>
-
-        <br>
-        <a>EN RELACIÓN A LA CONVOCATORIA ARRIBA MENCIONADA , PARA OCUPAR CON CARACTER TEMPORAL LA SIGUIENTE PLAZA:</a>
-        <table  align="center" class="table table-bordered">
-            <tbody>
-
-
-
+        <strong>DE LA</strong> <br>
+        <table class="table-curved" align="center"  width="100%">
             <tr>
-                <td><strong>Clasificación</strong><br />
-                    {{ concurso.clasificacion }}
-                </td>
-                <td><strong>Categoria</strong><br />
-                    {{ concurso.categoria }}
-                </td>
-                <td> <strong>Tiempo de Dedicación</strong><br>
-                    {{ concurso.tiempoDedicacion }}
-                </td>
+                <td>COMISIÓN DITAMINADORA DIVISIONAL DE &nbsp;&nbsp;&nbsp; <strong>{{ concurso.departamento.division.nombre }}</strong></td>
             </tr>
-
-            <tr>
-                <td> <strong>Unidad</strong><br>
-                    {{ concurso.unidad }}
-                </td>
-                <td><strong>División</strong><br />
-                    {{ concurso.departamento.division }}
-                </td>
-                <td > <strong>Departamento</strong><br>
-                    {{ concurso.departamento.nombre}}
-                </td>
-
-            </tr>
-
-
-
-
-            <tr>
-                <td colspan="2"> <strong>Area Departamental</strong><br>
-                    {{ concurso.areaDepartamental }}
-                </td>
-                <td><strong>Horario</strong><br />
-                    {{ concurso.horario }}
-                </td>
-            </tr>
-
-
-
         </table>
+        <strong>AL</strong> <br>
+        <table class="table-curved" align="center"  width="100%">
+            <tr>
+                <td>DIRECTOR DE LA DIVISIÓN DE &nbsp;&nbsp;&nbsp; <strong>{{ concurso.departamento.division.nombre }}</strong></td>
+            </tr>
+        </table>
+
+        <br>
+        <p class="small" > RESPECTO A LA CONVOCATORIA A CONCURSO DE EVALUACIÓN CURRICULAR
+            No. <strong> <u> &nbsp;&nbsp;{{ concurso.numConcurso }} &nbsp;&nbsp;</u> </strong>  PUBLICADA  EN LA FECHA <BR>  <strong> <u>&nbsp;&nbsp;{% if concurso.fechaPublicacion %}{{ concurso.fechaPublicacion|date('d-M-Y') }}{% endif %}</strong> &nbsp;&nbsp;</u>
+           DESPUÉS DE CONSIDERAR A LOS ASPIRANTES REGISTRADOS Y EVALUAR A LOS CONCURSANTES, ESTA <BR> COMISIÓN EMITE EL SIGUIENTE
+
+        </p>
+        <h3 align="center">DICTAMEN</h3>
+
+<table class="table-curved" align="center"  width="100%">
+    <tbody>
+    <tr>
+        <td colspan="4"><strong>CONCURSANTE GANADOR</strong><br /></td>
+    </tr>
+    <tr>
+        <td colspan="2"><strong>CATEGORÍA </strong><br />
+            {{ concurso.clasificacion }}</td> &nbsp;&nbsp;
+        <td>
+            {{ form_label(form.dictamen.nivelAsignado,"Y NIVEL ASIGNADO") }}
+            {{ form_widget(form.dictamen.nivelAsignado) }}
+            {{ form_errors(form.dictamen.nivelAsignado) }}
+
+         </td>
+        <td  colspan="1"> <strong>TIEMPO DE DEDICACIÓN</strong><br>
+            {{ concurso.tiempoDedicacion.nombre }}
+        </td>
+    </tr>
+    <tr>
+        <td > <strong>UNIDAD</strong><br>
+            {{ concurso.unidad }}
+        </td>
+        <td colspan="2" ><strong>DIVISIÓN</strong><br />
+            {{ concurso.departamento.division.nombre }}
+        </td>
+        <td  > <strong>DEPARTAMENTO</strong><br>
+            {{ concurso.departamento.nombre}}
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="4"> <strong>ÁREA DEPARTAMENTAL</strong><br>
+            {{ concurso.areaDepartamental }}
+        </td>
+    </tr>
+
+    <tr>
+    <tr>
+        <td colspan="4">
+
+            {{ form_label(form.dictamen.modalidades,"EVALUACIONES REALIZADAS") }}
+            {{ form_widget(form.dictamen.modalidades,{'attr':{
+                'class':'form-control',
+                'rows' : '5'
+
+            }}) }}
+            {{ form_errors(form.dictamen.modalidades) }}
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+
+            {{ form_label(form.dictamen.argumento,"ARGUMENTOS QUE JUSTIFICAN LA DECISIÓN") }}
+            {{ form_widget(form.dictamen.argumento,{'attr':{
+                'class':'form-control',
+                'rows' : '5'
+
+            }}) }}
+            {{ form_errors(form.dictamen.argumento) }}
+
+
+        </td>
+    </tr>
+
+    </tr>
+    <tr>
+        <td colspan="4">
+
+            {{ form_label(form.dictamen.asesores,"NOMBRE DE ASESORES") }}
+            {{ form_widget(form.dictamen.asesores,{'attr':{
+                'class':'form-control',
+                'rows' : '5'
+
+            }}) }}
+            {{ form_errors(form.dictamen.asesores) }}
+
+
+        </td>
+    </tr>
+
+    </tbody></table>
+
+
     {% endif %}
 
 
@@ -132,7 +194,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('dictamen_index') }}">Back to the list</a>
+            <a href="{{ path('dictamen_index') }}">Listado de todos los DICTAMENES</a>
         </li>
     </ul>
 

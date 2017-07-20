@@ -23,7 +23,7 @@ services:
 
     app.form.type.concurso:
         class:  AppBundle\Form\ConcursoType
-        arguments: [ '@security.authorization_checker', '@doctrine.orm.entity_manager']
+        arguments: [ '@security.authorization_checker', '@doctrine.orm.entity_manager', '@security.token_storage']
         tags:
             - { name: form.type }
 

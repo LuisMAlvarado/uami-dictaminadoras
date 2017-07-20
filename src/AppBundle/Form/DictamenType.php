@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class DictamenType extends AbstractType
 {
@@ -15,9 +16,12 @@ class DictamenType extends AbstractType
     {
         $builder
             ->add('numDictamen')
-            ->add('fechaDictmen')
+            ->add('fechaDictmen', DateType::class,array(
+                'format' => 'dd-MM-yyyy'
+            ))
             ->add('nivelAsignado')
-            ->add('modalidades')->add('argumento')
+            ->add('modalidades')
+            ->add('argumento')
             ->add('asesores')
             ->add('pdfDictamen')
         ;

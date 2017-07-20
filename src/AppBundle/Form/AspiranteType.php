@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class AspiranteType extends AbstractType
 {
@@ -31,9 +33,11 @@ class AspiranteType extends AbstractType
     {
         $builder
             ->add('rfc')
-            ->add('fechaBirthday', DateType::class, array(
-                'format' => 'dd-MM-yyyy',
-            ))
+            ->add('fechaBirthday',BirthdayType::class,array(
+                    'format'=>'dd-MM-yyyy',
+                    'placeholder' => array('year' => 'AñO','day' => 'DIA','month' => 'MES',)
+                )
+            )
             ->add('nombre')
             ->add('apellidoPaterno')
             ->add('apellidoMaterno')
@@ -43,8 +47,31 @@ class AspiranteType extends AbstractType
             ->add('correoElectronico')
             ->add('nacionalidad')
             ->add('edad')
-            ->add('sexo')
-            ->add('estadoCivil')
+            ->add('sexo',  ChoiceType::class, array(
+                'choices'  => array(
+                    'FEMENINO' => 'FEMENINO',
+                    'MASCULINO' => 'MASCULINO',
+
+                ),'placeholder' => '--SELECCIONE--',
+                'empty_data'  => null))
+            ->add('estadoCivil',  ChoiceType::class, array(
+                'choices'  => array(
+                    'SOLTERO'=>'SOLTERO',
+                     'SOLTERA'=>'SOLTERA',
+                     'CASADO'=>'CASADO',
+                     'CASADA'=>'CASADA',
+                     'SEPARADO'=>'SEPARADO',
+                     'SEPARADA'=>'SEPARADA',
+                     'DIVORCIADO'=>'DIVORCIADO',
+                     'DIVORCIADA'=>'DIVORCIADA',
+                     'VIUDO'=>'VIUDO',
+                     'VIUDA'=>'VIUDA',
+                     'UNIÓN LIBRE'=>'UNIÓN LIBRE',
+
+
+                ),'placeholder' => '--SELECCIONE--',
+                'empty_data'  => null))
+         
             ->add('telefonos')
             ->add('calle')
             ->add('noExt')

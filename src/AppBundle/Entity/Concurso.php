@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Context\ExecutionContext;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\Criteria;
@@ -230,6 +231,7 @@ class Concurso
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="dictamen_id", referencedColumnName="id")
      * })
+     * @Assert\Valid
      */
     private $dictamen;
 
@@ -563,6 +565,22 @@ class Concurso
     }
 
     //VALIDADORES
+
+
+    /**
+     * @Assert\Callback
+     * @param ExecutionContextInterface $context
+     */
+
+    public function validaNoCECPublico(ExecutionContextInterface $context)
+    {
+        if ($this->estatus == 'EnviadoRG' && $this->numConcurso == null ){
+            $context->buildViolation('NO numConcurso VACIO')
+                ->atPath('numConcurso')
+                ->addViolation();
+
+        }
+    }
 
     /**
      * @Assert\Callback
@@ -981,6 +999,16 @@ class Concurso
             ->where(Criteria::expr()->eq('puntaje', 20));
 
         return $this->registros->matching($criteria);
+    }
+
+    public function getGanador()
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('prelacion', 0));
+
+        $result = $this->registros->matching($criteria);
+        
+        return $result[0];
     }
 
     /**

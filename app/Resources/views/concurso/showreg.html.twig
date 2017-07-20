@@ -13,7 +13,7 @@
         <tr>
 
             <td> <img src="{{ asset('/resource/img/encabezado.png') }}"  /></td>
-            <td class="text-right ">REGISTRO DE ASPIRANTES A CONCURSO DE EVALUACION CURRICULAR </td>
+            <td class="text-right "><H3>ASPIRANTES que se solicitaron registro al CEC </H3> </td>
         </tr>
     </table>
 {% endblock %}
@@ -65,12 +65,7 @@
     </TBODY>
 </TABLE>
 
-    <p class="small" > CONFORME A LO PREVISTO EN EL REGLAMENTO DE INGRESO, PROMOCIÓN Y PERMANENCIA DEL PERSONAL ACADÉMICO, ESTA DIVISIÓN ENVIA LAS <br>
-        SOLICITUDES DE REGISTRO DE LOS ASPIRANTES QUE PARTICIPAN EN LA CONVOCATORIA DE EVALUACIÓN CURRICULAR <BR>
-        No. <strong> <u> {{ concurso.numConcurso }} </u> </strong>  PUBLICADA EL  <strong> <u>{% if concurso.fechaPublicacion %}{{ concurso.fechaPublicacion|date('d-M-Y') }}{% endif %}</strong> </u> <BR>
-        ES CONVENIENTE HACER MENCIÓN QUE SE DEBERÁ EMITIR DICTAMEN EN UN TIEMPO NO MAYOR DE 4(CUATRO) O 10(DIEZ) DÍAS HÁBILES, EN EL CASO DE <BR>
-        AYUDANTES, CONTADOS A PARTIR DE LA FECHA DE RECEPCIÓN DE ESTE REGISTRO
-    </p>
+
 
 {% for registro in concurso.registros %}
 
@@ -105,13 +100,23 @@
 
     <table class="table table-bordered">
         <tr>
-            <td width="50%"  align="right"><br>ANEXOS: </td>
+            <td width="50%"  align="right"><br>ACCIONES </td>
             <td align="left">
-                <ul>
-                    <li>CONVOCATORIA</li>
-                    <li>SOLICITUDES DE REGISTRO</li>
-                    <li>DOCUMENTOS DE LOS ASPIRANTES</li>
-                </ul></td>
+                <div class="hidden-print">
+                    <ul>
+                        <li>
+                            <a href="{{ path('concurso_index') }}">Listado de todas las CONVOCATORIAS</a>
+                        </li>
+
+
+
+                        {% if is_granted(expression('"ROLE_ASISTENTEDIV" in roles')) and concurso.estatus.id == 4   %}
+                            <li>
+                                <a href="{{ path('concurso_resgistradossalta', { 'concurso': concurso.id }) }}">HACER REGISTRO</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div></td>
         </tr>
     </table>
 
@@ -141,24 +146,6 @@
 
 
 
-<div class="hidden-print">
-    <ul>
-        <li>
-            <a href="{{ path('concurso_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('concurso_edit', { 'id': concurso.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-        <li>
-            <a href="{{ path('concurso_resgistradossalta', { 'concurso': concurso.id }) }}">HACER REGISTRO</a>
-        </li>
-    </ul>
-</div>
 {% endblock %}
 
 {% block javascripts %}

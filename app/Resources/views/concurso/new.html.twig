@@ -107,7 +107,8 @@
             </td>
             <td colspan="2">
 
-                <strong>DIVISION</strong>
+                <strong>DIVISION</strong> <br>
+                {{ app.user.division.nombre }}
 
 
 
@@ -325,9 +326,167 @@
             //    $('#link-confirma').attr('href', link)
            // });
         });
+    </script>
+
+    <script>
+
+        $('#{{ form.clasificacion.vars.id }}').change(function (event) {
+            $('#{{ form.categoria.vars.id }}').empty();
+            $('#{{ form.tiempoDedicacion.vars.id }}').empty();
+            $('#{{ form.tiempoDedicacion.vars.id }}').empty();
+            $('#{{ form.salarioA.vars.id }}').val('');
+            $('#{{ form.salarioB.vars.id }}').val('');
+            $('#{{ form.actividades.vars.id }}').val('');
+            $('#{{ form.requisitos.vars.id }}').val('');
+            var clasificacionId = $(this).val();
+
+            if(clasificacionId != '')
+            {
+                //alert(clasificacionId);
+
+                var url = '{{ path('categoria_search', {'id': '__id__' }) }}';
+
+                url = url.replace('__id__', clasificacionId);
+                $.ajax({
+                    // la URL para la petición
+                    url : url,
+
+                    type : 'GET',
+
+                    // el tipo de información que se espera de respuesta
+                    dataType : 'json',
+
+                    // código a ejecutar si la petición es satisfactoria;
+                    // la respuesta es pasada como argumento a la función
+                    success : function(json) {
+                        $('#{{ form.categoria.vars.id }}').append('<option value=""></option>');
+                        for(var i in json)
+                        {
+                            console.log(json[i].abreviacion);
+                            //  var option =
+                            $('#{{ form.categoria.vars.id }}').append('<option value='+json[i].id+'>'+json[i].abreviacion+'</option>');
+                        }
+                    },
+
+                    // código a ejecutar si la petición falla;
+                    // son pasados como argumentos a la función
+                    // el objeto de la petición en crudo y código de estatus de la petición
+                    error : function(xhr, status) {
+                        alert('Disculpe, existió un problema');
+                    },
+                });
+            }
+        });
+
+        $('#{{ form.categoria.vars.id }}').change(function (event) {
+            $('#{{ form.tiempoDedicacion.vars.id }}').empty();
+            $('#{{ form.salarioA.vars.id }}').val('');
+            $('#{{ form.salarioB.vars.id }}').val('');
+            $('#{{ form.actividades.vars.id }}').val('');
+            $('#{{ form.requisitos.vars.id }}').val('');
+            var clasificacionId = $('#{{ form.clasificacion.vars.id }}').val();
+            var categoriaId = $(this).val();
+
+            if(clasificacionId !='' && categoriaId != '')
+            {
+                var url = '{{ path('tiempodedicacion_search', {'clasificacion': '__clasificacion__', 'categoria': '__categoria__' }) }}';
+                url = url.replace('__clasificacion__', clasificacionId);
+                url = url.replace('__categoria__', categoriaId);
+                $.ajax({
+                    // la URL para la petición
+                    url : url,
+
+                    type : 'GET',
+
+                    // el tipo de información que se espera de respuesta
+                    dataType : 'json',
+
+                    // código a ejecutar si la petición es satisfactoria;
+                    // la respuesta es pasada como argumento a la función
+                    success : function(json) {
+                        $('#{{ form.tiempoDedicacion.vars.id }}').append('<option value=""></option>');
+                        for(var i in json)
+                        {
+                            console.log(json[i].abreviacion);
+                            //  var option =
+                            $('#{{ form.tiempoDedicacion.vars.id }}').append('<option value='+json[i].id+'>'+json[i].abreviacion+'</option>');
+                        }
+
+                    },
+
+                    // código a ejecutar si la petición falla;
+                    // son pasados como argumentos a la función
+                    // el objeto de la petición en crudo y código de estatus de la petición
+                    error : function(xhr, status) {
+                        alert('Disculpe, existió un problema');
+                    },
+                });
+            }
+        });
+
+
+        // CODIGO PARA EL LLENADO de CADA CAMPO
+
+        $('#{{ form.tiempoDedicacion.vars.id }}').change(function (event) {
+            $('#{{ form.tpHclase.vars.id }}').empty();
+            $('#{{ form.tpHacademia.vars.id }}').empty();
+            $('#{{ form.tpHayudantia.vars.id }}').empty();
+            var clasificacionId = $('#{{ form.clasificacion.vars.id }}').val();
+            var categoriaId = $('#{{ form.categoria.vars.id }}').val();
+            var tiempoDedicacionId = $(this).val();
+
+            if(clasificacionId !='' && categoriaId != '' && tiempoDedicacionId !='' )
+            {
+                var url = '{{ path('clatesal_search', {'clasificacion': '__clasificacion__', 'categoria': '__categoria__' , 'tiempoDedicacion': '__tiempoDedicacion__' }) }}';
+                url = url.replace('__clasificacion__', clasificacionId);
+                url = url.replace('__categoria__', categoriaId);
+                url = url.replace('__tiempoDedicacion__', tiempoDedicacionId);
+                $.ajax({
+                    // la URL para la petición
+                    url : url,
+
+                    type : 'GET',
+
+                    // el tipo de información que se espera de respuesta
+                    dataType : 'json',
+
+                    // código a ejecutar si la petición es satisfactoria;
+                    // la respuesta es pasada como argumento a la función
+                    success : function(json) {
+                        $('#{{ form.salarioA.vars.id }}').val(json[0].salA);
+                        $('#{{ form.salarioB.vars.id }}').val(json[0].salB);
+                        $('#{{ form.actividades.vars.id }}').val(json[0].actividad);
+                        $('#{{ form.requisitos.vars.id }}').val(json[0].requisitos);
+                        console.log(json[0].salA);
+                        console.log(json[0].salB);
+                        console.log(json[0].actividad);
+                        console.log(json[0].requisitos);
+
+                    },
+
+                    // código a ejecutar si la petición falla;
+                    // son pasados como argumentos a la función
+                    // el objeto de la petición en crudo y código de estatus de la petición
+                    error : function(xhr, status) {
+                        alert('Disculpe, existió un problema');
+                    },
+                });
+            }
+        });
+
+
+
+
 
 
 
     </script>
+
+
+
+
+
+
+
 {% endblock %}
 

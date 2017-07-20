@@ -2,10 +2,15 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Categoria;
+use AppBundle\Entity\Clasificacion;
 use AppBundle\Entity\Clatesal;
+use AppBundle\Entity\TiempoDedicacion;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Clatesal controller.
@@ -63,6 +68,53 @@ class ClatesalController extends Controller
         ));
     }
 
+    /**
+     * @Route("/search/clasificacion/{id}", name="categoria_search")
+     * @Method("GET")
+     *
+     */
+
+    public function searchByClasificacionAction(Clasificacion $clasificacion)
+    {
+        $em = $this->getDoctrine();
+        $categoria = $em->getRepository('AppBundle:Clatesal')->getArrayByClasificacionId($clasificacion->getId());
+
+        $reponse = new JsonResponse($categoria);
+        
+        return $reponse;
+    }
+
+    /**
+     * 
+     *
+     * @Route("/serach/clasificacion/{clasificacion}/categoria/{categoria}", name="tiempodedicacion_search")
+     * @Method("GET")
+     */
+    public function serachByUnidadDivision(Clasificacion $clasificacion, Categoria $categoria)
+    {
+        $em = $this->getDoctrine();
+        $tiempodedicacion = $em->getRepository('AppBundle:Clatesal')->getArrayByClasificacionIdCategoriaId($clasificacion->getId(), $categoria->getId());
+        $response = new JsonResponse($tiempodedicacion);
+
+        return $response;
+    }
+
+    /**
+     *
+     *
+     * @Route("/search/clasificacion/{clasificacion}/categoria/{categoria}/tiempodedicacion/{tiempoDedicacion}", name="clatesal_search")
+     * @Method("GET")
+     */
+    public function searchByUnidadDivisionTeimpoDedicacion(Clasificacion $clasificacion, Categoria $categoria , TiempoDedicacion $tiempoDedicacion)
+    {
+        $em = $this->getDoctrine();
+        $clatesal= $em->getRepository('AppBundle:Clatesal')->getArrayByClasificacionIdCategoriaIdTiempoDedicacionId($clasificacion->getId(), $categoria->getId(), $tiempoDedicacion->getId());
+        $response = new JsonResponse($clatesal);
+
+        return $response;
+    }
+    
+    
     /**
      * Finds and displays a clatesal entity.
      *

@@ -131,7 +131,7 @@
 
                         {% endif %}
 
-                        {% if is_granted(expression('"ROLE_DICTAMINADOR" in roles')) and concurso.dictamen is empty %}
+                        {% if is_granted(expression('"ROLE_DICTAMINADOR" in roles')) and concurso.dictamen is empty and concurso.estatus.id == 5 %}
 
                                 <a href="{{ path('dictamen_new', { 'id': concurso.id }) }}">DICTAMINAR</a> <br>
 
