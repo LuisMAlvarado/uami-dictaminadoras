@@ -498,7 +498,7 @@ public function reconvocarAction(Request $request, Concurso $concurso)// SE USA 
         $v1=$concurso->getEstatus()->getId();
         $v2=$concurso->getNumConcurso();
        // var_dump($v1,$v2);exit();
-        if ($concurso->getEstatus()->getId() < 3 && $concurso->getNumConcurso() == null) {
+        if ($concurso->getEstatus()->getId() < Estatus::Publicado && $concurso->getNumConcurso() == null) {
 
             return $this->redirectToRoute('concurso_edit', array('id' => $concurso->getId(),
                 //    'concurso' => $concurso,

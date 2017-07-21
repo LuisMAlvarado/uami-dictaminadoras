@@ -574,8 +574,8 @@ class Concurso
 
     public function validaNoCECPublico(ExecutionContextInterface $context)
     {
-        if ($this->estatus == 'EnviadoRG' && $this->numConcurso == null ){
-            $context->buildViolation('NO numConcurso VACIO')
+        if ($this->estatus->getId() == Estatus::EnviadoRG && $this->numConcurso == null ){
+            $context->buildViolation('Ingrese Numero de Convocatoria')
                 ->atPath('numConcurso')
                 ->addViolation();
 
