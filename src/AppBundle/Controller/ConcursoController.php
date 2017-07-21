@@ -497,7 +497,7 @@ public function reconvocarAction(Request $request, Concurso $concurso)// SE USA 
         //Estatus::"nombre_variable" definida en ENTIDAD en este caso Estatus
         $v1=$concurso->getEstatus()->getId();
         $v2=$concurso->getNumConcurso();
-       // var_dump($v1,$v2);exit();
+       // CONDICION QUE VALIDA SI ESTAS DE EN_REVISION A ENVIADO_RG PONER EL FLASH mensajeeee!!! 21/JUL/2017
         if ($concurso->getEstatus()->getId() < Estatus::Publicado && $concurso->getNumConcurso() == null) {
 
             return $this->redirectToRoute('concurso_edit', array('id' => $concurso->getId(),
