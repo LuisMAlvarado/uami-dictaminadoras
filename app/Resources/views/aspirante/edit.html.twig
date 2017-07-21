@@ -218,6 +218,7 @@
 
             </td>
         </tr>
+
         {% if is_granted('ROLE_ADMINSTRADOR') %}
             <tr> <td>
 
@@ -230,6 +231,41 @@
         {% endif %}
     </TABLE>
 
+    {# PARTE DONDE AGREGO LOS ARCHIVOS#}
+    <h3>Agrege, Edite o Borre las ACTIVIDADES de acuero al (TIPPPA) que podra seleccionar para generar su ANEXO</h3>
+
+    <div class="panel-heading">{{ form_label(edit_form.archivos, 'UEAs') }}</div>
+    <div class="panel-body">
+        <div id="archivos-container" data-prototipe="{% filter escape %} {% include 'archivo/form.html.twig' with {'form': form.archivos.vars.prototype } %} {% endfilter %}">
+            {% for archivo in form.archivos  %}
+                <div id="uea_{{ loop.index0 }}" class="form-group">
+                    {{ form_label(archivo.descripcion, 'Actividad', {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+                    <div class="col-lg-9">
+                        {{ form_widget(archivo.descripcion, {'attr': {'class': 'form-control'}}) }}
+                        <div class="text-danger">{{ form_errors(archivo.descripcion) }}</div>
+                    </div>
+                    <div class="col-lg-1">
+                        <button id="btn_uea_{{ loop.index0 }}" type="button" class="delete" aria-label="Close"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-10">
+                <a href="#" id="add-another-archivo" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"> Agregar ARCHIVO</span></a>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+    {# TERMINA ARCHIVOS #}
     <input class="btn btn-success" type="submit" value="MODIFICAR" />
 
     {{ form_end(edit_form) }}

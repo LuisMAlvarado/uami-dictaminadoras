@@ -101,7 +101,8 @@ class Archivo
 
     public function __toString()
     {
-        return strval($this->factor1);
+        return $this->descripcion;
+        //return strval($this->factor1);
     }
 
 

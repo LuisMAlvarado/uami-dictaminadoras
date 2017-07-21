@@ -1,0 +1,10 @@
+{{ form_label(form.descripcion, 'ARCHIVO', {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+<div class="col-lg-9">
+    {{ form_widget(form.descripcion, {'attr': {'class': 'form-control'}}) }}
+    <div class="text-danger">{{ form_errors(form.descripcion) }}</div>
+</div>
+
+
+<div class="col-lg-1">
+    <button id="btn_archivo___name__" type="button" class="delete" aria-label="Close"><span class="glyphicon glyphicon-trash"></span></button>
+</div>

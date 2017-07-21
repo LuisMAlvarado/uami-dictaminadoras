@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use AppBundle\Form\EventListener\AddRoleAspiranteSubscriber;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -92,8 +93,18 @@ class AspiranteType extends AbstractType
                 'second_options' => array('label' => 'Repite Contraseña'),
             ))
 
+
+
             ->addEventSubscriber(new AddRoleAspiranteSubscriber($this->security,$this->em))
-            //->add('role')
+            ->add('archivos', CollectionType::class, array(
+                'entry_type' => ArchivoType::class,
+                'by_reference' => false,
+                'allow_add'    => true,
+                'allow_delete' => true,
+                'required'      => false,
+                'prototype'     => true,
+                'label' => false,
+            ))
         ;
     }
 
