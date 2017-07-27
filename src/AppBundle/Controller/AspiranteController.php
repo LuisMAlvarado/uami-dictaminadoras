@@ -202,16 +202,18 @@ class AspiranteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $passwordOriginal = $aspirante->getPassword();
-        $deleteForm = $this->createDeleteForm($aspirante);
-        $editForm = $this->createForm('AppBundle\Form\AspiranteType', $aspirante);
-        $editForm->handleRequest($request);
         $roleId = 5;
         $role = $this->getDoctrine()->getRepository('AppBundle:Role')->find($roleId);
         $aspirante->setRole($role);
+        $archivos = clone $aspirante->getArchivos(); //CLONO ARCHIVOS
+
+        $deleteForm = $this->createDeleteForm($aspirante);
+        $editForm = $this->createForm('AppBundle\Form\AspiranteType', $aspirante);
+        $editForm->handleRequest($request);
+
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             //$this->getDoctrine()->getManager()->flush();
-            
             // Líneas agregadas para la codificación del password
             if (null == $editForm->getData()->getPassword()) {
                 $editForm->getData()->setPassword($passwordOriginal);
@@ -229,7 +231,20 @@ class AspiranteController extends Controller
                 // $editForm->getdata()->setRole($role);
             }
             // Aquí terminan las líneas agregadas
-            
+
+            //dump($archivos);exit();
+            foreach ($archivos as $archivo) {
+             
+                if (false === $aspirante->getArchivos()->contains($archivo)) {
+                    $aspirante->removeArchivo($archivo);
+                    $em->remove($archivo);
+                    dump($archivo);
+                }
+
+            }
+          //  exit;
+
+
             $em->persist($aspirante);
             $em->flush();
 

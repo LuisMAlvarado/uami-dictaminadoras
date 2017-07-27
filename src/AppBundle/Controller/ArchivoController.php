@@ -40,6 +40,7 @@ class ArchivoController extends Controller
     public function newAction(Request $request)
     {
         $archivo = new Archivo();
+       // $archivo->setUpdateAt(new \DateTime('now'));  AQUI LO MODIQUE PARA PONER UN NVO ARCHVI EN FECHA ACTUAL
         $form = $this->createForm('AppBundle\Form\ArchivoType', $archivo);
         $form->handleRequest($request);
 

@@ -1,10 +1,39 @@
-{{ form_label(form.descripcion, 'ARCHIVO', {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
-<div class="col-lg-9">
-    {{ form_widget(form.descripcion, {'attr': {'class': 'form-control'}}) }}
-    <div class="text-danger">{{ form_errors(form.descripcion) }}</div>
-</div>
+<table class="table table-condensed" width="100%">
+<tr>
+    <td width="10%">{{ form_label(form.factor1, 'Factor TIPPPA') }}
+        {{ form_widget(form.factor1, {'attr': {'class': 'form-control'}}) }}
+        <div class="text-danger">{{ form_errors(form.factor1) }}</div></td>
+    <td width="85%" >
+        {{ form_label(form.descripcion, 'Descripcion') }}
+        {{ form_widget(form.descripcion, {'attr':{
+            'class':'form-control',
+            'rows' : '1',
+            'cols' :'15',
 
+        }}) }}
 
-<div class="col-lg-1">
-    <button id="btn_archivo___name__" type="button" class="delete" aria-label="Close"><span class="glyphicon glyphicon-trash"></span></button>
-</div>
+        <div class="text-danger">{{ form_errors(form.descripcion) }}</div>
+    </td>
+    <td width="5%" align="center" valign="middle">
+        <button  id="btn_archivo___name__" type="button" class="delete" aria-label="Close"><span class="glyphicon glyphicon-trash"></span></button>
+    </td>
+</tr>
+    <tr>
+        <td width="50%">{{ form_label(form.pdf, 'Archivo comprovatorio PDF') }}
+            {{ form_widget(form.pdf, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger">{{ form_errors(form.pdf) }}</div>
+        </td>
+
+      {#  <td width="20%">{{ form_label(form.updateAt, 'Ultima de actualizacion') }}
+            {{ form_widget(form.updateAt, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger">{{ form_errors(form.updateAt) }}</div>
+        </td>
+
+         <td width="20%">{{ form_label(form.createAt, 'Ultima de actualizacion') }}
+            {{ form_widget(form.createAt, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger">{{ form_errors(form.createAt) }}</div>
+        </td> #}
+
+    </tr>
+
+</table>

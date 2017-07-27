@@ -18,7 +18,7 @@ class Archivo
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -79,7 +79,7 @@ class Archivo
     /**
      * @var \Aspirante
      *
-     * @ORM\ManyToOne(targetEntity="Aspirante" , inversedBy="archivos")
+     * @ORM\ManyToOne(targetEntity="Aspirante" , inversedBy="archivos", cascade={"all"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="aspirante_rfc", referencedColumnName="rfc")
      * })
@@ -97,6 +97,7 @@ class Archivo
         $this ->isActive =true;
         $this ->isDelete =false;
         $this->createAt= new \DateTime('now');
+        $this->updateAt = new \DateTime('now');
     }
 
     public function __toString()

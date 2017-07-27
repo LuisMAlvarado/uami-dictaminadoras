@@ -14,13 +14,14 @@ class ArchivoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('factor1')
-            ->add('createAt')
+          // ->add('createAt')
             ->add('pdf')
             ->add('descripcion')
-            ->add('isActive')
-            ->add('isDelete')
-            ->add('updateAt')
-            ->add('aspiranteRfc')        ;
+           // ->add('isActive')
+           // ->add('isDelete')
+          //  ->add('updateAt')
+            //->add('aspiranteRfc')
+               ;
     }
     
     /**

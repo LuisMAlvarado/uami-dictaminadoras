@@ -232,40 +232,70 @@
     </TABLE>
 
     {# PARTE DONDE AGREGO LOS ARCHIVOS#}
-    <h3>Agrege, Edite o Borre las ACTIVIDADES de acuero al (TIPPPA) que podra seleccionar para generar su ANEXO</h3>
+    <h4>Agrege, Edite o Borre cada una de las ACTIVIDADES de acuerdo al (TIPPPA), que podra seleccionar en cada convocatoria que decida registarse, para generar su ANEXO correspondiente</h4>
 
-    <div class="panel-heading">{{ form_label(edit_form.archivos, 'UEAs') }}</div>
+    <div class="panel-heading">{{ form_label(edit_form.archivos, 'ACTIVIDADES') }}</div>
     <div class="panel-body">
-        <div id="archivos-container" data-prototipe="{% filter escape %} {% include 'archivo/form.html.twig' with {'form': form.archivos.vars.prototype } %} {% endfilter %}">
-            {% for archivo in form.archivos  %}
-                <div id="uea_{{ loop.index0 }}" class="form-group">
-                    {{ form_label(archivo.descripcion, 'Actividad', {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
-                    <div class="col-lg-9">
-                        {{ form_widget(archivo.descripcion, {'attr': {'class': 'form-control'}}) }}
-                        <div class="text-danger">{{ form_errors(archivo.descripcion) }}</div>
-                    </div>
-                    <div class="col-lg-1">
-                        <button id="btn_uea_{{ loop.index0 }}" type="button" class="delete" aria-label="Close"><span class="glyphicon glyphicon-trash"></span></button>
-                    </div>
+
+            <div id="archivos-container" data-prototipe="{% filter escape %} {% include 'archivo/form.html.twig' with {'form': edit_form.archivos.vars.prototype } %} {% endfilter %}">
+
+            {% for archivo in edit_form.archivos  %}
+
+                <div id="archivo_{{ loop.index0 }}" class="form-group">
+                    <table class="table table-condensed" width="100%">
+                    <tr>
+                        <td width="10%">{{ form_label(archivo.factor1, 'Factor TIPPPA') }}
+                            {{ form_widget(archivo.factor1, {'attr': {'class': 'form-control'}}) }}
+                            <div class="text-danger">{{ form_errors(archivo.factor1) }}</div></td>
+                        <td width="85%">
+                            {{ form_label(archivo.descripcion, 'Descripcion') }}
+                            {{ form_widget(archivo.descripcion, {'attr':{
+                                'class':'form-control',
+                                'rows' : '1',
+                                'cols' :'15',
+
+                            }}) }}
+
+                            <div class="text-danger">{{ form_errors(archivo.descripcion) }}</div>
+                        </td>
+                        <td width="5%" align="center" valign="middle">
+                            <button id="btn_archivo_{{ loop.index0 }}" type="button" class="delete" aria-label="Close"><span class="glyphicon glyphicon-trash"></span></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%">{{ form_label(archivo.pdf, 'Archivo comprovatorio PDF') }}
+                            {{ form_widget(archivo.pdf, {'attr': {'class': 'form-control'}}) }}
+                            <div class="text-danger">{{ form_errors(archivo.pdf) }}</div>
+                        </td>
+
+                    {#   ULTIMO CAMBIO HASTA 27 DE JULIO <td width="25%">{{ form_label(archivo.updateAt, 'Ultima de actualizacion') }}
+                            {{ form_widget(archivo.updateAt, {'attr': {'class': 'form-control'}}) }}
+                            <div class="text-danger">{{ form_errors(archivo.updateAt) }}</div></td>
+
+                        <td width="25%">{{ form_label(archivo.createAt, 'Ultima de actualizacion') }}
+                            {{ form_widget(archivo.createAt, {'attr': {'class': 'form-control'}}) }}
+                            <div class="text-danger">{{ form_errors(archivo.createAt) }}</div>
+                        </td>#}
+
+                    </tr>
+                    </table>
                 </div>
+
             {% endfor %}
-        </div>
+
+            </div>
 
         <div class="form-group">
             <div class="col-lg-2"></div>
             <div class="col-lg-10">
-                <a href="#" id="add-another-archivo" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"> Agregar ARCHIVO</span></a>
+                <a href="#" id="add-another-archivo" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"> Agregar ACTIVIDAD</span></a>
             </div>
         </div>
 
     </div>
 
-
-
-
-
-
     {# TERMINA ARCHIVOS #}
+
     <input class="btn btn-success" type="submit" value="MODIFICAR" />
 
     {{ form_end(edit_form) }}
@@ -290,4 +320,70 @@
         {% endif %}
 
     </ul>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            {#var lineasCount = {{ form.lineas | length }};#}
+            {#var especialidadesCount = {{ form.especialidades | length }}; #}
+            {#var camposCount = {{ form.campos | length }};#}
+            var archivosCount = {{ edit_form.archivos | length }};
+            {#var publicacionesCount = {{ form.publicaciones | length }};#}
+
+            function btnBorraElement(idBtn, idContainer){
+                $(idBtn).click(function(){
+                    $(idContainer).remove();
+                });
+            }
+
+            function addArrayElement(idBtn, idCotainer, idElement, count) {
+                $(idBtn).click(function(event) {
+                    event.preventDefault();
+
+                    var container = $(idCotainer);
+
+                    // graba la plantilla prototipo
+                    var newWidget = container.attr('data-prototipe');
+                    // sustituye el "__name__" usado en el id y name del prototipo con un
+                    // número que es único en tus horarios termina con el
+                    // atributo name viéndose como name="contact[horarios][2]"
+                    newWidget = newWidget.replace(/__name__/g, count);
+
+                    // crea un nuevo elemento y lo añade a la lista
+                    var newLi = $('<div id="'+idElement+count+'" class="form-group">').html(newWidget);
+                    newLi.appendTo($(idCotainer));
+
+                    $(newLi).find('.delete').click(function(){
+                        newLi.remove();
+                    });
+
+                    count++;
+
+                });
+            }
+
+
+
+            {# ARCHIVOS #}
+
+            for(c = 0; c < archivosCount; c++){
+                btnBorraElement('#btn_archivo_'+c, '#archivo_'+c);
+            }
+
+            addArrayElement('#add-another-archivo', '#archivos-container' ,'#archivo_', archivosCount);
+
+            {# END ARCHIVOS #}
+
+
+
+        });
+
+
+
+    </script>
 {% endblock %}

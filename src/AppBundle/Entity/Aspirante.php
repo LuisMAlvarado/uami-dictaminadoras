@@ -230,7 +230,7 @@ class Aspirante implements AdvancedUserInterface, \Serializable
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="Archivo", mappedBy="aspiranteRfc")
+     * @ORM\OneToMany(targetEntity="Archivo", mappedBy="aspiranteRfc", cascade={"all"})
      * @ORM\OrderBy({"aspiranteRfc" = "ASC"})
      */
     private $archivos;
@@ -850,6 +850,7 @@ return $this->rfc;
     public function addArchivo(\AppBundle\Entity\Archivo $archivo)
     {
         $this->archivos[] = $archivo;
+        $archivo ->setAspiranteRfc($this);
 
         return $this;
     }
